@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_login"
@@ -42,7 +43,7 @@
         android:layout_alignStart="@+id/textView8" />
 
     <TextView
-        android:text="E-mail"
+        android:text="Usuario"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="22dp"
@@ -71,28 +72,19 @@
         android:layout_toRightOf="@+id/textView9"
         android:layout_toEndOf="@+id/textView9" />
 
-    <Button
-        android:text="Crear Cuenta"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/btnCrearCuenta"
-        android:layout_below="@+id/btnConectFB"
-        android:layout_alignLeft="@+id/txtContrasena"
-        android:layout_alignStart="@+id/txtContrasena" />
-
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:inputType="textPersonName"
         android:ems="10"
         android:id="@+id/txtUsuario"
-        android:hint="Usuario"
         android:layout_marginTop="14dp"
         android:layout_marginLeft="15dp"
         android:layout_marginStart="15dp"
         android:layout_below="@+id/textView3"
         android:layout_toRightOf="@+id/textView9"
-        android:layout_toEndOf="@+id/textView9" />
+        android:layout_toEndOf="@+id/textView9"
+        android:hint="campo obligatorio" />
 
     <Button
         android:text="Login"
@@ -100,5 +92,13 @@
         android:layout_height="wrap_content"
         android:id="@+id/btnLogin"
         android:layout_below="@+id/txtContrasena"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:text="Crear Cuenta"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/btnCrearCuenta"
+        android:layout_below="@+id/btnConectFB"
         android:layout_centerHorizontal="true" />
 </RelativeLayout>

@@ -1,5 +1,6 @@
 package com.example.nahumsin.donadif;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -16,6 +17,7 @@ public class CrearCuenta extends AppCompatActivity {
     EditText email;
     EditText usr;
     EditText pass;
+    EditText confPass;
     //DBCuenta db;
     ConectionDB db;
 
@@ -26,10 +28,12 @@ public class CrearCuenta extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 
         db= new ConectionDB(this);
+        db.abrirConexion();
 
         email = (EditText)  findViewById(R.id.emailTxt);
         usr = (EditText) findViewById(R.id.usrTxt);
         pass = (EditText) findViewById(R.id.pswdTxt);
+        confPass = (EditText)findViewById(R.id.confPswdTxt);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -57,6 +61,7 @@ public class CrearCuenta extends AppCompatActivity {
             return true;
         }
         if (id == R.id.action_settings) {
+
             return true;
         }
 
@@ -64,11 +69,21 @@ public class CrearCuenta extends AppCompatActivity {
     }
     public void crearCuenta(){
         // Inserting Shop/Rows
-        Log.d("Insert: ", "Inserting ..");
-        db.insertarCuenta(new Cuenta(usr.getText().toString(),email.getText().toString(),pass.getText().toString(),0));
-        Log.d("Done!","WriteSuccesful");
-        Toast.makeText(getApplicationContext(),"Cuenta creada",Toast.LENGTH_LONG).show();
-
+        if (!email.getText().toString().contains("@")){
+            Toast.makeText(getApplicationContext(),"Ingrese un correo valido!!",Toast.LENGTH_LONG).show();
+        }else {
+            if (!pass.getText().toString().equals(confPass.getText().toString())) {
+                Toast.makeText(getApplicationContext(), "Las Contraseñas no coinciden!!", Toast.LENGTH_LONG).show();
+            } else {
+                Log.d("Insert: ", "Inserting ..");
+                db.insertarCuenta(new Cuenta(usr.getText().toString(), pass.getText().toString(), email.getText().toString(), 0));
+                Log.d("Done!", "WriteSuccesful");
+                db.cerrarConexion();
+                Intent intent = new Intent(CrearCuenta.this, login.class);
+                startActivity(intent);
+                Toast.makeText(getApplicationContext(), "Cuenta creada", Toast.LENGTH_LONG).show();
+            }
+        }
     }
     /*public void obtenerCuentas(){
 

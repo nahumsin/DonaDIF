@@ -3,6 +3,8 @@ package com.example.nahumsin.donadif;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -18,6 +20,7 @@ public class login extends AppCompatActivity {
     Button btnCrearCuenta;
     Button btnConectFB;
     ConectionDB db;
+    int id_usuario;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,19 +50,7 @@ public class login extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 //Toast.makeText(getBaseContext(),"Me has presionado",Toast.LENGTH_LONG).show();
-                if (txtUsuario.getText().toString().equals("") || txtContrasena.getText().toString().equals("")){
-                    Toast.makeText(getBaseContext(),"Ingrese los datos",Toast.LENGTH_LONG).show();
-                }else{
-                    //Toast.makeText(getBaseContext(),"entre al else",Toast.LENGTH_LONG).show();
-                    if (db.buscarUsuario(txtUsuario.getText().toString())){
-                        Toast.makeText(getBaseContext(),"El Usuario esta en la base de datos",Toast.LENGTH_LONG).show();
-                        Intent intent = new Intent(getBaseContext(), MainActivity.class);
-                        startActivity(intent);
 
-                    }else{
-                        Toast.makeText(getBaseContext(),"El Usuario NO esta en la base de datos",Toast.LENGTH_LONG).show();
-                    }
-                }
             }
         });
         db = new ConectionDB(this);
@@ -67,5 +58,49 @@ public class login extends AppCompatActivity {
         db.insertarCuenta(new Cuenta("Pedro","1234","pedro@gmail.com",0));
 
 
+    }
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_crear_cuenta, menu);
+        return true;
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.actionDone) {
+            if (txtUsuario.getText().toString().equals("") || txtContrasena.getText().toString().equals("")){
+                Toast.makeText(getBaseContext(),"Ingrese los datos",Toast.LENGTH_LONG).show();
+            }else{
+                //Toast.makeText(getBaseContext(),"entre al else",Toast.LENGTH_LONG).show();
+                if (db.buscarUsuario(txtUsuario.getText().toString())){
+                    if (db.getContraseña_usuario().equals(txtContrasena.getText().toString())){
+                        //Toast.makeText(getBaseContext(),"id_usuario: " + db.getId_usuario(),Toast.LENGTH_LONG).show();
+                        Intent intent1 = new Intent(getBaseContext(), MainActivity.class);
+                        Intent intent2 = new Intent(login.this,seleccionarFamilia.class);
+                        intent2.putExtra("id_usuario",id_usuario);
+                        startActivity(intent1);
+                    }else {
+                        Toast.makeText(getBaseContext(),"Contraseña Incorrecta",Toast.LENGTH_LONG).show();
+                    }
+                }else{
+                    Toast.makeText(getBaseContext(),"El Usuario NO EXISTE",Toast.LENGTH_LONG).show();
+                }
+            }
+            return true;
+        }
+
+        if (id == R.id.action_settings) {
+
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }

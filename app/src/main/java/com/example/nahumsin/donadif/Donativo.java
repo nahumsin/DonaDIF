@@ -6,41 +6,42 @@ package com.example.nahumsin.donadif;
 
 public class Donativo {
 
-    public String idDonativo;
-    public String idFamila;
-    public String idDonador;
+    public int idDonativo;
+    public int idFamila;
+    public int idDonador;
     public int entregado;
 
 
-    public Donativo(String idDonativo,String idFamilia,String idDonador,int entregado){
+    public Donativo(int idFamila, int idDonador, int entregado) {
+        this.idFamila = idFamila;
         this.idDonador = idDonador;
-        this.idFamila = idFamilia;
-        this.idDonativo = idDonativo;
         this.entregado = entregado;
     }
-    public String getIdDonativo() {
+
+    public int getIdDonativo() {
         return idDonativo;
     }
 
-    public void setIdDonativo(String idDonativo) {
+    public void setIdDonativo(int idDonativo) {
         this.idDonativo = idDonativo;
     }
 
-    public String getIdFamila() {
+    public int getIdFamila() {
         return idFamila;
     }
 
-    public void setIdFamila(String idFamila) {
+    public void setIdFamila(int idFamila) {
         this.idFamila = idFamila;
     }
 
-    public String getIdDonador() {
+    public int getIdDonador() {
         return idDonador;
     }
 
-    public void setIdDonador(String idDonador) {
+    public void setIdDonador(int idDonador) {
         this.idDonador = idDonador;
     }
+
     public int getEntregado() {
         return entregado;
     }
