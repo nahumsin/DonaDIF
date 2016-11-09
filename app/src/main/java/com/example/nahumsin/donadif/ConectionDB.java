@@ -45,7 +45,6 @@ public class ConectionDB{
         values.put("imagen",fam.getImagen());
 
         db.insert("familia",null,values);
-        //Toast.makeText(nContext,"Se inserto una familia",Toast.LENGTH_LONG).show();
         db.close();
 
         /*boolean resultado = false;

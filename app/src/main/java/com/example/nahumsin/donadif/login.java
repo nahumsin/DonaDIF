@@ -44,7 +44,6 @@ public class login extends AppCompatActivity {
         });
         db = new ConectionDB(this);
         db.abrirConexion();
-        db.insertarCuenta(new Cuenta("Pedro","1234","pedro@gmail.com",0));
         db.cerrarConexion();
 
 
