@@ -66,6 +66,7 @@ public class seleccionarFamilia extends AppCompatActivity {
                     if (db.buscarFamilia(nombre[1] + " " + nombre[2])){
                         if (db.getId_familia() != 0){
                             db.crearDonativo(new Donativo(db.getId_familia(),id_usuario,0));
+                            Toast.makeText(getBaseContext(),"Donativo Realizado!!",Toast.LENGTH_LONG).show();
                         }else{
                             //db.crearDonativo(new Donativo(db.getId_familia(),id_usuario,0));
                         }

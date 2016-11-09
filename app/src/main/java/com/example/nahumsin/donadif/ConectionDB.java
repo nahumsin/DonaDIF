@@ -72,7 +72,7 @@ public class ConectionDB{
             valores.put("email",cuen.getCorreo());
             valores.put("privilegio",cuen.getPrivilegio());
             db.insert("cuenta",null,valores);
-            Toast.makeText(nContext,"Cuenta Guardada!!",Toast.LENGTH_LONG).show();
+            //Toast.makeText(nContext,"Cuenta Guardada!!",Toast.LENGTH_LONG).show();
             db.close();
         }
     }
@@ -85,7 +85,7 @@ public class ConectionDB{
             valores.put("entregado",dona.getEntregado());
             //Toast.makeText(nContext," " + dona.getIdFamila() + " " + dona.getIdDonador(),Toast.LENGTH_SHORT).show();
             db.insert("donativo",null,valores);
-            Toast.makeText(nContext,"Donativo realizado con Exito!!",Toast.LENGTH_SHORT).show();
+            //Toast.makeText(nContext,"Donativo realizado con Exito!!",Toast.LENGTH_SHORT).show();
             db.close();
         }
     }
