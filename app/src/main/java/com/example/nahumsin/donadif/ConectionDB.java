@@ -63,8 +63,6 @@ public class ConectionDB{
     }
 
     public void insertarCuenta(Cuenta cuen){
-
-        boolean resultado = false;
         if (db != null){
             ContentValues valores = new ContentValues();
             valores.put("nombre_usuario",cuen.getNombreUsuario());
@@ -129,4 +127,6 @@ public class ConectionDB{
         }
         return false;
     }
+
+
 }
