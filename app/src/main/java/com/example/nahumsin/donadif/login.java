@@ -16,7 +16,6 @@ import com.example.nahumsin.donadif.R;
 public class login extends AppCompatActivity {
     EditText txtUsuario;
     EditText txtContrasena;
-    Button btnLogin;
     Button btnCrearCuenta;
     Button btnConectFB;
     ConectionDB db;
@@ -27,8 +26,6 @@ public class login extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         txtUsuario = (EditText) findViewById(R.id.txtUsuario);
         txtContrasena = (EditText) findViewById(R.id.txtContrasena);
-        btnLogin = (Button) findViewById(R.id.btnLogin);
-
         btnCrearCuenta = (Button) findViewById(R.id.btnCrearCuenta);
         btnCrearCuenta.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -45,17 +42,10 @@ public class login extends AppCompatActivity {
 
             }
         });
-
-        btnLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //Toast.makeText(getBaseContext(),"Me has presionado",Toast.LENGTH_LONG).show();
-
-            }
-        });
         db = new ConectionDB(this);
         db.abrirConexion();
         db.insertarCuenta(new Cuenta("Pedro","1234","pedro@gmail.com",0));
+        db.cerrarConexion();
 
 
     }
@@ -96,8 +86,8 @@ public class login extends AppCompatActivity {
             return true;
         }
 
-        if (id == R.id.action_settings) {
-
+        if (id == R.id.action_salir) {
+            this.finish();
             return true;
         }
 

@@ -63,15 +63,6 @@
         android:layout_below="@+id/textView2"
         android:layout_alignParentLeft="true"/>
 
-    <Button
-        android:text="Iniciar con Facebook"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/btnConectFB"
-        android:layout_below="@+id/btnLogin"
-        android:layout_toRightOf="@+id/textView9"
-        android:layout_toEndOf="@+id/textView9" />
-
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -87,18 +78,26 @@
         android:hint="campo obligatorio" />
 
     <Button
-        android:text="Login"
+        android:text="Iniciar con Facebook"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/btnLogin"
+        android:id="@+id/btnConectFB"
+        android:layout_marginTop="54dp"
         android:layout_below="@+id/txtContrasena"
-        android:layout_centerHorizontal="true" />
+        android:layout_alignRight="@+id/txtContrasena"
+        android:layout_alignEnd="@+id/txtContrasena"
+        android:layout_marginRight="14dp"
+        android:layout_marginEnd="14dp" />
 
     <Button
         android:text="Crear Cuenta"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/btnCrearCuenta"
+        android:layout_marginLeft="27dp"
+        android:layout_marginStart="27dp"
+        android:layout_marginTop="22dp"
         android:layout_below="@+id/btnConectFB"
-        android:layout_centerHorizontal="true" />
+        android:layout_alignLeft="@+id/btnConectFB"
+        android:layout_alignStart="@+id/btnConectFB" />
 </RelativeLayout>

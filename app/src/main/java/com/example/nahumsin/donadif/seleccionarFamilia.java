@@ -57,22 +57,19 @@ public class seleccionarFamilia extends AppCompatActivity {
         btnHacerDonativo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                    canastas = Integer.parseInt(getIntent().getStringExtra("canastas"));
-                    id_usuario = getIntent().getIntExtra("id_usuario",1);
-                   // String selectedItem=((TextView)view).getText().toString();
-                  // Toast.makeText(getBaseContext(),"id_usuario: " + id_usuario,Toast.LENGTH_LONG).show();
+                canastas = Integer.parseInt(getIntent().getStringExtra("canastas"));
+                id_usuario = getIntent().getIntExtra("id_usuario",1);
 
-                    /*String items = "";
-
-                    Toast.makeText(getBaseContext(),"Items selected: \n" + items,Toast.LENGTH_LONG).show();*/
-                int contador = 0;
                 for (String item:selectedItems) {
                     String [] nombre = item.split(" ");
                     //Toast.makeText(getBaseContext(),"nombre: " + nombre[1] + " " + nombre[2] + "\n",Toast.LENGTH_LONG).show();
                     if (db.buscarFamilia(nombre[1] + " " + nombre[2])){
-                        db.crearDonativo(new Donativo(db.getId_familia(),id_usuario,0));
-                       // ids_familias[contador] = db.getId_familia();
-                        //contador++;
+                        if (db.getId_familia() != 0){
+                            db.crearDonativo(new Donativo(db.getId_familia(),id_usuario,0));
+                        }else{
+                            //db.crearDonativo(new Donativo(db.getId_familia(),id_usuario,0));
+                        }
+
                     }
                 }
 
@@ -84,7 +81,7 @@ public class seleccionarFamilia extends AppCompatActivity {
         db = new ConectionDB(this);
         db.abrirConexion();
 
-        db.insertarFamilia(new Familia("","Guadalupe #10","Familia con 5 integrantes","maria.png"));
+        db.insertarFamilia(new Familia("Martinez Vazquez","Guadalupe #10","Familia con 5 integrantes","vaz.png"));
         db.cerrarConexion();
         db.abrirConexion();
         db.insertarFamilia(new Familia("Gonzales Ortega","Zacatecas #14","Familia con 2 integrantes","gon.png"));
@@ -108,8 +105,13 @@ public class seleccionarFamilia extends AppCompatActivity {
                 if(selectedItems.contains(selectedItem)){
                     selectedItems.remove((selectedItem));
                 }
-                else
-                    selectedItems.add(selectedItem);
+                else {
+                    if (selectedItems.size() > canastas) {
+                        Toast.makeText(getBaseContext(), "No puede seleccionar mas familias!!", Toast.LENGTH_LONG).show();
+                    } else {
+                        selectedItems.add(selectedItem);
+                    }
+                }
             }
         });
 
