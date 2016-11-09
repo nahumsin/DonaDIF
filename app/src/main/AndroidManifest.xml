@@ -11,6 +11,7 @@
         <activity
             android:name=".CrearCuenta"
             android:label="@string/create_interface"
+            android:parentActivityName=".login"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ConfirmarDonativo"
