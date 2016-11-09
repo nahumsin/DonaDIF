@@ -25,9 +25,9 @@ public class MainActivity extends AppCompatActivity {
         btnVerFamilias.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getBaseContext(),"Ver Familias",Toast.LENGTH_LONG);
-                // Intent intent = new Intent(MainActivity.this,ActivityListaFamilia_Donador.class);
-                //startActivity(intent);
+               // Toast.makeText(getBaseContext(),"Ver Familias",Toast.LENGTH_LONG);
+                 Intent intent = new Intent(MainActivity.this,ActivityListaFamilia_Donador.class);
+                startActivity(intent);
             }
         });
         btnHacerDonativo = (Button) findViewById(R.id.btnHacerDonativo);

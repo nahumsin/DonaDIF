@@ -1,5 +1,6 @@
 package com.example.nahumsin.donadif;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -31,13 +32,18 @@ public class ActivityAnadirFamilia extends AppCompatActivity {
             }
         });
         getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true);
+        db = new ConectionDB(this);
+        db.abrirConexion();
 
     }
 
     public void AnadirFamilia(){
-        db.insertarFamilia(new Familia(nombre.getText().toString(),direccion.getText().toString(),descripcion.getText().toString(),imagen.getText().toString()));
+        db.insertarFamilia(new Familia(nombre.getText().toString(),direccion.getText().toString(),descripcion.getText().toString(),"image.png"));
         Log.d("Se añadio la familia", "WriteSuccesful");
         Toast.makeText(getApplicationContext(), "Familia creada", Toast.LENGTH_LONG).show();
+        Intent intent = new Intent(ActivityAnadirFamilia.this,MainActivity_Admin.class);
+        startActivity(intent);
+
     }
 
 }
