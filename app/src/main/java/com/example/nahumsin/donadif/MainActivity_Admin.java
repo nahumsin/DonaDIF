@@ -37,6 +37,8 @@ public class MainActivity_Admin extends AppCompatActivity implements View.OnClic
             case R.id.button_eliminarFam:
                 break;
             case R.id.button_confirmarDon:
+                Intent in = new Intent(this, ConfirmarDonativo.class);
+                startActivity(in);
                 break;
         }
     }
