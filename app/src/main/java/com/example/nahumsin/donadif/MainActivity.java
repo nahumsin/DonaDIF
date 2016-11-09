@@ -17,6 +17,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+       // Intent intent = new Intent(MainActivity.this,)
+
         btnVerFamilias = (Button) findViewById(R.id.btnVerFamilias);
         btnVerFamilias.setOnClickListener(new View.OnClickListener() {
             @Override

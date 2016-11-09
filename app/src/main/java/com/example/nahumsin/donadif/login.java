@@ -18,6 +18,7 @@ public class login extends AppCompatActivity {
     Button btnCrearCuenta;
     Button btnConectFB;
     ConectionDB db;
+    int id_usuario;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,12 +53,17 @@ public class login extends AppCompatActivity {
                 }else{
                     //Toast.makeText(getBaseContext(),"entre al else",Toast.LENGTH_LONG).show();
                     if (db.buscarUsuario(txtUsuario.getText().toString())){
-                        Toast.makeText(getBaseContext(),"El Usuario esta en la base de datos",Toast.LENGTH_LONG).show();
-                        Intent intent = new Intent(getBaseContext(), MainActivity.class);
-                        startActivity(intent);
-
+                        if (db.getContraseña_usuario().equals(txtContrasena.getText().toString())){
+                            //Toast.makeText(getBaseContext(),"id_usuario: " + db.getId_usuario(),Toast.LENGTH_LONG).show();
+                            Intent intent1 = new Intent(getBaseContext(), MainActivity.class);
+                            Intent intent2 = new Intent(login.this,seleccionarFamilia.class);
+                            intent2.putExtra("id_usuario",id_usuario);
+                            startActivity(intent1);
+                        }else {
+                            Toast.makeText(getBaseContext(),"Contraseña Incorrecta",Toast.LENGTH_LONG).show();
+                        }
                     }else{
-                        Toast.makeText(getBaseContext(),"El Usuario NO esta en la base de datos",Toast.LENGTH_LONG).show();
+                        Toast.makeText(getBaseContext(),"El Usuario NO EXISTE",Toast.LENGTH_LONG).show();
                     }
                 }
             }

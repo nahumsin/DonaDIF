@@ -19,6 +19,8 @@ public class ConectionDB{
     private SQLiteDatabase db;
     private Context nContext;
     private DataBase objDb;
+    private int id_usuario,id_familia;
+    private String contraseña_usuario;
 
     public ConectionDB(Context context) {
         nContext = context;
@@ -43,7 +45,7 @@ public class ConectionDB{
         values.put("imagen",fam.getImagen());
 
         db.insert("familia",null,values);
-        Toast.makeText(nContext,"Se inserto una familia",Toast.LENGTH_LONG).show();
+        //Toast.makeText(nContext,"Se inserto una familia",Toast.LENGTH_LONG).show();
         db.close();
 
         /*boolean resultado = false;
@@ -75,19 +77,16 @@ public class ConectionDB{
         }
     }
 
-    public boolean crearDonativo(int id_cuenta,int id_familia,int entregado){
-
-        boolean resultado = false;
-
-        try {
-            String query = "INSERT INTO donativo(id_familia,id_cuenta,entregado) " +
-                    "VALUES ('"+id_familia+"','"+id_cuenta+"','"+entregado+"')'";
-            db.execSQL(query);
-            resultado = true;
-            return resultado;
-        }catch (Exception e){
-            resultado = false;
-            return resultado;
+    public void crearDonativo(Donativo dona){
+        if (db!=null){
+            ContentValues valores = new ContentValues();
+            valores.put("id_familia",dona.getIdFamila());
+            valores.put("id_cuenta",dona.getIdDonador());
+            valores.put("entregado",dona.getEntregado());
+            Toast.makeText(nContext," " + dona.getIdFamila() + " " + dona.getIdDonador(),Toast.LENGTH_SHORT).show();
+            db.insert("donativo",null,valores);
+            Toast.makeText(nContext,"Donativo creado con Exito!!",Toast.LENGTH_SHORT).show();
+            db.close();
         }
     }
 
@@ -117,8 +116,33 @@ public class ConectionDB{
         if (cursor.moveToFirst()){
             do {
                 String nombre = cursor.getString(1);
-                //Toast.makeText(nContext, "El usuario " + nombre + " aqui está", Toast.LENGTH_LONG).show();
+                setId_usuario(cursor.getInt(0));
+                setContraseña_usuario(cursor.getString(2));
+
+                //Toast.makeText(nContext, "Contraseña" + getContraseña_usuario() + " xD " + "ID_" + getId_usuario(), Toast.LENGTH_LONG).show();
                 if (usuario.equals(nombre)) {
+                    return true;
+                }
+            }while (cursor.moveToNext());
+        }else{
+            return false;
+        }
+        return false;
+    }
+    public boolean buscarFamilia(String nombre){
+
+        String select = "SELECT * FROM familia";
+        db = objDb.getReadableDatabase();
+        Cursor cursor = db.rawQuery(select,null);
+        //Toast.makeText(nContext,"Al menos estoy aqui :(",Toast.LENGTH_LONG).show();
+        if (cursor.moveToFirst()){
+            do {
+                String nombre_fam = cursor.getString(1);
+
+
+                //Toast.makeText(nContext, "Contraseña" + getContraseña_usuario() + " xD " + "ID_" + getId_usuario(), Toast.LENGTH_LONG).show();
+                if (nombre.equals(nombre_fam)) {
+                    setId_familia(cursor.getInt(0));
                     return true;
                 }
             }while (cursor.moveToNext());
@@ -148,5 +172,27 @@ public class ConectionDB{
     }
     */
 
+    public int getId_usuario() {
+        return id_usuario;
+    }
 
+    public void setId_usuario(int id_usuario) {
+        this.id_usuario = id_usuario;
+    }
+
+    public String getContraseña_usuario() {
+        return contraseña_usuario;
+    }
+
+    public void setContraseña_usuario(String contraseña_usuario) {
+        this.contraseña_usuario = contraseña_usuario;
+    }
+
+    public int getId_familia() {
+        return id_familia;
+    }
+
+    public void setId_familia(int id_familia) {
+        this.id_familia = id_familia;
+    }
 }

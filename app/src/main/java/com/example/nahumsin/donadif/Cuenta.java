@@ -15,7 +15,7 @@ public class Cuenta {
     private int admin;
     private String idCuenta;
 
-    public Cuenta(String nombreUsuario,String correo,String contrasena,int admin){
+    public Cuenta(String nombreUsuario,String contrasena,String correo,int admin){
         this.nombreUsuario = nombreUsuario;
         this.contrasena = contrasena;
         this.correo = correo;

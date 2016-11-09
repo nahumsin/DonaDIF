@@ -25,6 +25,9 @@ public class DataBase extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
+        db.execSQL("DROP TABLE IF EXISTS familia");
+        db.execSQL("DROP TABLE IF EXISTS donativo");
+        db.execSQL("DROP TABLE IF EXISTS cuenta");
         db.execSQL(query_crear_cuenta);
         db.execSQL(query_crear_familia);
         db.execSQL(query_crear_donativo);
