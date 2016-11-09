@@ -78,10 +78,10 @@ public class CrearCuenta extends AppCompatActivity {
                 Log.d("Insert: ", "Inserting ..");
                 db.insertarCuenta(new Cuenta(usr.getText().toString(), pass.getText().toString(), email.getText().toString(), 0));
                 Log.d("Done!", "WriteSuccesful");
-                //db.cerrarConexion();
+                db.cerrarConexion();
                 Intent intent = new Intent(CrearCuenta.this, login.class);
                 startActivity(intent);
-                //Toast.makeText(getApplicationContext(), "Cuenta creada", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "Cuenta creada!!", Toast.LENGTH_LONG).show();
             }
         //}
     }
