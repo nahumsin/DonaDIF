@@ -16,7 +16,8 @@ public class CrearCuenta extends AppCompatActivity {
     EditText email;
     EditText usr;
     EditText pass;
-    DBCuenta db;
+    //DBCuenta db;
+    ConectionDB db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,7 +25,7 @@ public class CrearCuenta extends AppCompatActivity {
         setContentView(R.layout.activity_crear_cuenta);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 
-        db= new DBCuenta(this);
+        db= new ConectionDB(this);
 
         email = (EditText)  findViewById(R.id.emailTxt);
         usr = (EditText) findViewById(R.id.usrTxt);
@@ -52,7 +53,7 @@ public class CrearCuenta extends AppCompatActivity {
 
         if (id == R.id.actionDone) {
             crearCuenta();
-            obtenerCuentas();
+            //obtenerCuentas();
             return true;
         }
         if (id == R.id.action_settings) {
@@ -64,12 +65,12 @@ public class CrearCuenta extends AppCompatActivity {
     public void crearCuenta(){
         // Inserting Shop/Rows
         Log.d("Insert: ", "Inserting ..");
-        db.addCuenta(new Cuenta(usr.getText().toString(),email.getText().toString(),pass.getText().toString(),0));
+        db.insertarCuenta(new Cuenta(usr.getText().toString(),email.getText().toString(),pass.getText().toString(),0));
         Log.d("Done!","WriteSuccesful");
         Toast.makeText(getApplicationContext(),"Cuenta creada",Toast.LENGTH_LONG).show();
 
     }
-    public void obtenerCuentas(){
+    /*public void obtenerCuentas(){
 
         Log.d("Reading: ", "Reading all accounts..");
         List<Cuenta> cuentas = db.getCuentas();
@@ -79,5 +80,5 @@ public class CrearCuenta extends AppCompatActivity {
 // Writing shops to log
             Log.d("Cuenta: : ", log);
         }
-    }
+    }*/
 }

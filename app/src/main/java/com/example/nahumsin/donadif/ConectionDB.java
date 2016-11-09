@@ -127,6 +127,26 @@ public class ConectionDB{
         }
         return false;
     }
+/*
+    public List<Cuenta> getCuentas() {
+        List<Cuenta> listaCuenta = new ArrayList<Cuenta>();
+// Select All Query
+        String selectQuery = "SELECT * FROM cuenta";
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+// looping through all rows and adding to list
+        if (cursor.moveToFirst()) {
+            do {
+                Cuenta cuenta = new Cuenta(cursor.getString(0),cursor.getString(1),cursor.getString(2),0);
+// Adding contact to list
+                listaCuenta.add(cuenta);
+            } while (cursor.moveToNext());
+        }
+
+// return contact list
+        return listaCuenta;
+    }
+    */
 
 
 }
