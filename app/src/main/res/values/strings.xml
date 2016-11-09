@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">DonaDIF</string>
     <string name="action_settings">Settings</string>
+    <string name="action_salir">Salir de la app</string>
     <string name="create_interface">Crear Cuenta</string>
     <string name="title_activity_confirmar_donativo">ConfirmarDonativo</string>
 </resources>

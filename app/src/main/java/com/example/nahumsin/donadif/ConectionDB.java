@@ -29,7 +29,7 @@ public class ConectionDB{
     public void abrirConexion(){
         objDb = new DataBase(nContext,"DonaDIF",null,1);
         db = objDb.getWritableDatabase();
-        Toast.makeText(nContext,"Se abrio con exito la conexion",Toast.LENGTH_LONG).show();
+        //Toast.makeText(nContext,"Se abrio con exito la conexion",Toast.LENGTH_LONG).show();
     }
 
     public void cerrarConexion(){
@@ -72,7 +72,7 @@ public class ConectionDB{
             valores.put("email",cuen.getCorreo());
             valores.put("privilegio",cuen.getPrivilegio());
             db.insert("cuenta",null,valores);
-            Toast.makeText(nContext,"Se inserto una cuenta",Toast.LENGTH_LONG).show();
+            Toast.makeText(nContext,"Cuenta Guardada!!",Toast.LENGTH_LONG).show();
             db.close();
         }
     }
@@ -83,9 +83,9 @@ public class ConectionDB{
             valores.put("id_familia",dona.getIdFamila());
             valores.put("id_cuenta",dona.getIdDonador());
             valores.put("entregado",dona.getEntregado());
-            Toast.makeText(nContext," " + dona.getIdFamila() + " " + dona.getIdDonador(),Toast.LENGTH_SHORT).show();
+            //Toast.makeText(nContext," " + dona.getIdFamila() + " " + dona.getIdDonador(),Toast.LENGTH_SHORT).show();
             db.insert("donativo",null,valores);
-            Toast.makeText(nContext,"Donativo creado con Exito!!",Toast.LENGTH_SHORT).show();
+            Toast.makeText(nContext,"Donativo realizado con Exito!!",Toast.LENGTH_SHORT).show();
             db.close();
         }
     }
