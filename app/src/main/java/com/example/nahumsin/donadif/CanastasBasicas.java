@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 public class CanastasBasicas extends AppCompatActivity{
     Button btnSiguiente;
@@ -20,11 +21,14 @@ public class CanastasBasicas extends AppCompatActivity{
         btnSiguiente.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                int canastas = Integer.parseInt(txtCanastas.getText().toString());
-                Intent intent = new Intent(CanastasBasicas.this,seleccionarFamilia.class);
-                intent.putExtra("canastas",canastas + "");
-                startActivity(intent);
-
+                if (txtCanastas.getText().toString().equals("")){
+                    Toast.makeText(getBaseContext(),"Ingrese datos!!",Toast.LENGTH_LONG).show();
+                }else {
+                    int canastas = Integer.parseInt(txtCanastas.getText().toString());
+                    Intent intent = new Intent(CanastasBasicas.this, seleccionarFamilia.class);
+                    intent.putExtra("canastas", canastas + "");
+                    startActivity(intent);
+                }
             }
         });
     }
