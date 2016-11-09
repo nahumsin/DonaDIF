@@ -36,9 +36,7 @@ public class CrearCuenta extends AppCompatActivity {
         confPass = (EditText)findViewById(R.id.confPswdTxt);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
     }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -81,7 +79,7 @@ public class CrearCuenta extends AppCompatActivity {
                 db.cerrarConexion();
                 Intent intent = new Intent(CrearCuenta.this, login.class);
                 startActivity(intent);
-                Toast.makeText(getApplicationContext(), "Cuenta creada!!", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "Cuenta creada!", Toast.LENGTH_LONG).show();
             }
         }
     }

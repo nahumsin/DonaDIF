@@ -72,7 +72,6 @@ public class ConectionDB{
             valores.put("email",cuen.getCorreo());
             valores.put("privilegio",cuen.getPrivilegio());
             db.insert("cuenta",null,valores);
-            //Toast.makeText(nContext,"Cuenta Guardada!!",Toast.LENGTH_LONG).show();
             db.close();
         }
     }
