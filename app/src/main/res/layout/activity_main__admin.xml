@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_main__admin"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.example.nahumsin.donadif.MainActivity_Admin"
+    tools:backgroundTint="@android:color/darker_gray">
+
+    <Button
+        android:text="Eliminar Familia"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/button_modificarFam"
+        android:layout_marginTop="36dp"
+        android:id="@+id/button_eliminarFam"
+        android:textStyle="normal|bold"
+        android:textSize="18sp"
+        android:background="@android:color/darker_gray"
+        android:layout_alignStart="@+id/button_confirmarDon"
+        android:layout_alignEnd="@+id/button_confirmarDon"
+        android:layout_alignLeft="@+id/button_confirmarDon"
+        android:layout_alignRight="@+id/button_confirmarDon" />
+
+    <Button
+        android:text="Modificar Familia"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="29dp"
+        android:id="@+id/button_modificarFam"
+        android:textStyle="normal|bold"
+        android:textSize="18sp"
+        android:background="@android:color/darker_gray"
+        android:layout_below="@+id/button_añadirFam"
+        android:layout_alignEnd="@+id/button_eliminarFam"
+        android:layout_alignStart="@+id/button_eliminarFam"
+        android:layout_alignRight="@+id/button_eliminarFam"
+        android:layout_alignLeft="@+id/button_eliminarFam" />
+
+    <Button
+        android:text="Añadir Familia"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="33dp"
+        android:id="@+id/button_añadirFam"
+        android:textStyle="normal|bold"
+        android:textSize="18sp"
+        android:background="@android:color/darker_gray"
+        android:layout_below="@+id/imageView"
+        android:layout_alignEnd="@+id/button_modificarFam"
+        android:layout_alignStart="@+id/button_modificarFam"
+        android:layout_alignRight="@+id/button_modificarFam"
+        android:layout_alignLeft="@+id/button_modificarFam" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="35dp"
+        android:id="@+id/imageView"
+        app:srcCompat="@drawable/logo"
+        android:layout_alignParentTop="true"
+        android:layout_alignRight="@+id/button_añadirFam"
+        android:layout_alignEnd="@+id/button_añadirFam" />
+
+    <Button
+        android:text="Confirmar Donativo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/button_confirmarDon"
+        android:textStyle="normal|bold"
+        android:textSize="18sp"
+        android:background="@android:color/darker_gray"
+        android:layout_below="@+id/button_eliminarFam"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="22dp" />
+</RelativeLayout>

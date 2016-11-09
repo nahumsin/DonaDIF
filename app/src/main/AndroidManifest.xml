@@ -25,6 +25,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+    <activity
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:supportsRtl="true"
+            android:name=".MainActivity_Admin"
+            android:label="@string/create_interface"
+            android:theme="@style/AppTheme.NoActionBar">
+    </activity>
+
     </application>
 
 </manifest>
