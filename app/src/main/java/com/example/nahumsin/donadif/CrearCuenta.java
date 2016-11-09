@@ -18,7 +18,6 @@ public class CrearCuenta extends AppCompatActivity {
     EditText usr;
     EditText pass;
     EditText confPass;
-    //DBCuenta db;
     ConectionDB db;
 
     @Override
