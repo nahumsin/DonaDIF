@@ -20,6 +20,7 @@ public class login extends AppCompatActivity {
     Button btnConectFB;
     ConectionDB db;
     int id_usuario;
+    int privilegio_usuario;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,9 +45,16 @@ public class login extends AppCompatActivity {
         });
         db = new ConectionDB(this);
         db.abrirConexion();
+        db.insertarCuenta(new Cuenta("Pedro","1234","pedro@gmail.com",1));
         db.cerrarConexion();
-
-
+        db.abrirConexion();
+        db.insertarCuenta(new Cuenta("jesus","1234","jesus@gmail.com",0));
+        db.cerrarConexion();
+        db.abrirConexion();
+        db.insertarFamilia(new Familia("Martinez Vazquez","Guadalupe #10","Familia con 5 integrantes","vaz.png"));
+        db.cerrarConexion();
+        db.abrirConexion();
+        db.insertarFamilia(new Familia("Gonzales Ortega","Zacatecas #14","Familia con 2 integrantes","gon.png"));
     }
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -70,11 +78,17 @@ public class login extends AppCompatActivity {
                 //Toast.makeText(getBaseContext(),"entre al else",Toast.LENGTH_LONG).show();
                 if (db.buscarUsuario(txtUsuario.getText().toString())){
                     if (db.getContraseña_usuario().equals(txtContrasena.getText().toString())){
-                        //Toast.makeText(getBaseContext(),"id_usuario: " + db.getId_usuario(),Toast.LENGTH_LONG).show();
-                        Intent intent1 = new Intent(getBaseContext(), MainActivity.class);
-                        Intent intent2 = new Intent(login.this,seleccionarFamilia.class);
-                        intent2.putExtra("id_usuario",id_usuario);
-                        startActivity(intent1);
+                       if (db.getPrivilegio_cuenta() == 0) {
+                           //Toast.makeText(getBaseContext(),"id_usuario: " + db.getId_usuario(),Toast.LENGTH_LONG).show();
+                           id_usuario = db.getId_usuario();
+                           Intent intent1 = new Intent(getBaseContext(), MainActivity.class);
+                           Intent intent2 = new Intent(login.this, seleccionarFamilia.class);
+                           intent2.putExtra("id_usuario", id_usuario);
+                           startActivity(intent1);
+                       }else{
+                           Intent intent1 = new Intent(getBaseContext(), MainActivity_Admin.class);
+                           startActivity(intent1);
+                       }
                     }else {
                         Toast.makeText(getBaseContext(),"Contraseña Incorrecta",Toast.LENGTH_LONG).show();
                     }

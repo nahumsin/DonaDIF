@@ -19,7 +19,7 @@ public class ConectionDB{
     private SQLiteDatabase db;
     private Context nContext;
     private DataBase objDb;
-    private int id_usuario,id_familia;
+    private int id_usuario,id_familia,privilegio_cuenta;
     private String contraseña_usuario;
 
     public ConectionDB(Context context) {
@@ -116,6 +116,7 @@ public class ConectionDB{
                 String nombre = cursor.getString(1);
                 setId_usuario(cursor.getInt(0));
                 setContraseña_usuario(cursor.getString(2));
+                setPrivilegio_cuenta(cursor.getInt(4));
 
                 //Toast.makeText(nContext, "Contraseña" + getContraseña_usuario() + " xD " + "ID_" + getId_usuario(), Toast.LENGTH_LONG).show();
                 if (usuario.equals(nombre)) {
@@ -192,5 +193,13 @@ public class ConectionDB{
 
     public void setId_familia(int id_familia) {
         this.id_familia = id_familia;
+    }
+
+    public int getPrivilegio_cuenta() {
+        return privilegio_cuenta;
+    }
+
+    public void setPrivilegio_cuenta(int privilegio_cuenta) {
+        this.privilegio_cuenta = privilegio_cuenta;
     }
 }

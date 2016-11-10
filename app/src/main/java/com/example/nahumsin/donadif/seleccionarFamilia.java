@@ -82,10 +82,7 @@ public class seleccionarFamilia extends AppCompatActivity {
         db = new ConectionDB(this);
         db.abrirConexion();
 
-        db.insertarFamilia(new Familia("Martinez Vazquez","Guadalupe #10","Familia con 5 integrantes","vaz.png"));
-        db.cerrarConexion();
-        db.abrirConexion();
-        db.insertarFamilia(new Familia("Gonzales Ortega","Zacatecas #14","Familia con 2 integrantes","gon.png"));
+
         //db.insertarFamilia(new Familia("Gonzales Ortega","Zacatecas #14","Familia con 2 integrantes","gon.png"));
         showFamilias();
     }
