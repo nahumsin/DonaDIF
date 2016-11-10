@@ -20,6 +20,7 @@ public class MainActivity_Admin extends AppCompatActivity implements View.OnClic
 
         anadir.setOnClickListener(this);
         modificar.setOnClickListener(this);
+        confirmar.setOnClickListener(this);
 
 
     }
