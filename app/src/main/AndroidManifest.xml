@@ -16,10 +16,8 @@
         <activity
             android:name=".ConfirmarDonativo"
             android:label="@string/title_activity_confirmar_donativo"
-            android:theme="@style/AppTheme.NoActionBar">
-
-        </activity>
-        <activity android:name=".login" >
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".login">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -27,10 +25,20 @@
             </intent-filter>
         </activity>
         <activity android:name=".MainActivity" />
-        <activity android:name=".CanastasBasicas"
+        <activity
+            android:name=".CanastasBasicas"
+            android:parentActivityName=".MainActivity" />
+        <activity
+            android:name=".seleccionarFamilia"
+            android:parentActivityName=".CanastasBasicas" />
+        <activity android:name=".ActivityAnadirFamilia"
+            android:parentActivityName=".MainActivity_Admin"/>
+        <activity android:name=".ActivityListaFamilia_Donador"
             android:parentActivityName=".MainActivity"/>
-        <activity android:name=".seleccionarFamilia"
-            android:parentActivityName=".CanastasBasicas"></activity>
+        <activity android:name=".Activity_ModificarFamilia" />
+        <activity android:name=".ListadoModFamilia"
+            android:parentActivityName=".MainActivity"/>
+        <activity android:name=".MainActivity_Admin"></activity>
     </application>
 
 </manifest>
