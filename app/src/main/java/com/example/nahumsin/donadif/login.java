@@ -28,13 +28,11 @@ public class login extends AppCompatActivity {
         txtUsuario = (EditText) findViewById(R.id.txtUsuario);
         txtContrasena = (EditText) findViewById(R.id.txtContrasena);
         btnCrearCuenta = (Button) findViewById(R.id.btnCrearCuenta);
-        txtUsuario.requestFocus();
         btnCrearCuenta.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getBaseContext(), CrearCuenta.class);
                 startActivity(intent);
-
             }
         });
 
@@ -87,9 +85,6 @@ public class login extends AppCompatActivity {
                            Intent intent2 = new Intent(login.this, seleccionarFamilia.class);
                            intent2.putExtra("id_usuario", id_usuario);
                            startActivity(intent1);
-                           txtUsuario.setText("");
-                           txtContrasena.setText("");
-                           txtUsuario.requestFocus();
                        }else{
                            Intent intent1 = new Intent(getBaseContext(), MainActivity_Admin.class);
                            startActivity(intent1);

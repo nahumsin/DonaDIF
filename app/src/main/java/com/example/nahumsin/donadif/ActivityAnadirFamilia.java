@@ -4,8 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -46,12 +44,6 @@ public class ActivityAnadirFamilia extends AppCompatActivity {
         Intent intent = new Intent(ActivityAnadirFamilia.this,MainActivity_Admin.class);
         startActivity(intent);
 
-    }
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu items for use in the action bar
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_crear_cuenta, menu);
-        return super.onCreateOptionsMenu(menu);
     }
 
 }

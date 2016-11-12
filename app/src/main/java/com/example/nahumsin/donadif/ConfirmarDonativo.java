@@ -34,8 +34,8 @@ public class ConfirmarDonativo extends AppCompatActivity {
         ListView chl = (ListView) findViewById((R.id.checable_list));
         chl.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
         List<String> items = new ArrayList<>();
-        items.add("Donador: Roberto Garcia, Familia: Sánchez");
-        items.add("Donador: Aracelí Arámbula, Familia: Trinidad y nahum se la come cruda xD vale  xSXDxD ");
+        items.add("Donador: Roberto Garcia, Familia: Sánchez Pérez");
+        items.add("Donador: Aracelí Arámbula, Familia: Carrillo Castañeda");
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,R.layout.rowlayout,items);
         chl.setAdapter(adapter);
         chl.setOnItemClickListener(new AdapterView.OnItemClickListener(){
