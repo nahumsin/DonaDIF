@@ -17,7 +17,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="2dp"
-            android:background="@drawable/post_background_style"
+            android:background="@drawable/post_border_backgroung"
             android:orientation="horizontal" >
 
             <LinearLayout
@@ -38,7 +38,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="80dp"
                         android:id="@+id/imagen_single_post_circuito"
-                        android:src="@drawable/circuitochico_plaza"
+                        android:src="@drawable/ic_action_name"
                         android:scaleType="centerCrop" />
                 </LinearLayout>
 

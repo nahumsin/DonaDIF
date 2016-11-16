@@ -7,5 +7,4 @@
         android:id="@+id/action_sesionClose"
         android:orderInCategory="100"
         android:title="@string/action_close_sesion" />
-
 </menu>
