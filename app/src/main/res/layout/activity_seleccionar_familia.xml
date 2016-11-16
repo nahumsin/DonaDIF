@@ -1,31 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-xmlns:app="http://schemas.android.com/apk/res-auto"
-xmlns:tools="http://schemas.android.com/tools"
-android:id="@+id/activity_seleccionar_familia"
-android:layout_width="match_parent"
-android:layout_height="match_parent"
-android:paddingBottom="@dimen/activity_vertical_margin"
-android:paddingLeft="@dimen/activity_horizontal_margin"
-android:paddingRight="@dimen/activity_horizontal_margin"
-android:paddingTop="@dimen/activity_vertical_margin"
-android:orientation="vertical"
-tools:context="com.example.nahumsin.donadif.seleccionarFamilia"
-android:weightSum="1">
-
-<ListView
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_seleccionar_familia"
     android:layout_width="match_parent"
-    android:layout_height="397dp"
-    android:layout_alignParentTop="true"
-    android:choiceMode="multipleChoice"
-    android:id="@+id/listViewLista"
-    android:layout_weight="1.02" />
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:weightSum="1"
+    tools:context="com.example.nahumsin.donadif.seleccionarFamilia">
 
-<Button
-    android:text="Hacer Donativo"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:id="@+id/btnHacerDonativo"
-    android:layout_gravity="right" />
+    <ListView
+        android:id="@+id/listViewLista"
+        android:layout_width="match_parent"
+        android:layout_height="397dp"
+        android:layout_alignParentTop="true"
+        android:layout_weight="1.02"
+        android:choiceMode="multipleChoice" />
+
+    <Button
+        android:id="@+id/btnHacerDonativo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:text="Hacer Donativo" />
 
 </LinearLayout>

@@ -10,37 +10,37 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.nahumsin.donadif.CanastasBasicas">
 
-<TextView
-    android:text="Ingresa las canastas basicas que deseas donar..."
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:id="@+id/textView5"
-    android:textSize="18sp"
-    android:textStyle="normal|bold"
-    android:layout_alignParentTop="true" />
-
-    <EditText
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:inputType="textPersonName"
-    android:ems="10"
-    android:id="@+id/txtCanastas"
-    android:hint="Solo datos numericos"
-    android:hapticFeedbackEnabled="false"
-    android:gravity="center"
-    android:layout_marginTop="35dp"
-    android:layout_below="@+id/textView5"
-    android:layout_centerHorizontal="true" />
-
-    <Button
-        android:text="Siguiente"
+    <TextView
+        android:id="@+id/textView5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:text="Ingresa las canastas basicas que deseas donar..."
+        android:textSize="18sp"
+        android:textStyle="normal|bold" />
+
+    <EditText
+        android:id="@+id/txtCanastas"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView5"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="35dp"
+        android:ems="10"
+        android:gravity="center"
+        android:hapticFeedbackEnabled="false"
+        android:hint="Solo datos numericos"
+        android:inputType="textPersonName" />
+
+    <Button
         android:id="@+id/btnSiguiente"
-        android:layout_marginTop="14dp"
-        android:layout_below="@+id/txtCanastas"
-        android:layout_alignParentRight="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/txtCanastas"
+        android:layout_marginEnd="54dp"
         android:layout_marginRight="54dp"
-        android:layout_marginEnd="54dp" />
+        android:layout_marginTop="14dp"
+        android:text="Siguiente" />
 </RelativeLayout>

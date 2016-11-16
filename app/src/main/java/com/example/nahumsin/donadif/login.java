@@ -10,27 +10,62 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.FacebookSdk;
+
 import com.example.nahumsin.donadif.MainActivity;
 import com.example.nahumsin.donadif.R;
+import com.facebook.login.LoginResult;
+import com.facebook.login.widget.LoginButton;
 
 public class login extends AppCompatActivity {
     EditText txtUsuario;
     EditText txtContrasena;
     Button btnCrearCuenta;
-    Button btnConectFB;
+    LoginButton btnConectFB;
     ConectionDB db;
     int id_usuario;
     int privilegio_usuario;
+    CallbackManager callbackManager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        FacebookSdk.sdkInitialize(getApplicationContext());
         setContentView(R.layout.activity_login);
+
         txtUsuario = (EditText) findViewById(R.id.txtUsuario);
         txtContrasena = (EditText) findViewById(R.id.txtContrasena);
         btnCrearCuenta = (Button) findViewById(R.id.btnCrearCuenta);
-        txtUsuario.setText("");
-        txtContrasena.setText("");
         txtUsuario.requestFocus();
+        txtContrasena.setText("");
+        txtUsuario.setText("");
+
+        //========FACEBOOK=============================
+
+        callbackManager = CallbackManager.Factory.create();
+        btnConectFB = (LoginButton) findViewById(R.id.btnConectFB);
+        btnConectFB.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+            @Override
+            public void onSuccess(LoginResult loginResult) {
+
+            }
+
+            @Override
+            public void onCancel() {
+
+            }
+
+            @Override
+            public void onError(FacebookException error) {
+
+            }
+        });
+
+
+        //=============================================
+
         btnCrearCuenta.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -39,13 +74,7 @@ public class login extends AppCompatActivity {
             }
         });
 
-        btnConectFB = (Button) findViewById(R.id.btnConectFB);
-        btnConectFB.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
 
-            }
-        });
         db = new ConectionDB(this);
         db.abrirConexion();
         db.insertarCuenta(new Cuenta("Pedro","1234","pedro@gmail.com",1));

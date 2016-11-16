@@ -12,95 +12,95 @@
     tools:context="com.example.nahumsin.donadif.ActivityAnadirFamilia">
 
     <TextView
+        android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/imageView2"
+        android:layout_alignLeft="@+id/imageView2"
         android:layout_alignStart="@+id/imageView2"
-        android:id="@+id/textView"
-        android:textColor="@android:color/black"
-        android:textSize="18sp"
+        android:layout_below="@+id/imageView2"
         android:text="NOMBRE"
-        android:layout_alignLeft="@+id/imageView2" />
+        android:textColor="@android:color/black"
+        android:textSize="18sp" />
 
     <ImageView
+        android:id="@+id/imageView2"
         android:layout_width="326dp"
         android:layout_height="166dp"
-        app:srcCompat="@android:drawable/ic_menu_gallery"
-        android:id="@+id/imageView2"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        app:srcCompat="@android:drawable/ic_menu_gallery" />
 
     <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:ems="10"
-        android:layout_below="@+id/textView"
-        android:layout_alignStart="@+id/textView"
         android:id="@+id/editText_Nombre"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/textView"
+        android:layout_alignStart="@+id/textView"
+        android:layout_below="@+id/textView"
+        android:ems="10"
         android:hint="Inserte nombre de la familia"
-        android:lineSpacingExtra="10sp"
-        android:layout_alignLeft="@+id/textView" />
+        android:inputType="textPersonName"
+        android:lineSpacingExtra="10sp" />
 
     <TextView
-        android:text="DIRECCIÓN"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/editText_Nombre"
-        android:layout_alignStart="@+id/editText_Nombre"
-        android:layout_marginTop="12dp"
         android:id="@+id/textView2"
-        android:textSize="18sp"
-        android:textColor="@android:color/black"
-        android:layout_alignLeft="@+id/editText_Nombre" />
-
-    <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:inputType="text"
-        android:ems="10"
-        android:layout_below="@+id/textView2"
-        android:layout_alignStart="@+id/textView2"
+        android:layout_alignLeft="@+id/editText_Nombre"
+        android:layout_alignStart="@+id/editText_Nombre"
+        android:layout_below="@+id/editText_Nombre"
         android:layout_marginTop="12dp"
+        android:text="DIRECCIÓN"
+        android:textColor="@android:color/black"
+        android:textSize="18sp" />
+
+    <EditText
         android:id="@+id/editText_direccion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/textView2"
+        android:layout_alignStart="@+id/textView2"
+        android:layout_below="@+id/textView2"
+        android:layout_marginTop="12dp"
+        android:ems="10"
         android:hint="Inserte dirección de familia"
-        android:lineSpacingExtra="10sp"
-        android:layout_alignLeft="@+id/textView2" />
+        android:inputType="text"
+        android:lineSpacingExtra="10sp" />
 
     <TextView
-        android:text="DESCRIPCIÓN"
+        android:id="@+id/textView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/editText_direccion"
+        android:layout_alignLeft="@+id/editText_direccion"
         android:layout_alignStart="@+id/editText_direccion"
+        android:layout_below="@+id/editText_direccion"
         android:layout_marginTop="10dp"
-        android:id="@+id/textView3"
-        android:textSize="18sp"
+        android:text="DESCRIPCIÓN"
         android:textColor="@android:color/black"
-        android:layout_alignLeft="@+id/editText_direccion" />
+        android:textSize="18sp" />
 
     <EditText
+        android:id="@+id/editText_descripcion"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:inputType="textMultiLine"
-        android:ems="10"
-        android:layout_below="@+id/textView3"
+        android:layout_alignLeft="@+id/textView3"
         android:layout_alignStart="@+id/textView3"
+        android:layout_below="@+id/textView3"
         android:layout_marginTop="18dp"
-        android:id="@+id/editText_descripcion"
-        android:singleLine="false"
+        android:ems="10"
+        android:inputType="textMultiLine"
         android:lines="@android:integer/config_longAnimTime"
         android:marqueeRepeatLimit="@android:integer/config_longAnimTime"
         android:maxHeight="@dimen/activity_horizontal_margin"
-        android:layout_alignLeft="@+id/textView3" />
+        android:singleLine="false" />
 
     <Button
-        android:text="Guardar"
+        android:id="@+id/button_guardarFam"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
-        android:id="@+id/button_guardarFam"
+        android:layout_alignParentRight="true"
         android:onClick="guardarFamilias"
-        android:layout_alignParentRight="true" />
+        android:text="Guardar" />
 </RelativeLayout>

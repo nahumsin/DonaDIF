@@ -12,86 +12,86 @@
     tools:context="com.example.nahumsin.donadif.Activity_ModificarFamilia">
 
     <ImageView
+        android:id="@+id/imageView3"
         android:layout_width="326dp"
         android:layout_height="166dp"
-        app:srcCompat="@android:drawable/ic_menu_gallery"
-        android:id="@+id/imageView3"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        app:srcCompat="@android:drawable/ic_menu_gallery" />
 
     <TextView
-        android:text="Nombre"
+        android:id="@+id/textView5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/imageView3"
+        android:layout_alignLeft="@+id/imageView3"
         android:layout_alignStart="@+id/imageView3"
+        android:layout_below="@+id/imageView3"
+        android:layout_marginLeft="21dp"
         android:layout_marginStart="21dp"
         android:layout_marginTop="36dp"
-        android:id="@+id/textView5"
-        android:layout_marginLeft="21dp"
-        android:layout_alignLeft="@+id/imageView3" />
+        android:text="Nombre" />
 
     <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:text="Name"
-        android:ems="10"
-        android:layout_marginTop="11dp"
         android:id="@+id/eT_modNombre"
-        android:lineSpacingExtra="10sp"
-        android:layout_below="@+id/textView5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignEnd="@+id/imageView3"
-        android:layout_alignRight="@+id/imageView3" />
-
-    <TextView
-        android:text="DIRECCIÓN"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/eT_modNombre"
-        android:layout_alignStart="@+id/eT_modNombre"
-        android:layout_marginTop="19dp"
-        android:id="@+id/textView6"
-        android:layout_alignLeft="@+id/eT_modNombre" />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:layout_marginTop="14dp"
-        android:id="@+id/et_ModDireccion"
-        android:layout_below="@+id/textView6"
-        android:layout_alignStart="@+id/textView6"
-        android:layout_alignLeft="@+id/textView6" />
-
-    <TextView
-        android:text="DESCRIPCIÓN"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/et_ModDireccion"
-        android:layout_alignStart="@+id/et_ModDireccion"
+        android:layout_alignRight="@+id/imageView3"
+        android:layout_below="@+id/textView5"
         android:layout_marginTop="11dp"
-        android:id="@+id/textView7"
-        android:layout_alignLeft="@+id/et_ModDireccion" />
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:lineSpacingExtra="10sp"
+        android:text="Name" />
 
-    <EditText
+    <TextView
+        android:id="@+id/textView6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:ems="10"
-        android:layout_below="@+id/textView7"
-        android:layout_alignEnd="@+id/et_ModDireccion"
-        android:layout_marginTop="12dp"
+        android:layout_alignLeft="@+id/eT_modNombre"
+        android:layout_alignStart="@+id/eT_modNombre"
+        android:layout_below="@+id/eT_modNombre"
+        android:layout_marginTop="19dp"
+        android:text="DIRECCIÓN" />
+
+    <EditText
+        android:id="@+id/et_ModDireccion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/textView6"
+        android:layout_alignStart="@+id/textView6"
+        android:layout_below="@+id/textView6"
+        android:layout_marginTop="14dp"
+        android:ems="10" />
+
+    <TextView
+        android:id="@+id/textView7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/et_ModDireccion"
+        android:layout_alignStart="@+id/et_ModDireccion"
+        android:layout_below="@+id/et_ModDireccion"
+        android:layout_marginTop="11dp"
+        android:text="DESCRIPCIÓN" />
+
+    <EditText
         android:id="@+id/eT_modDescripcion"
-        android:inputType="textMultiLine"
-        android:layout_alignRight="@+id/et_ModDireccion" />
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/et_ModDireccion"
+        android:layout_alignRight="@+id/et_ModDireccion"
+        android:layout_below="@+id/textView7"
+        android:layout_marginTop="12dp"
+        android:ems="10"
+        android:inputType="textMultiLine" />
 
     <Button
-        android:text="Modificar"
+        android:id="@+id/button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/button"
         android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:text="Modificar" />
 
 </RelativeLayout>
