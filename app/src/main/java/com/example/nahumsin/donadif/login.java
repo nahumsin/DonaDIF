@@ -17,6 +17,7 @@ import com.facebook.FacebookSdk;
 
 import com.example.nahumsin.donadif.MainActivity;
 import com.example.nahumsin.donadif.R;
+import com.facebook.appevents.AppEventsLogger;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 
@@ -33,6 +34,7 @@ public class login extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         FacebookSdk.sdkInitialize(getApplicationContext());
+        AppEventsLogger.activateApp(this);
         setContentView(R.layout.activity_login);
 
         txtUsuario = (EditText) findViewById(R.id.txtUsuario);
@@ -49,7 +51,9 @@ public class login extends AppCompatActivity {
         btnConectFB.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
-
+                Intent intent = new Intent(login.this,MainActivity.class);
+                startActivity(intent);
+                finish();
             }
 
             @Override
