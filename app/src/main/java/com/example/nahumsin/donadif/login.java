@@ -89,6 +89,7 @@ public class login extends AppCompatActivity {
                            intent2.putExtra("id_usuario", id_usuario);
                            startActivity(intent1);
                            finish();
+
                        }else{
                            Intent intent1 = new Intent(getBaseContext(), MainActivity_Admin.class);
                            startActivity(intent1);
