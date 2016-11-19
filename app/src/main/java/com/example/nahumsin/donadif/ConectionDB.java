@@ -6,8 +6,21 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.os.AsyncTask;
+import android.util.Log;
 import android.widget.Toast;
 
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -73,6 +86,51 @@ public class ConectionDB{
             db.insert("cuenta", null, valores);
             db.close();
         }
+        class SendPostReqAsyncTask extends AsyncTask<String, Void, String> {
+            Cuenta cuen;
+            public SendPostReqAsyncTask(Cuenta cuen){
+                this.cuen = cuen;
+            }
+            protected String doInBackground(String... params) {
+
+                String user = cuen.getNombreUsuario();
+                String pass = cuen.getContrasena();
+                String email = cuen.getCorreo();
+                String priv = cuen.getPrivilegio();
+
+                List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
+                nameValuePairs.add(new BasicNameValuePair("nombre_usuario", user));
+                nameValuePairs.add(new BasicNameValuePair("contra_usuario", pass));
+                nameValuePairs.add(new BasicNameValuePair("email", email));
+                nameValuePairs.add(new BasicNameValuePair("privilegio", priv));
+
+                try {
+                    Log.i("Conexion base de datos","Si entra");
+                    HttpClient httpClient = new DefaultHttpClient();
+                    HttpPost httpPost = new HttpPost(
+                            "http://192.168.2.1/conect.php");
+                    httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+
+                    HttpResponse response = httpClient.execute(httpPost);
+
+                    HttpEntity entity = response.getEntity();
+
+                } catch (IOException e) {
+
+                }
+                return "success";
+            }
+
+            @Override
+            protected void onPostExecute(String result) {
+                super.onPostExecute(result);
+
+
+            }
+        }
+        SendPostReqAsyncTask sendPostReqAsyncTask = new SendPostReqAsyncTask(cuen);
+        sendPostReqAsyncTask.execute(cuen.getNombreUsuario(), cuen.getContrasena(),cuen.getCorreo(),cuen.getPrivilegio());
+
 
     }
 
