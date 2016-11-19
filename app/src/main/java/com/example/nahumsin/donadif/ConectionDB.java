@@ -186,6 +186,23 @@ public class ConectionDB{
         }
         return false;
     }
+
+    public List<Donativo> getDonativos(){
+        List<Donativo> donativos = new ArrayList<>();
+
+        String select = "SELECT * FROM donativo";
+        db = objDb.getReadableDatabase();
+        Cursor cursor = db.rawQuery(select, null);
+
+        if (cursor.moveToFirst()){
+            do {
+                Donativo don = new Donativo(cursor.getInt(0),cursor.getInt(1),cursor.getInt(2));
+                donativos.add(don);
+
+            }while (cursor.moveToNext());
+        }
+        return donativos;
+    }
 /*
     public List<Cuenta> getCuentas() {
         List<Cuenta> listaCuenta = new ArrayList<Cuenta>();
