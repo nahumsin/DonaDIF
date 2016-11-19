@@ -87,7 +87,6 @@ public class login extends AppCompatActivity {
             }
         });
 
-        Cuenta cuenta;
         db = new ConectionDB(this);
         db.abrirConexion();
         db.insertarCuenta(new Cuenta("Pedro","1234","pedro@gmail.com",1));
@@ -101,7 +100,7 @@ public class login extends AppCompatActivity {
         db.abrirConexion();
         db.insertarFamilia(new Familia("Gonzales Ortega","Zacatecas #14","Familia con 2 integrantes","gon.png"));
     }
-    //=========================Metodos de FACEBOOK=========================================
+    //=========================Métodos de FACEBOOK=========================================
     private void getFacebookProfileDetails(final AccessToken accessToken) {
         GraphRequest request = GraphRequest.newMeRequest(accessToken, new GraphRequest.GraphJSONObjectCallback(){
             //object retorna lo indicado en paramters.putString("fields", "email") en este caso, solo contiene el email
@@ -110,7 +109,6 @@ public class login extends AppCompatActivity {
                 try {
                     //Profile clase que contiene las características báscias de la cuenta de facebook (No retorna email)
                     Profile profileDefault = Profile.getCurrentProfile();
-                    //Librería usada para poder mostrar la foto de perfil de facebook con una transformación circular
                     nombreUsuariFace = ""+profileDefault.getFirstName();
                     emailFace = object.getString("email");
                     Toast.makeText(getBaseContext(),"User: " + nombreUsuariFace + "\nEmail: " + emailFace,Toast.LENGTH_LONG).show();

@@ -39,39 +39,33 @@ public class ConectionDB{
     public void insertarFamilia(Familia fam){
 
         ContentValues values = new ContentValues();
-        values.put("nombre_familia",fam.getNombre());
-        values.put("direccion_familia",fam.getDireccion());
-        values.put("desc_familia",fam.getDescripcion());
-        values.put("imagen",fam.getImagen());
+        if (!familiaExiste(fam.getDireccion())) {
+            values.put("nombre_familia", fam.getNombre());
+            values.put("direccion_familia", fam.getDireccion());
+            values.put("desc_familia", fam.getDescripcion());
+            values.put("imagen", fam.getImagen());
 
-        db.insert("familia",null,values);
-        db.close();
-
-        /*boolean resultado = false;
-
-        try {
-            String query = "INSERT INTO familia(nombre_familia,direccion_familia,desc_familia,imagen) " +
-                    "VALUES ('"+nombre+"','"+dire+"','"+desc+"','"+imagen+"')'";
-            db.execSQL(query);
-            resultado = true;
-            return resultado;
-
-        }catch (Exception e){
-            resultado = false;
-            return resultado;
-        }*/
-
+            db.insert("familia", null, values);
+            db.close();
+        }else{
+            Toast.makeText(nContext,"Ya existe una familia con la dirección " + fam.getDireccion(),Toast.LENGTH_LONG).show();
+        }
     }
 
     public void insertarCuenta(Cuenta cuen){
         if (db != null){
             ContentValues valores = new ContentValues();
-            valores.put("nombre_usuario", cuen.getNombreUsuario());
-            valores.put("contra_usuario", cuen.getContrasena());
-            valores.put("email", cuen.getCorreo());
-            valores.put("privilegio", cuen.getPrivilegio());
-            db.insert("cuenta", null, valores);
-            db.close();
+            if (!emailUsuarioExiste(cuen.getCorreo())) {
+                valores.put("nombre_usuario", cuen.getNombreUsuario());
+                valores.put("contra_usuario", cuen.getContrasena());
+                valores.put("email", cuen.getCorreo());
+                valores.put("privilegio", cuen.getPrivilegio());
+                db.insert("cuenta", null, valores);
+                Toast.makeText(nContext,"Cuenta Creada!",Toast.LENGTH_LONG).show();
+                db.close();
+            }else{
+                Toast.makeText(nContext,cuen.getCorreo() + " ya esta asociado a otra cuenta!",Toast.LENGTH_LONG).show();
+            }
         }
 
     }
@@ -152,6 +146,46 @@ public class ConectionDB{
         return false;
     }
 
+    public boolean emailUsuarioExiste(String email){
+
+        String select = "SELECT * FROM cuenta";
+        db = objDb.getReadableDatabase();
+        Cursor cursor = db.rawQuery(select,null);
+        //Toast.makeText(nContext,"Al menos estoy aqui :(",Toast.LENGTH_LONG).show();
+        if (cursor.moveToFirst()){
+            do {
+                String obtEmail = cursor.getString(3);
+
+                //Toast.makeText(nContext, "Email: " + obtEmail + " xD " , Toast.LENGTH_LONG).show();
+                if (email.equals(obtEmail)) {
+                    return true;
+                }
+            }while (cursor.moveToNext());
+        }else{
+            return false;
+        }
+        return false;
+    }
+
+    public boolean familiaExiste(String direccion){
+
+        String select = "SELECT * FROM familia";
+        db = objDb.getReadableDatabase();
+        Cursor cursor = db.rawQuery(select,null);
+        //Toast.makeText(nContext,"Al menos estoy aqui :(",Toast.LENGTH_LONG).show();
+        if (cursor.moveToFirst()){
+            do {
+                String dir_fam = cursor.getString(2);
+
+                if (direccion.equals(dir_fam)) {
+                    return true;
+                }
+            }while (cursor.moveToNext());
+        }else{
+            return false;
+        }
+        return false;
+    }
 /*
     public List<Cuenta> getCuentas() {
         List<Cuenta> listaCuenta = new ArrayList<Cuenta>();

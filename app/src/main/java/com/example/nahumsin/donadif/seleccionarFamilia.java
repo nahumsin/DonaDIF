@@ -60,22 +60,26 @@ public class seleccionarFamilia extends AppCompatActivity {
                 canastas = Integer.parseInt(getIntent().getStringExtra("canastas"));
                 id_usuario = getIntent().getIntExtra("id_usuario",1);
 
-                for (String item:selectedItems) {
-                    String [] nombre = item.split(" ");
-                    //Toast.makeText(getBaseContext(),"nombre: " + nombre[1] + " " + nombre[2] + "\n",Toast.LENGTH_LONG).show();
-                    if (db.buscarFamilia(nombre[1] + " " + nombre[2])){
-                        if (db.getId_familia() != 0){
-                            db.crearDonativo(new Donativo(db.getId_familia(),id_usuario,0));
-                            Toast.makeText(getBaseContext(),"Donativo Realizado!!",Toast.LENGTH_LONG).show();
-                        }else{
-                            //db.crearDonativo(new Donativo(db.getId_familia(),id_usuario,0));
+                if (selectedItems.size() <= canastas) {
+                    for (String item : selectedItems) {
+                        String[] nombre = item.split(" ");
+                        //Toast.makeText(getBaseContext(),"nombre: " + nombre[1] + " " + nombre[2] + "\n",Toast.LENGTH_LONG).show();
+                        if (db.buscarFamilia(nombre[1] + " " + nombre[2])) {
+                            if (db.getId_familia() != 0) {
+                                db.crearDonativo(new Donativo(db.getId_familia(), id_usuario, 0));
+                                Intent intent = new Intent(seleccionarFamilia.this,MainActivity.class);
+                                startActivity(intent);
+                                Toast.makeText(getBaseContext(), "Donativo Realizado!!", Toast.LENGTH_LONG).show();
+                            } else {
+                                //db.crearDonativo(new Donativo(db.getId_familia(),id_usuario,0));
+                            }
                         }
-
                     }
+                }else{
+                    Toast.makeText(getBaseContext(), "Solo puedes seleccionar " + canastas + " familias", Toast.LENGTH_LONG).show();
                 }
 
-                Intent intent = new Intent(seleccionarFamilia.this,MainActivity.class);
-                startActivity(intent);
+
             }
         });
 
@@ -100,17 +104,12 @@ public class seleccionarFamilia extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 String selectedItem=((TextView)view).getText().toString();
-                if (selectedItems.size() > canastas) {
-                    Toast.makeText(getBaseContext(), "No puede seleccionar mas familias!!", Toast.LENGTH_LONG).show();
-                } else {
-                    if(selectedItems.contains(selectedItem)){
-                        selectedItems.remove((selectedItem));
-                    }
-                    else {
-                        selectedItems.add(selectedItem);
-                    }
+                if(selectedItems.contains(selectedItem)){
+                    selectedItems.remove((selectedItem));
                 }
-
+                else {
+                    selectedItems.add(selectedItem);
+                }
             }
         });
 

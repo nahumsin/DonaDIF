@@ -78,7 +78,6 @@ public class CrearCuenta extends AppCompatActivity {
                 db.cerrarConexion();
                 Intent intent = new Intent(CrearCuenta.this, login.class);
                 startActivity(intent);
-                Toast.makeText(getApplicationContext(), "Cuenta creada!", Toast.LENGTH_LONG).show();
             }
         }
     }
