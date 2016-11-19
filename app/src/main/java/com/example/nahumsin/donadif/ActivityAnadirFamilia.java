@@ -39,7 +39,6 @@ public class ActivityAnadirFamilia extends AppCompatActivity {
 
     public void AnadirFamilia(){
         db.insertarFamilia(new Familia(nombre.getText().toString(),direccion.getText().toString(),descripcion.getText().toString(),"image.png"));
-        Log.d("Se añadio la familia", "WriteSuccesful");
         Toast.makeText(getApplicationContext(), "Familia creada", Toast.LENGTH_LONG).show();
         Intent intent = new Intent(ActivityAnadirFamilia.this,MainActivity_Admin.class);
         startActivity(intent);

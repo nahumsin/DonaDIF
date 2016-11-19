@@ -63,6 +63,48 @@ public class ConectionDB{
         }else{
             Toast.makeText(nContext,"Ya existe una familia con la dirección " + fam.getDireccion(),Toast.LENGTH_LONG).show();
         }
+
+        class SendPostReqAsyncTask extends AsyncTask<String, Void, String> {
+            Familia fam;
+            public SendPostReqAsyncTask(Familia fam){
+                this.fam = fam;
+            }
+            protected String doInBackground(String... params) {
+
+                String nombre = fam.getNombre();
+                String direccion = fam.getDireccion();
+                String descripcion = fam.getDescripcion();
+                String imagen = fam.getImagen();
+
+                List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
+                nameValuePairs.add(new BasicNameValuePair("nombre_familia", nombre));
+                nameValuePairs.add(new BasicNameValuePair("direccion_familia", direccion));
+                nameValuePairs.add(new BasicNameValuePair("desc_familia", descripcion));
+                nameValuePairs.add(new BasicNameValuePair("imagen", imagen));
+
+                try {
+                    HttpClient httpClient = new DefaultHttpClient();
+                    HttpPost httpPost = new HttpPost(
+                            "http://192.168.0.15/insertarFamilia.php");
+                    httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+
+                    HttpResponse response = httpClient.execute(httpPost);
+
+                    HttpEntity entity = response.getEntity();
+
+                } catch (IOException e) {
+
+                }
+                return "success";
+            }
+
+            @Override
+            protected void onPostExecute(String result) {
+                super.onPostExecute(result);
+            }
+        }
+        SendPostReqAsyncTask sendPostReqAsyncTask = new SendPostReqAsyncTask(fam);
+        sendPostReqAsyncTask.execute(fam.getNombre(),fam.getDireccion(),fam.getDescripcion(),fam.getImagen());
     }
 
     public void insertarCuenta(Cuenta cuen){
@@ -99,10 +141,9 @@ public class ConectionDB{
                 nameValuePairs.add(new BasicNameValuePair("privilegio", priv));
 
                 try {
-                    Log.i("Conexion base de datos","Si entra");
                     HttpClient httpClient = new DefaultHttpClient();
                     HttpPost httpPost = new HttpPost(
-                            "http://192.168.2.1/conect.php");
+                            "http://192.168.0.15/crearCuenta.php");
                     httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
 
                     HttpResponse response = httpClient.execute(httpPost);
@@ -118,8 +159,6 @@ public class ConectionDB{
             @Override
             protected void onPostExecute(String result) {
                 super.onPostExecute(result);
-
-
             }
         }
         SendPostReqAsyncTask sendPostReqAsyncTask = new SendPostReqAsyncTask(cuen);
