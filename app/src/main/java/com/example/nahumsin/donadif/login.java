@@ -9,6 +9,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.facebook.*;
@@ -31,6 +32,7 @@ public class login extends AppCompatActivity {
     EditText txtUsuario;
     EditText txtContrasena;
     Button btnCrearCuenta;
+    TextView email;
     LoginButton btnConectFB;
     ConectionDB db;
     int id_usuario;
@@ -50,6 +52,7 @@ public class login extends AppCompatActivity {
         txtUsuario.requestFocus();
         txtContrasena.setText("");
         txtUsuario.setText("");
+        email = (TextView) findViewById(R.id.email) ;
 
         //========FACEBOOK=============================
 
@@ -89,10 +92,10 @@ public class login extends AppCompatActivity {
 
         db = new ConectionDB(this);
         db.abrirConexion();
-        db.insertarCuenta(new Cuenta("Pedro","1234","pedro@gmail.com",1));
+        db.insertarCuenta(new Cuenta("Pedro","1234","pedro@gmail.com","1"));
         db.cerrarConexion();
         db.abrirConexion();
-        db.insertarCuenta(new Cuenta("jesus","1234","jesus@gmail.com",0));
+        db.insertarCuenta(new Cuenta("jesus","1234","jesus@gmail.com","0"));
         db.cerrarConexion();
         db.abrirConexion();
         db.insertarFamilia(new Familia("Martinez Vazquez","Guadalupe #10","Familia con 5 integrantes","vaz.png"));

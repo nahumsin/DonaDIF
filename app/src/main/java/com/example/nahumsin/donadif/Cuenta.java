@@ -12,10 +12,10 @@ public class Cuenta {
     private String nombreUsuario;
     private String contrasena;
     private String correo;
-    private int admin;
+    private String admin;
     private String idCuenta;
 
-    public Cuenta(String nombreUsuario,String contrasena,String correo,int admin){
+    public Cuenta(String nombreUsuario,String contrasena,String correo,String admin){
         this.nombreUsuario = nombreUsuario;
         this.contrasena = contrasena;
         this.correo = correo;
@@ -43,7 +43,7 @@ public class Cuenta {
         return correo;
     }
 
-    public int getPrivilegio(){
+    public String getPrivilegio(){
         return admin;
     }
 }
