@@ -21,6 +21,8 @@ import com.facebook.appevents.AppEventsLogger;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 
+import java.net.Inet4Address;
+
 public class login extends AppCompatActivity {
     EditText txtUsuario;
     EditText txtContrasena;
@@ -52,8 +54,8 @@ public class login extends AppCompatActivity {
             @Override
             public void onSuccess(LoginResult loginResult) {
                 Intent intent = new Intent(login.this,MainActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
-                finish();
             }
 
             @Override
@@ -94,7 +96,7 @@ public class login extends AppCompatActivity {
     }
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_crear_cuenta, menu);
+        getMenuInflater().inflate(R.menu.menu_login, menu);
         return true;
     }
 
@@ -117,7 +119,7 @@ public class login extends AppCompatActivity {
                        if (db.getPrivilegio_cuenta() == 0) {
                            //Toast.makeText(getBaseContext(),"id_usuario: " + db.getId_usuario(),Toast.LENGTH_LONG).show();
                            id_usuario = db.getId_usuario();
-                           Intent intent1 = new Intent(getBaseContext(), MainActivity.class);
+                           Intent intent1 = new Intent(this, MainActivity.class);
                            Intent intent2 = new Intent(login.this, seleccionarFamilia.class);
                            intent2.putExtra("id_usuario", id_usuario);
                            startActivity(intent1);
@@ -143,5 +145,10 @@ public class login extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    protected void onActivityResult(int requestCode, int resultCode,Intent data){
+        super.onActivityResult(requestCode,resultCode,data);
+        callbackManager.onActivityResult(requestCode,resultCode,data);
     }
 }

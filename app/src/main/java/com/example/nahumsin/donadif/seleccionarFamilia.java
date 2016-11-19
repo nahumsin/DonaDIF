@@ -94,22 +94,23 @@ public class seleccionarFamilia extends AppCompatActivity {
         for (Familia familia: listaFamilia) {
             items.add(familia.getImagen() + " " + familia.getNombre());
         }
-        ArrayAdapter adaptador = new ArrayAdapter<String>(this,R.layout.seleccionarfamilialayoutrow,items);
+        ArrayAdapter adaptador = new ArrayAdapter<String>(this,R.layout.rowlayout,items);
         lista.setAdapter(adaptador);
         lista.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 String selectedItem=((TextView)view).getText().toString();
-                if(selectedItems.contains(selectedItem)){
-                    selectedItems.remove((selectedItem));
-                }
-                else {
-                    if (selectedItems.size() > canastas) {
-                        Toast.makeText(getBaseContext(), "No puede seleccionar mas familias!!", Toast.LENGTH_LONG).show();
-                    } else {
+                if (selectedItems.size() > canastas) {
+                    Toast.makeText(getBaseContext(), "No puede seleccionar mas familias!!", Toast.LENGTH_LONG).show();
+                } else {
+                    if(selectedItems.contains(selectedItem)){
+                        selectedItems.remove((selectedItem));
+                    }
+                    else {
                         selectedItems.add(selectedItem);
                     }
                 }
+
             }
         });
 

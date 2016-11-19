@@ -21,13 +21,21 @@ public class CanastasBasicas extends AppCompatActivity{
         btnSiguiente.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (txtCanastas.getText().toString().equals("")){
-                    Toast.makeText(getBaseContext(),"Ingrese datos!!",Toast.LENGTH_LONG).show();
-                }else {
-                    int canastas = Integer.parseInt(txtCanastas.getText().toString());
-                    Intent intent = new Intent(CanastasBasicas.this, seleccionarFamilia.class);
-                    intent.putExtra("canastas", canastas + "");
-                    startActivity(intent);
+                try {
+                    if (txtCanastas.getText().toString().equals("")) {
+                        Toast.makeText(getBaseContext(), "Ingrese datos!!", Toast.LENGTH_LONG).show();
+                    } else {
+                        if (Integer.parseInt(txtCanastas.getText().toString()) <= 0){
+                            Toast.makeText(getBaseContext(), "Ingrese Número Válido", Toast.LENGTH_LONG).show();
+                        }else{
+                            int canastas = Integer.parseInt(txtCanastas.getText().toString());
+                            Intent intent = new Intent(CanastasBasicas.this, seleccionarFamilia.class);
+                            intent.putExtra("canastas", canastas + "");
+                            startActivity(intent);
+                        }
+                    }
+                }catch (NumberFormatException e){
+                    Toast.makeText(getBaseContext(), "Ingrese Numero Valido", Toast.LENGTH_LONG).show();
                 }
             }
         });

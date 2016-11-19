@@ -9,6 +9,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.facebook.AccessToken;
+import com.facebook.login.LoginManager;
+
 public class MainActivity extends AppCompatActivity {
     Button btnHacerDonativo;
     Button btnVerFamilias;
@@ -17,7 +20,12 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        /*
+        if (AccessToken.getCurrentAccessToken() == null){
+            Intent intent = new Intent(this,login.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+        }*/
 
        // Intent intent = new Intent(MainActivity.this,)
 
@@ -26,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                // Toast.makeText(getBaseContext(),"Ver Familias",Toast.LENGTH_LONG);
-                 Intent intent = new Intent(MainActivity.this,ActivityListaFamilia_Donador.class);
+                Intent intent = new Intent(MainActivity.this,ActivityListaFamilia_Donador.class);
                 startActivity(intent);
             }
         });
@@ -57,9 +65,10 @@ public class MainActivity extends AppCompatActivity {
         //noinspection SimplifiableIfStatement
 
         if (id == R.id.action_sesionClose) {
-            Intent intent = new Intent(MainActivity.this,login.class);
+            LoginManager.getInstance().logOut();
+            Intent intent = new Intent(this,login.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
-            finish();
             return true;
         }
         return super.onOptionsItemSelected(item);

@@ -19,19 +19,6 @@
         android:textSize="18sp"
         android:textStyle="normal|bold" />
 
-    <EditText
-        android:id="@+id/txtCanastas"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/textView5"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="35dp"
-        android:ems="10"
-        android:gravity="center"
-        android:hapticFeedbackEnabled="false"
-        android:hint="Solo datos numericos"
-        android:inputType="textPersonName" />
-
     <Button
         android:id="@+id/btnSiguiente"
         android:layout_width="wrap_content"
@@ -43,4 +30,17 @@
         android:layout_marginRight="54dp"
         android:layout_marginTop="14dp"
         android:text="Siguiente" />
+
+    <EditText
+        android:id="@+id/txtCanastas"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="45dp"
+        android:ems="10"
+        android:gravity="center"
+        android:hapticFeedbackEnabled="false"
+        android:hint="Solo datos numericos"
+        android:inputType="textPersonName"
+        android:layout_below="@+id/textView5"
+        android:layout_centerHorizontal="true" />
 </RelativeLayout>
