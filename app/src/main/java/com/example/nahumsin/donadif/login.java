@@ -3,6 +3,7 @@ package com.example.nahumsin.donadif;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -10,6 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.facebook.*;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
@@ -20,6 +22,8 @@ import com.example.nahumsin.donadif.R;
 import com.facebook.appevents.AppEventsLogger;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
+
+import org.json.JSONObject;
 
 import java.net.Inet4Address;
 
@@ -32,6 +36,7 @@ public class login extends AppCompatActivity {
     int id_usuario;
     int privilegio_usuario;
     CallbackManager callbackManager;
+    String nombreUsuariFace, emailFace;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,9 +55,11 @@ public class login extends AppCompatActivity {
 
         callbackManager = CallbackManager.Factory.create();
         btnConectFB = (LoginButton) findViewById(R.id.btnConectFB);
+        btnConectFB.setReadPermissions("email");
         btnConectFB.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
+                getFacebookProfileDetails(loginResult.getAccessToken());
                 Intent intent = new Intent(login.this,MainActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
@@ -80,7 +87,7 @@ public class login extends AppCompatActivity {
             }
         });
 
-
+        Cuenta cuenta;
         db = new ConectionDB(this);
         db.abrirConexion();
         db.insertarCuenta(new Cuenta("Pedro","1234","pedro@gmail.com",1));
@@ -94,6 +101,33 @@ public class login extends AppCompatActivity {
         db.abrirConexion();
         db.insertarFamilia(new Familia("Gonzales Ortega","Zacatecas #14","Familia con 2 integrantes","gon.png"));
     }
+    //=========================Metodos de FACEBOOK=========================================
+    private void getFacebookProfileDetails(final AccessToken accessToken) {
+        GraphRequest request = GraphRequest.newMeRequest(accessToken, new GraphRequest.GraphJSONObjectCallback(){
+            //object retorna lo indicado en paramters.putString("fields", "email") en este caso, solo contiene el email
+
+            public void onCompleted(final JSONObject object, GraphResponse response) {
+                try {
+                    //Profile clase que contiene las características báscias de la cuenta de facebook (No retorna email)
+                    Profile profileDefault = Profile.getCurrentProfile();
+                    //Librería usada para poder mostrar la foto de perfil de facebook con una transformación circular
+                    nombreUsuariFace = ""+profileDefault.getFirstName();
+                    emailFace = object.getString("email");
+                    Toast.makeText(getBaseContext(),"User: " + nombreUsuariFace + "\nEmail: " + emailFace,Toast.LENGTH_LONG).show();
+                } catch (Exception e) {
+                    Log.e("E-MainActivity", "getFaceBook" + e.toString());
+                }
+            }
+        });
+        Bundle parameters = new Bundle();
+        //solicitando el campo email
+        parameters.putString("fields", "email");
+        request.setParameters(parameters);
+        request.executeAsync();
+
+    }
+    //========================================================================================0
+
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_login, menu);

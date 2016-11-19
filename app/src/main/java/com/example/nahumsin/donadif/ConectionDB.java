@@ -66,13 +66,14 @@ public class ConectionDB{
     public void insertarCuenta(Cuenta cuen){
         if (db != null){
             ContentValues valores = new ContentValues();
-            valores.put("nombre_usuario",cuen.getNombreUsuario());
-            valores.put("contra_usuario",cuen.getContrasena());
-            valores.put("email",cuen.getCorreo());
-            valores.put("privilegio",cuen.getPrivilegio());
-            db.insert("cuenta",null,valores);
+            valores.put("nombre_usuario", cuen.getNombreUsuario());
+            valores.put("contra_usuario", cuen.getContrasena());
+            valores.put("email", cuen.getCorreo());
+            valores.put("privilegio", cuen.getPrivilegio());
+            db.insert("cuenta", null, valores);
             db.close();
         }
+
     }
 
     public void crearDonativo(Donativo dona){
@@ -150,6 +151,7 @@ public class ConectionDB{
         }
         return false;
     }
+
 /*
     public List<Cuenta> getCuentas() {
         List<Cuenta> listaCuenta = new ArrayList<Cuenta>();
