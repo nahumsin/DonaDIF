@@ -43,6 +43,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this,CanastasBasicas.class);
+                int id_usuario = Integer.parseInt(getIntent().getStringExtra("id_usuario"));
+                intent.putExtra("id_usuario",id_usuario+"");
                 startActivity(intent);
             }
         });

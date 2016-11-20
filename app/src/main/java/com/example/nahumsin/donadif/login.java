@@ -99,7 +99,7 @@ public class login extends AppCompatActivity {
         db.insertarCuenta(new Cuenta("jesus","1234","jesus@gmail.com","0"));
         db.cerrarConexion();
         db.abrirConexion();
-        db.insertarCuenta(new Cuenta("jose","1234","jose@gmail.com",0));
+        db.insertarCuenta(new Cuenta("jose","1234","jose@gmail.com","0"));
         db.cerrarConexion();
         db.abrirConexion();
         db.insertarFamilia(new Familia("Martinez Vazquez","Guadalupe #10","Familia con 5 integrantes","vaz.png"));
@@ -152,18 +152,17 @@ public class login extends AppCompatActivity {
             if (txtUsuario.getText().toString().equals("") || txtContrasena.getText().toString().equals("")){
                 Toast.makeText(getBaseContext(),"Ingrese los datos",Toast.LENGTH_LONG).show();
             }else{
-                //Toast.makeText(getBaseContext(),"entre al else",Toast.LENGTH_LONG).show();
                 if (db.buscarUsuario(txtUsuario.getText().toString())){
                     if (db.getContraseña_usuario().equals(txtContrasena.getText().toString())){
                        if (db.getPrivilegio_cuenta() == 0) {
                            //Toast.makeText(getBaseContext(),"id_usuario: " + db.getId_usuario(),Toast.LENGTH_LONG).show();
                            id_usuario = db.getId_usuario();
-                          // Toast.makeText(getBaseContext(),"id_usuario: " + id_usuario,Toast.LENGTH_LONG).show();
-                           Intent intent1 = new Intent(this, MainActivity.class);
-                           Intent intent2 = new Intent(login.this, seleccionarFamilia.class);
+                           //Toast.makeText(getBaseContext(),"id_usuario: " + id_usuario,Toast.LENGTH_LONG).show();
+                           Intent intent = new Intent(this, MainActivity.class);
+                          // Intent intent2 = new Intent(login.this, seleccionarFamilia.class);
                            //intent2.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
-                           intent2.putExtra("id_usuario", id_usuario);
-                           startActivity(intent1);
+                           intent.putExtra("id_usuario", id_usuario+"");
+                           startActivity(intent);
                            finish();
                        }else{
                            Intent intent1 = new Intent(getBaseContext(), MainActivity_Admin.class);

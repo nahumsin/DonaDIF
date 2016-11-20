@@ -30,6 +30,8 @@ public class CanastasBasicas extends AppCompatActivity{
                         }else{
                             int canastas = Integer.parseInt(txtCanastas.getText().toString());
                             Intent intent = new Intent(CanastasBasicas.this, seleccionarFamilia.class);
+                            int id_usuario = Integer.parseInt(getIntent().getStringExtra("id_usuario"));
+                            intent.putExtra("id_usuario",id_usuario+"");
                             intent.putExtra("canastas", canastas + "");
                             startActivity(intent);
                         }
