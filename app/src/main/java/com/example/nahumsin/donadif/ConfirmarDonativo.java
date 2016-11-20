@@ -22,7 +22,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ConfirmarDonativo extends AppCompatActivity {
-    ArrayList<String> selectedItems= new ArrayList<>();
+    List<String> items = new ArrayList<>();
+    List<String> selectedItems = new ArrayList<>();
+    List<Familia> listaFamilia;
+    List<Donativo> listaDonativo;
+    ListView lista;
+    ConectionDB db;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,6 +55,64 @@ public class ConfirmarDonativo extends AppCompatActivity {
                     selectedItems.add(selectedItem);
             }
         });
+
+        db = new ConectionDB(this);
+        db.abrirConexion();
+
+
+        //db.insertarFamilia(new Familia("Gonzales Ortega","Zacatecas #14","Familia con 2 integrantes","gon.png"));
+        showFamilias();
+    }
+
+    void showFamilias() {
+        listaFamilia = db.getFamilias();
+        listaDonativo = db.getDonativos();
+        int contadorFamilias = 0;
+        //Toast.makeText(getBaseContext(), "lista.size: " + db.getDonativos(), Toast.LENGTH_LONG).show();
+        // for (Donativo dona:listaDonativo) {
+        //   Toast.makeText(getBaseContext(), "ID_fam_dona: " + dona.getIdFamila(), Toast.LENGTH_LONG).show();
+        //}
+        for (Familia familia : listaFamilia) {
+            //Toast.makeText(getBaseContext(), "Pendientes de entre: " + familia.getId() + " Dona_Recividos: " + familia.getDonativos_recividos(), Toast.LENGTH_LONG).show();
+            if (listaDonativo.size() == 0) {
+                if ( familia.getDonativos_recividos() == 0) {
+                    items.add(familia.getNombre());
+                }else{
+                    contadorFamilias +=1;
+                    //      Toast.makeText(getBaseContext(), "Pendiente de Entragar", Toast.LENGTH_LONG).show();
+                }
+            }else{
+                for (Donativo donativo : listaDonativo) {
+                    //Log.d("ID_Familia_fam: ", familia.getId() + "");
+                    if (familia.getId() != donativo.getIdFamila() && familia.getDonativos_recividos() != 0) {
+                        //Toast.makeText(getBaseContext(), "Entra aqui", Toast.LENGTH_LONG).show();
+                        items.add(familia.getImagen() + " " + familia.getNombre());
+                    } else {
+                        Toast.makeText(getBaseContext(), "Ya existe", Toast.LENGTH_LONG).show();
+                    }
+                }
+            }
+        }
+
+        if (listaFamilia.size() == contadorFamilias){
+            //Ponemos todas las familias en cero
+        }
+
+
+        ArrayAdapter adaptador = new ArrayAdapter<String>(this, R.layout.rowlayout, items);
+        lista.setAdapter(adaptador);
+        lista.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                String selectedItem = ((TextView) view).getText().toString();
+                if (selectedItems.contains(selectedItem)) {
+                    selectedItems.remove((selectedItem));
+                } else {
+                    selectedItems.add(selectedItem);
+                }
+            }
+        });
+
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

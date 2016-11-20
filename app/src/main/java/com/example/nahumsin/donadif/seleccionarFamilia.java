@@ -23,6 +23,7 @@ public class seleccionarFamilia extends AppCompatActivity {
     List<String> items = new ArrayList<>();
     List<String> selectedItems = new ArrayList<>();
     List<Familia> listaFamilia;
+    List<Donativo> listaDonativo;
     ListView lista;
     ConectionDB db;
     Button btnHacerDonativo;
@@ -54,15 +55,13 @@ public class seleccionarFamilia extends AppCompatActivity {
                         String[] nombre = item.split(" ");
 
                         if (db.buscarFamilia(nombre[1] + " " + nombre[2])) {
-                            if (db.getId_familia() != 0) {
-                                db.crearDonativo(new Donativo(db.getId_familia(), id_usuario, 0));
-                                //Intent intent = new Intent(seleccionarFamilia.this, PruebasDataBase.class);
-                                //startActivity(intent);
-                                //Toast.makeText(getBaseContext(), "Donativo Realizado!!", Toast.LENGTH_LONG).show();
-                                //Toast.makeText(getBaseContext(), "ID_FAM: " + db.getId_familia(), Toast.LENGTH_LONG).show();
-                                //Toast.makeText(getBaseContext(), "id_usuario: " + id_usuario + " \nid_fam: " + db.getId_familia() + "\n", Toast.LENGTH_LONG).show();
-                                Toast.makeText(getBaseContext(), "Donativos: " + db.getDonativos().toString() + "\n", Toast.LENGTH_LONG).show();
-                            }
+                            db.crearDonativo(new Donativo(db.getId_familia(), id_usuario, 0));
+                            Intent intent = new Intent(seleccionarFamilia.this, PruebasDataBase.class);
+                            startActivity(intent);
+                            Toast.makeText(getBaseContext(), "Donativo Realizado!!", Toast.LENGTH_LONG).show();
+                            //Toast.makeText(getBaseContext(), "ID_FAM: " + db.getId_familia(), Toast.LENGTH_LONG).show();
+                            //Toast.makeText(getBaseContext(), "id_usuario: " + id_usuario + " \nid_fam: " + db.getId_familia() + "\n", Toast.LENGTH_LONG).show();
+                            //Toast.makeText(getBaseContext(), "Donativos: " + db.getDonativos().toString() + "\n", Toast.LENGTH_LONG).show();
                         }
                     }
                 } else {
@@ -82,9 +81,31 @@ public class seleccionarFamilia extends AppCompatActivity {
 
     void showFamilias() {
         listaFamilia = db.getFamilias();
-
+        listaDonativo = db.getDonativos();
+        //Toast.makeText(getBaseContext(), "lista.size: " + db.getDonativos(), Toast.LENGTH_LONG).show();
+        // for (Donativo dona:listaDonativo) {
+        //   Toast.makeText(getBaseContext(), "ID_fam_dona: " + dona.getIdFamila(), Toast.LENGTH_LONG).show();
+        //}
         for (Familia familia : listaFamilia) {
-            items.add(familia.getImagen() + " " + familia.getNombre());
+            //Toast.makeText(getBaseContext(), "Pendientes de entre: " + familia.getId() + " Dona_Recividos: " + familia.getDonativos_recividos(), Toast.LENGTH_LONG).show();
+            if (listaDonativo.size() == 0) {
+                if ( familia.getDonativos_recividos() == 0) {
+                    items.add(familia.getImagen() + " " + familia.getNombre());
+                }else{
+              //      Toast.makeText(getBaseContext(), "Pendiente de Entragar", Toast.LENGTH_LONG).show();
+                }
+            }else{
+                for (Donativo donativo : listaDonativo) {
+                    //Log.d("ID_Familia_fam: ", familia.getId() + "");
+                    if (familia.getId() != donativo.getIdFamila() && familia.getDonativos_recividos() != 0) {
+                        //Toast.makeText(getBaseContext(), "Entra aqui", Toast.LENGTH_LONG).show();
+                        items.add(familia.getImagen() + " " + familia.getNombre());
+                    } else {
+                        Toast.makeText(getBaseContext(), "Ya existe", Toast.LENGTH_LONG).show();
+                    }
+                }
+            }
+
         }
         ArrayAdapter adaptador = new ArrayAdapter<String>(this, R.layout.rowlayout, items);
         lista.setAdapter(adaptador);

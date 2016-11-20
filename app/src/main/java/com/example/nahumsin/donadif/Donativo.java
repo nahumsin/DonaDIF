@@ -11,6 +11,12 @@ public class Donativo {
     public int idDonador;
     public int entregado;
 
+    public Donativo(int idDonativo, int idFamila, int idDonador, int entregado) {
+        this.idDonativo = idDonativo;
+        this.idFamila = idFamila;
+        this.idDonador = idDonador;
+        this.entregado = entregado;
+    }
 
     public Donativo(int idFamila, int idDonador, int entregado) {
         this.idFamila = idFamila;

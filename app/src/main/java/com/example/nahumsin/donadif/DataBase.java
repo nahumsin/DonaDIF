@@ -17,7 +17,7 @@ public class DataBase extends SQLiteOpenHelper {
             "id_cuenta INTEGER, entregado INTEGER)";
     String query_crear_cuenta = "CREATE TABLE cuenta (id_cuenta INTEGER PRIMARY KEY AUTOINCREMENT, nombre_usuario TEXT, contra_usuario TEXT,email TEXT,privilegio INTEGER)";
     String query_crear_familia = "CREATE TABLE familia (id_familia INTEGER PRIMARY KEY AUTOINCREMENT, nombre_familia TEXT, direccion_familia TEXT, " +
-            "desc_familia TEXT, imagen TEXT)";
+            "desc_familia TEXT, imagen TEXT, donativos_recividos INTEGER)";
 
     public DataBase(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);

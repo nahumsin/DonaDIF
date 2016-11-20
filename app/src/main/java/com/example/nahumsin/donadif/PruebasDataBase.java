@@ -23,10 +23,6 @@ public class PruebasDataBase extends AppCompatActivity {
 
         List<Donativo> donativos = dbDonadores.getDonativos();
         for (Donativo donativo:donativos) {
-            //String log = "Nombre: " + familia.getNombre() + " ,Direccion: " + familia.getNombre() + " ,Descripcion: " + familia.getDescripcion();
-        }
-
-        for (Donativo donativo:donativos) {
             items.add("Donador: " + donativo.getIdDonador() + " Fam: " + donativo.getIdFamila());
         }
         ArrayAdapter adaptador = new ArrayAdapter<String>(this,R.layout.seleccionarfamilialayoutrow,items);

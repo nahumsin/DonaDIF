@@ -57,6 +57,7 @@ public class ConectionDB{
             values.put("direccion_familia", fam.getDireccion());
             values.put("desc_familia", fam.getDescripcion());
             values.put("imagen", fam.getImagen());
+            values.put("donativos_recividos" ,fam.getDonativos_recividos());
 
             db.insert("familia", null, values);
             db.close();
@@ -189,7 +190,7 @@ public class ConectionDB{
 
         if (cursor.moveToFirst()){
             do {
-                Familia fam = new Familia(cursor.getInt(0),cursor.getString(1),cursor.getString(2),cursor.getString(3),cursor.getString(4));
+                Familia fam = new Familia(cursor.getInt(0),cursor.getString(1),cursor.getString(2),cursor.getString(3),cursor.getString(4),cursor.getInt(5));
                 familias.add(fam);
 
             }while (cursor.moveToNext());
@@ -293,13 +294,37 @@ public class ConectionDB{
 
         if (cursor.moveToFirst()){
             do {
-                Donativo don = new Donativo(cursor.getInt(0),cursor.getInt(1),cursor.getInt(2));
+                Donativo don = new Donativo(cursor.getInt(0),cursor.getInt(1),cursor.getInt(2),cursor.getInt(3));
                 donativos.add(don);
 
             }while (cursor.moveToNext());
         }
         return donativos;
     }
+
+    public boolean familiaConDonativo(){
+        String selectTablaFamilia = "SELECT * FROM familia WHERE id_familia NOT IN (SELECT id_familia FROM donativo)";
+        //String selectTablaDonativo = "SELECT * FROM donativo";
+        db = objDb.getReadableDatabase();
+        Cursor cursorFamilia = db.rawQuery(selectTablaFamilia,null);
+        //Cursor cursorDonativo = db.rawQuery(selectTablaDonativo,null);
+        //Toast.makeText(nContext,"Al menos estoy aqui :(",Toast.LENGTH_LONG).show();
+        if (cursorFamilia.moveToFirst()){
+            do {
+                int id_familia_tab_familia = cursorFamilia.getInt(0);
+               // int id_familia_tab_donativo = cursorDonativo.getInt(1);
+
+                if (id_familia_tab_familia >= 0) {
+                    return true;
+                }
+            }while (cursorFamilia.moveToNext());
+        }else{
+            return false;
+        }
+        return false;
+    }
+
+
 /*
     public List<Cuenta> getCuentas() {
         List<Cuenta> listaCuenta = new ArrayList<Cuenta>();
