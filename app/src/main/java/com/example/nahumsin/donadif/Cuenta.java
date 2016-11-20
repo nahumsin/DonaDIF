@@ -22,6 +22,7 @@ public class Cuenta {
         this.admin= admin;
     }
 
+
     public void setNombreUsuario(String nombre){
         nombreUsuario = nombre;
     }

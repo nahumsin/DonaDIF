@@ -313,4 +313,5 @@ public class ConectionDB{
     public void setPrivilegio_cuenta(int privilegio_cuenta) {
         this.privilegio_cuenta = privilegio_cuenta;
     }
+
 }

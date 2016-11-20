@@ -31,5 +31,6 @@ public class PruebasDataBase extends AppCompatActivity {
         }
         ArrayAdapter adaptador = new ArrayAdapter<String>(this,R.layout.seleccionarfamilialayoutrow,items);
         listaDonadores.setAdapter(adaptador);
+        dbDonadores.cerrarConexion();
     }
 }
