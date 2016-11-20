@@ -92,20 +92,7 @@ public class login extends AppCompatActivity {
         });
 
         db = new ConectionDB(this);
-        db.abrirConexion();
-        db.insertarCuenta(new Cuenta("Pedro","1234","pedro@gmail.com","1"));
-        db.cerrarConexion();
-        db.abrirConexion();
-        db.insertarCuenta(new Cuenta("jesus","1234","jesus@gmail.com","0"));
-        db.cerrarConexion();
-        db.abrirConexion();
-        db.insertarCuenta(new Cuenta("jose","1234","jose@gmail.com",0));
-        db.cerrarConexion();
-        db.abrirConexion();
-        db.insertarFamilia(new Familia("Martinez Vazquez","Guadalupe #10","Familia con 5 integrantes","vaz.png"));
-        db.cerrarConexion();
-        db.abrirConexion();
-        db.insertarFamilia(new Familia("Gonzales Ortega","Zacatecas #14","Familia con 2 integrantes","gon.png"));
+
     }
     //=========================Métodos de FACEBOOK=========================================
     private void getFacebookProfileDetails(final AccessToken accessToken) {

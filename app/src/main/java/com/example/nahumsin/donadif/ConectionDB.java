@@ -143,7 +143,7 @@ public class ConectionDB{
                 try {
                     HttpClient httpClient = new DefaultHttpClient();
                     HttpPost httpPost = new HttpPost(
-                            "http://192.168.0.15/crearCuenta.php");
+                            "http://192.168.0.15/phpDonaDIF/insertarCuenta.php");
                     httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
 
                     HttpResponse response = httpClient.execute(httpPost);
