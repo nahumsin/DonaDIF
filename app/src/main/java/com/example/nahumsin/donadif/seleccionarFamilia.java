@@ -40,7 +40,6 @@ public class seleccionarFamilia extends AppCompatActivity {
     ListView lista;
     ConectionDB db;
     Button btnHacerDonativo;
-    int ids_familias[] = new int[20];
     int id_usuario = 0;
     int id_pos;
     List<Integer> posList = new ArrayList<>();
@@ -62,7 +61,8 @@ public class seleccionarFamilia extends AppCompatActivity {
             public void onClick(View view) {
                 canastas = Integer.parseInt(getIntent().getStringExtra("canastas"));
                 id_usuario = Integer.parseInt(getIntent().getStringExtra("id_usuario"));
-                if (selectedItems.size() == canastas) {
+                showFamilias();
+                if (posList.size() == canastas) {
                     List<Familia> fams = db.getFamiliasSinDonativo();
                     for (int item : posList) {
                         db.crearDonativo(new Donativo(Integer.parseInt(fams.get(item).getId()), id_usuario));
@@ -76,31 +76,28 @@ public class seleccionarFamilia extends AppCompatActivity {
         });
 
         db = new ConectionDB(this);
-
-        showFamilias();
     }
 
 
     void showFamilias() {
         listaDonativos = db.getDonativos();
-        listaFamilia = db.getFamilias();
-        int bandera=0;
+        listaFamilia = db.getFamiliasSinDonativo();
         if (listaFamilia.isEmpty())
             Toast.makeText(getBaseContext(), "No hay familas necesitadas de donativo", Toast.LENGTH_LONG).show();
         else
                 for (Familia familia : listaFamilia) {
-                    bandera = 0;
-                    for (Donativo don : listaDonativos) {
-                        if (!familia.getId().equals(don.getIdFamila() + "")||familia.getEntregado().equals("0")) {
-                            bandera = 1;
+                    if(listaDonativos.isEmpty()){
+                        items.add(familia.getImagen() + " " + familia.getNombre());
+                    }
+                    else{
+                        for(Donativo don : listaDonativos){
+                            if(!familia.getId().equals(don.getIdFamila()+""))
+                                items.add(familia.getImagen() + " " + familia.getNombre());
                         }
                     }
-                    if(bandera == 0)
-                        items.add(familia.getImagen() + " " + familia.getNombre());
+
                 }
-        if(bandera==1){
-            Toast.makeText(getBaseContext(), "No hay familas necesitadas de donativo", Toast.LENGTH_LONG).show();
-        }
+
         ArrayAdapter adaptador = new ArrayAdapter<String>(this, R.layout.rowlayout, items);
         lista.setAdapter(adaptador);
         lista.setOnItemClickListener(new AdapterView.OnItemClickListener() {
