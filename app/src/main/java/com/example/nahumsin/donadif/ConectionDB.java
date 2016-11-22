@@ -299,14 +299,6 @@ public class ConectionDB{
         return null;
     }
 
-    public int getId_familia() {
-        return id_familia;
-    }
-
-    public void setId_familia(int id_familia) {
-        this.id_familia = id_familia;
-    }
-
     private List<Cuenta> getCuentas(){
 
         class GetJSON extends AsyncTask<Object,Object,Object>{
@@ -463,6 +455,15 @@ public class ConectionDB{
 
         ActualizarFamilia ue = new ActualizarFamilia();
         ue.execute();
+    }
+    public List<Familia> getFamiliasSinDonativo(){
+        List<Familia> familiasSinDon = new ArrayList<>();
+        List<Familia> familias = getFamilias();
+        for(Familia fam:familias){
+            if(fam.getEntregado().equals("0"))
+                familiasSinDon.add(fam);
+        }
+        return familiasSinDon;
     }
 
 }

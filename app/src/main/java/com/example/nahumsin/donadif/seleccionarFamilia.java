@@ -2,11 +2,13 @@ package com.example.nahumsin.donadif;
 
 
 import android.app.ActionBar;
+import android.content.ClipData;
 import android.content.Intent;
 import android.database.Cursor;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -34,12 +36,14 @@ public class seleccionarFamilia extends AppCompatActivity {
     List<String> items = new ArrayList<>();
     List<String> selectedItems = new ArrayList<>();
     List<Familia> listaFamilia;
+    List<Donativo> listaDonativos;
     ListView lista;
     ConectionDB db;
     Button btnHacerDonativo;
     int ids_familias[] = new int[20];
     int id_usuario = 0;
-
+    int id_pos;
+    List<Integer> posList = new ArrayList<>();
     String nombreFamilias[];
 
     @Override
@@ -56,19 +60,14 @@ public class seleccionarFamilia extends AppCompatActivity {
         btnHacerDonativo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Bundle extras = getIntent().getExtras();
-                Intent intent = getIntent();
                 canastas = Integer.parseInt(getIntent().getStringExtra("canastas"));
                 id_usuario = Integer.parseInt(getIntent().getStringExtra("id_usuario"));
                 if (selectedItems.size() == canastas) {
-                    for (String item : selectedItems) {
-                        if (db.buscarFamilia(item)) {
-                            if (!db.getFamilia().getId().equals("0")) {
-                                db.crearDonativo(new Donativo(Integer.parseInt(db.getFamilia().getId()), id_usuario));
-                                Intent intent2 = new Intent(seleccionarFamilia.this, MainActivity.class);
-                                startActivity(intent2);
-                            }
-                        }
+                    List<Familia> fams = db.getFamiliasSinDonativo();
+                    for (int item : posList) {
+                        db.crearDonativo(new Donativo(Integer.parseInt(fams.get(item).getId()), id_usuario));
+                        Intent intent2 = new Intent(seleccionarFamilia.this, MainActivity.class);
+                        startActivity(intent2);
                     }
                 } else {
                     Toast.makeText(getBaseContext(), "Tiene que seleccionar " + canastas + " familias", Toast.LENGTH_LONG).show();
@@ -83,22 +82,35 @@ public class seleccionarFamilia extends AppCompatActivity {
 
 
     void showFamilias() {
+        listaDonativos = db.getDonativos();
         listaFamilia = db.getFamilias();
-
-        for (Familia familia : listaFamilia) {
-            items.add(familia.getImagen() + " " + familia.getNombre());
+        int bandera=0;
+        if (listaFamilia.isEmpty())
+            Toast.makeText(getBaseContext(), "No hay familas necesitadas de donativo", Toast.LENGTH_LONG).show();
+        else
+                for (Familia familia : listaFamilia) {
+                    bandera = 0;
+                    for (Donativo don : listaDonativos) {
+                        if (!familia.getId().equals(don.getIdFamila() + "")||familia.getEntregado().equals("0")) {
+                            bandera = 1;
+                        }
+                    }
+                    if(bandera == 0)
+                        items.add(familia.getImagen() + " " + familia.getNombre());
+                }
+        if(bandera==1){
+            Toast.makeText(getBaseContext(), "No hay familas necesitadas de donativo", Toast.LENGTH_LONG).show();
         }
         ArrayAdapter adaptador = new ArrayAdapter<String>(this, R.layout.rowlayout, items);
         lista.setAdapter(adaptador);
         lista.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                String selectedItem = ((TextView) view).getText().toString();
-                if (selectedItems.contains(selectedItem)) {
-                    selectedItems.remove((selectedItem));
-                } else {
-                    selectedItems.add(selectedItem);
-                }
+                id_pos = (int) adapterView.getItemIdAtPosition(i);
+                if (posList.contains(id_pos))
+                    posList.remove(id_pos);
+                else
+                    posList.add(id_pos);
             }
         });
 
