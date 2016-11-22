@@ -30,7 +30,7 @@ public class ConfirmarDonativo extends AppCompatActivity {
     ListView lista;
     ConectionDB db;
     Button btnConfirmarDonativo;
-    int id_fam = 0;
+    int id_don;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,14 +40,15 @@ public class ConfirmarDonativo extends AppCompatActivity {
         btnConfirmarDonativo = (Button) findViewById(R.id.btnConfirmarDonativo);
         lista = (ListView) findViewById(R.id.listaFamilias);
         lista.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+        db = new ConectionDB(this);
         btnConfirmarDonativo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (selectedItems.size() == 1) {
                     for (String item : selectedItems) {
-                        String emailDonador = db.getEmailDonador(item);
+                        String emailDonador = db.getEmailDonador();
 
-                        db.confirmarFamiliaConCanasta(id_fam);
+                        db.confirmarFamiliaConCanasta(id_don);
                         Intent itSend = new Intent(Intent.ACTION_SEND);
 
                         itSend.setType("plain/text");
@@ -60,15 +61,13 @@ public class ConfirmarDonativo extends AppCompatActivity {
                         }
 
                         startActivity(Intent.createChooser(itSend,"Email ..."));
-                       }
+                    }
                 } else {
                     Toast.makeText(getBaseContext(), "Seleccione solo 1", Toast.LENGTH_LONG).show();
                 }
             }
         });
 
-        db = new ConectionDB(this);
-        db.abrirConexion();
         showFamilias();
     }
 
@@ -77,7 +76,7 @@ public class ConfirmarDonativo extends AppCompatActivity {
 
         for (Donativo donativo : listaDonativo) {
             if (listaDonativo.size() != 0) {
-                items.add("Donador: " + db.getNombreDonador(donativo.getIdDonador()) + " Familia: " + db.getNombreFamilia(donativo.getIdFamila()));
+                items.add("Donador: " + db.getNombreDonador(donativo.getIdDonador()+"") + " Familia: " + db.getNombreFamilia(donativo.getIdFamila()+""));
             }else{
                 items.add("No hay donativos!!");
             }
@@ -89,7 +88,7 @@ public class ConfirmarDonativo extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 String selectedItem = ((TextView) view).getText().toString();
-                id_fam = (int )adapterView.getItemIdAtPosition(i) + 1;
+                id_don = (int )adapterView.getItemIdAtPosition(i);
 
                 if (selectedItems.contains(selectedItem)) {
                     selectedItems.remove((selectedItem));
@@ -125,4 +124,5 @@ public class ConfirmarDonativo extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 }
+
 

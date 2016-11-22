@@ -33,13 +33,11 @@ public class ActivityAnadirFamilia extends AppCompatActivity {
         });
         getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true);
         db = new ConectionDB(this);
-        db.abrirConexion();
 
     }
 
     public void AnadirFamilia(){
-        db.insertarFamilia(new Familia(nombre.getText().toString(),direccion.getText().toString(),descripcion.getText().toString(),"image.png",0));
-        Toast.makeText(getApplicationContext(), "Familia creada", Toast.LENGTH_LONG).show();
+        db.insertarFamilia(new Familia(nombre.getText().toString(),direccion.getText().toString(),descripcion.getText().toString(),"image.png","0"));
         Intent intent = new Intent(ActivityAnadirFamilia.this,MainActivity_Admin.class);
         startActivity(intent);
 

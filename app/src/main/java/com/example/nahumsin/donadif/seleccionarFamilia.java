@@ -1,35 +1,49 @@
 package com.example.nahumsin.donadif;
 
 
+import android.app.ActionBar;
+import android.content.ClipData;
 import android.content.Intent;
+import android.database.Cursor;
+import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class seleccionarFamilia extends AppCompatActivity {
     int canastas = 0;
     List<String> items = new ArrayList<>();
     List<String> selectedItems = new ArrayList<>();
     List<Familia> listaFamilia;
-    List<Donativo> listaDonativo;
+    List<Donativo> listaDonativos;
     ListView lista;
     ConectionDB db;
     Button btnHacerDonativo;
     int ids_familias[] = new int[20];
     int id_usuario = 0;
-
+    int id_pos;
+    List<Integer> posList = new ArrayList<>();
     String nombreFamilias[];
 
     @Override
@@ -46,68 +60,61 @@ public class seleccionarFamilia extends AppCompatActivity {
         btnHacerDonativo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Bundle extras = getIntent().getExtras();
                 canastas = Integer.parseInt(getIntent().getStringExtra("canastas"));
                 id_usuario = Integer.parseInt(getIntent().getStringExtra("id_usuario"));
-                //Toast.makeText(getBaseContext(), "id_usuario: " + id_usuario + " \nid_familia: " + db.getId_familia(), Toast.LENGTH_LONG).show();
                 if (selectedItems.size() == canastas) {
-                    for (String item : selectedItems) {
-                        if (db.buscarFamilia(item)) {
-                            db.crearDonativo(new Donativo(db.getId_familia(), id_usuario, 0));
-                            Intent intent = new Intent(seleccionarFamilia.this, PruebasDataBase.class);
-                            startActivity(intent);
-                            Toast.makeText(getBaseContext(), "Donativo Realizado!!", Toast.LENGTH_LONG).show();
-                        }
+                    List<Familia> fams = db.getFamiliasSinDonativo();
+                    for (int item : posList) {
+                        db.crearDonativo(new Donativo(Integer.parseInt(fams.get(item).getId()), id_usuario));
+                        Intent intent2 = new Intent(seleccionarFamilia.this, MainActivity.class);
+                        startActivity(intent2);
                     }
-
                 } else {
                     Toast.makeText(getBaseContext(), "Tiene que seleccionar " + canastas + " familias", Toast.LENGTH_LONG).show();
                 }
-                items.clear();
             }
         });
 
         db = new ConectionDB(this);
-        db.abrirConexion();
 
-
-        //db.insertarFamilia(new Familia("Gonzales Ortega","Zacatecas #14","Familia con 2 integrantes","gon.png"));
         showFamilias();
     }
 
 
     void showFamilias() {
+        listaDonativos = db.getDonativos();
         listaFamilia = db.getFamilias();
-        listaDonativo = db.getDonativos();
-    for (Familia familia : listaFamilia) {
-           if (listaDonativo.size() == 0) {
-                if (familia.getDonativos_recividos() == 0) {
-                    items.add(familia.getImagen() + " ====== " + familia.getNombre());
-               }
-            } else {
-                for (Donativo donativo : listaDonativo) {
-                    if (familia.getId() != donativo.getIdFamila() && familia.getDonativos_recividos() == 0) {
-                        items.add(familia.getImagen() + " ====== " + familia.getNombre());
+        int bandera=0;
+        if (listaFamilia.isEmpty())
+            Toast.makeText(getBaseContext(), "No hay familas necesitadas de donativo", Toast.LENGTH_LONG).show();
+        else
+                for (Familia familia : listaFamilia) {
+                    bandera = 0;
+                    for (Donativo don : listaDonativos) {
+                        if (!familia.getId().equals(don.getIdFamila() + "")||familia.getEntregado().equals("0")) {
+                            bandera = 1;
+                        }
                     }
+                    if(bandera == 0)
+                        items.add(familia.getImagen() + " " + familia.getNombre());
                 }
-           }
+        if(bandera==1){
+            Toast.makeText(getBaseContext(), "No hay familas necesitadas de donativo", Toast.LENGTH_LONG).show();
         }
-
         ArrayAdapter adaptador = new ArrayAdapter<String>(this, R.layout.rowlayout, items);
         lista.setAdapter(adaptador);
         lista.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                String selectedItem = ((TextView) view).getText().toString();
-                if (selectedItems.contains(selectedItem)) {
-                    selectedItems.remove((selectedItem));
-                } else {
-                    selectedItems.add(selectedItem);
-                }
+                id_pos = (int) adapterView.getItemIdAtPosition(i);
+                if (posList.contains(id_pos))
+                    posList.remove(id_pos);
+                else
+                    posList.add(id_pos);
             }
         });
-    }
 
+    }
 
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -130,4 +137,5 @@ public class seleccionarFamilia extends AppCompatActivity {
         inflater.inflate(R.menu.menu_crear_cuenta, menu);
         return super.onCreateOptionsMenu(menu);
     }
+
 }

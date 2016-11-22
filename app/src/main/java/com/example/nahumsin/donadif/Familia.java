@@ -6,25 +6,24 @@ package com.example.nahumsin.donadif;
  */
 
 public class Familia {
-    int id;
-    String nombre,direccion,descripcion,imagen;
-    int donativos_recividos;
+    String id, nombre,direccion,descripcion,imagen,entregado;
 
-    public Familia(int id, String nombre, String direccion, String descripcion, String imagen, int donativos_recividos) {
+
+    public Familia(String id, String nombre, String direccion, String descripcion, String imagen, String entregado) {
         this.id = id;
         this.nombre = nombre;
         this.direccion = direccion;
         this.descripcion = descripcion;
         this.imagen = imagen;
-        this.donativos_recividos = donativos_recividos;
+        this.entregado = entregado;
     }
 
-    public Familia(String nombre, String direccion, String descripcion, String imagen, int donativos_recividos) {
+    public Familia(String nombre, String direccion, String descripcion, String imagen,String entregado) {
         this.nombre = nombre;
         this.direccion = direccion;
         this.descripcion = descripcion;
         this.imagen = imagen;
-        this.donativos_recividos = donativos_recividos;
+        this.entregado = entregado;
     }
 
     public String getNombre() {
@@ -43,11 +42,8 @@ public class Familia {
         return imagen;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
-
-    public int getDonativos_recividos() {
-        return donativos_recividos;
-    }
+    public String getEntregado(){return entregado;}
 }

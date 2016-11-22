@@ -92,23 +92,6 @@ public class login extends AppCompatActivity {
         });
 
         db = new ConectionDB(this);
-        db.abrirConexion();
-        db.insertarCuenta(new Cuenta("Pedro","1234","pedro@gmail.com","1"));
-        db.cerrarConexion();
-        db.abrirConexion();
-        db.insertarCuenta(new Cuenta("jesus","1234","jesus@gmail.com","0"));
-        db.cerrarConexion();
-        db.abrirConexion();
-        db.insertarCuenta(new Cuenta("jose","1234","jose@gmail.com","0"));
-        db.cerrarConexion();
-        db.abrirConexion();
-        db.insertarFamilia(new Familia("Martinez Vazquez","Guadalupe #10","Familia con 5 integrantes","vaz.png",0));
-        db.cerrarConexion();
-        db.abrirConexion();
-        db.insertarFamilia(new Familia("Gonzales Ortega","Zacatecas #14","Familia con 2 integrantes","gon.png",0));
-        db.cerrarConexion();
-        db.abrirConexion();
-        db.insertarFamilia(new Familia("Marquez Robles","Zacatecas #234","Familia con 4 integrantes","mar.png",1));
 
     }
     //=========================Métodos de FACEBOOK=========================================
@@ -157,14 +140,11 @@ public class login extends AppCompatActivity {
                 Toast.makeText(getBaseContext(),"Ingrese los datos",Toast.LENGTH_LONG).show();
             }else{
                 if (db.buscarUsuario(txtUsuario.getText().toString())){
-                    if (db.getContraseña_usuario().equals(txtContrasena.getText().toString())){
-                       if (db.getPrivilegio_cuenta() == 0) {
-                           //Toast.makeText(getBaseContext(),"id_usuario: " + db.getId_usuario(),Toast.LENGTH_LONG).show();
-                           id_usuario = db.getId_usuario();
-                           //Toast.makeText(getBaseContext(),"id_usuario: " + id_usuario,Toast.LENGTH_LONG).show();
+                    if (db.getLogedUser().getContrasena().equals(txtContrasena.getText().toString())){
+                       if (db.getLogedUser().getPrivilegio().equals("0")) {
+                           id_usuario = Integer.parseInt(db.getLogedUser().getId());
+                           Log.i("idusuario",id_usuario+"");
                            Intent intent = new Intent(this, MainActivity.class);
-                          // Intent intent2 = new Intent(login.this, seleccionarFamilia.class);
-                           //intent2.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
                            intent.putExtra("id_usuario", id_usuario+"");
                            startActivity(intent);
                            finish();
