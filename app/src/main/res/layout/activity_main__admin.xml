@@ -51,7 +51,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@android:color/darker_gray"
-        android:text="Eliminar/Modificar Familia"
+        android:text="Modificar/Eliminar Familia"
         android:textSize="18sp"
         android:textStyle="normal|bold"
         android:layout_marginTop="107dp"

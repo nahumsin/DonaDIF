@@ -37,7 +37,7 @@ public class MainActivity_Admin extends AppCompatActivity implements View.OnClic
                 startActivity(intent);
                 break;
             case R.id.button_modificarFam:
-                startActivity(new Intent(MainActivity_Admin.this, ListadoModFamilia.class));
+                startActivity(new Intent(MainActivity_Admin.this, MostrarFamilia.class));
                 break;
             case R.id.button_confirmarDon:
                 Intent in = new Intent(this, ConfirmarDonativo.class);
