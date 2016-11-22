@@ -33,7 +33,7 @@ public class ConectionDB{
     private Context nContext;
     private DataBase objDb;
     private int id_usuario,id_familia,privilegio_cuenta;
-    private String contraseña_usuario;
+    private String contraseña_usuario,nombre_usuario,direccion_familia;
 
     public ConectionDB(Context context) {
         nContext = context;
@@ -110,8 +110,9 @@ public class ConectionDB{
 
     public void insertarCuenta(Cuenta cuen){
         if (db != null){
-            ContentValues valores = new ContentValues();
+
             if (!emailUsuarioExiste(cuen.getCorreo())) {
+                ContentValues valores = new ContentValues();
                 valores.put("nombre_usuario", cuen.getNombreUsuario());
                 valores.put("contra_usuario", cuen.getContrasena());
                 valores.put("email", cuen.getCorreo());
@@ -206,13 +207,13 @@ public class ConectionDB{
         //Toast.makeText(nContext,"Al menos estoy aqui :(",Toast.LENGTH_LONG).show();
         if (cursor.moveToFirst()){
             do {
-                String nombre = cursor.getString(1);
+                setNombre_usuario( cursor.getString(1));
                 setId_usuario(cursor.getInt(0));
                 setContraseña_usuario(cursor.getString(2));
                 setPrivilegio_cuenta(cursor.getInt(4));
 
                 //Toast.makeText(nContext, "Contraseña" + getContraseña_usuario() + " xD " + "ID_" + getId_usuario(), Toast.LENGTH_LONG).show();
-                if (usuario.equals(nombre)) {
+                if (usuario.equals(getNombre_usuario())) {
                     return true;
                 }
             }while (cursor.moveToNext());
@@ -230,10 +231,9 @@ public class ConectionDB{
         if (cursor.moveToFirst()){
             do {
                 String nombre_fam = cursor.getString(1);
-
-
+                setDireccion_familia(cursor.getString(2));
                 //Toast.makeText(nContext, "Contraseña" + getContraseña_usuario() + " xD " + "ID_" + getId_usuario(), Toast.LENGTH_LONG).show();
-                if (nombre.equals(nombre_fam)) {
+                if (nombre.contains(nombre_fam)) {
                     setId_familia(cursor.getInt(0));
                     return true;
                 }
@@ -302,29 +302,142 @@ public class ConectionDB{
         return donativos;
     }
 
-    public boolean familiaConDonativo(){
-        String selectTablaFamilia = "SELECT * FROM familia WHERE id_familia NOT IN (SELECT id_familia FROM donativo)";
-        //String selectTablaDonativo = "SELECT * FROM donativo";
-        db = objDb.getReadableDatabase();
-        Cursor cursorFamilia = db.rawQuery(selectTablaFamilia,null);
-        //Cursor cursorDonativo = db.rawQuery(selectTablaDonativo,null);
-        //Toast.makeText(nContext,"Al menos estoy aqui :(",Toast.LENGTH_LONG).show();
-        if (cursorFamilia.moveToFirst()){
-            do {
-                int id_familia_tab_familia = cursorFamilia.getInt(0);
-               // int id_familia_tab_donativo = cursorDonativo.getInt(1);
+    public List<Cuenta> getCuentas(){
+        List<Cuenta> cuentas = new ArrayList<>();
 
-                if (id_familia_tab_familia >= 0) {
+        String select = "SELECT * FROM cuenta";
+        db = objDb.getReadableDatabase();
+        Cursor cursor = db.rawQuery(select, null);
+
+        if (cursor.moveToFirst()){
+            do {
+                Cuenta cuenta = new Cuenta(cursor.getInt(0),cursor.getString(1),cursor.getString(2),cursor.getString(3),cursor.getString(4));
+                cuentas.add(cuenta);
+
+            }while (cursor.moveToNext());
+        }
+        return cuentas;
+    }
+
+    public boolean buscaUsuario(int id_cuenta){
+
+        String select = "SELECT * FROM cuenta";
+        db = objDb.getReadableDatabase();
+        Cursor cursor = db.rawQuery(select,null);
+        //Toast.makeText(nContext,"Al menos estoy aqui :(",Toast.LENGTH_LONG).show();
+        if (cursor.moveToFirst()){
+            do {
+                int usuario = cursor.getInt(0);
+
+                //Toast.makeText(nContext, "Email: " + obtEmail + " xD " , Toast.LENGTH_LONG).show();
+                if (usuario == id_cuenta) {
                     return true;
                 }
-            }while (cursorFamilia.moveToNext());
+            }while (cursor.moveToNext());
         }else{
             return false;
         }
         return false;
     }
 
+    public String getNombreFamilia(int id_familia){
 
+        String select = "SELECT * FROM familia";
+        db = objDb.getReadableDatabase();
+        Cursor cursor = db.rawQuery(select,null);
+        //Toast.makeText(nContext,"Al menos estoy aqui :(",Toast.LENGTH_LONG).show();
+        if (cursor.moveToFirst()) {
+            do {
+                String nombre_fam = cursor.getString(1);
+                int id_fam = cursor.getInt(0);
+
+                //Toast.makeText(nContext, "Contraseña" + getContraseña_usuario() + " xD " + "ID_" + getId_usuario(), Toast.LENGTH_LONG).show();
+                if (id_fam == id_familia) {
+                    return nombre_fam;
+                }
+            } while (cursor.moveToNext());
+        }
+        return "";
+    }
+
+    public String getNombreDonador(int id_donador){
+
+        String select = "SELECT * FROM cuenta";
+        db = objDb.getReadableDatabase();
+        Cursor cursor = db.rawQuery(select,null);
+        //Toast.makeText(nContext,"Al menos estoy aqui :(",Toast.LENGTH_LONG).show();
+        if (cursor.moveToFirst()) {
+            do {
+                String nombre_dona = cursor.getString(1);
+                int id_dona = cursor.getInt(0);
+
+                //Toast.makeText(nContext, "Contraseña" + getContraseña_usuario() + " xD " + "ID_" + getId_usuario(), Toast.LENGTH_LONG).show();
+                if (id_dona == id_donador) {
+                    return nombre_dona;
+                }
+            } while (cursor.moveToNext());
+        }
+        return "";
+    }
+
+    public String getEmailDonador(String nombre) {
+
+        String select = "SELECT * FROM cuenta";
+        db = objDb.getReadableDatabase();
+        Cursor cursor = db.rawQuery(select, null);
+        //Toast.makeText(nContext,"Al menos estoy aqui :(",Toast.LENGTH_LONG).show();
+        if (cursor.moveToFirst()) {
+            do {
+                String nombre_user = cursor.getString(1);
+                String obtEmail = cursor.getString(3);
+
+                //Toast.makeText(nContext, "Contraseña" + getContraseña_usuario() + " xD " + "ID_" + getId_usuario(), Toast.LENGTH_LONG).show();
+                if (nombre.contains(nombre_user)) {
+                    return obtEmail;
+                }
+            } while (cursor.moveToNext());
+        }
+        return "";
+    }
+    //Modifica el entregado, de una familia
+    public void confirmarFamiliaConCanasta(int id_familia){
+        //db = objDb.getReadableDatabase();
+        ContentValues update_familia = new ContentValues();
+        update_familia.put("donativos_recividos",1);
+
+        db.update("familia",update_familia,"id_familia='" + id_familia + "'",null);
+        db.close();
+    }
+
+    public boolean entregadasTodasLasFamilias() {
+
+        String select = "SELECT * FROM familia";
+        db = objDb.getReadableDatabase();
+        Cursor cursor = db.rawQuery(select, null);
+        //Toast.makeText(nContext,"Al menos estoy aqui :(",Toast.LENGTH_LONG).show();
+        int i = 0;
+        int entregado = 0;
+        if (cursor.moveToFirst()) {
+            do {
+                entregado = cursor.getInt(5);
+
+                if (entregado == 1){
+                    return true;
+                }
+                //Toast.makeText(nContext, "Contraseña" + getContraseña_usuario() + " xD " + "ID_" + getId_usuario(), Toast.LENGTH_LONG).show();
+            } while (cursor.moveToNext());
+        }
+        return false;
+    }
+
+    public void reiniciarRecibidos(){
+        //db = objDb.getReadableDatabase();
+        ContentValues update_familia = new ContentValues();
+        update_familia.put("donativos_recividos",0);
+
+        db.update("familia",update_familia,null,null);
+        db.close();
+    }
 /*
     public List<Cuenta> getCuentas() {
         List<Cuenta> listaCuenta = new ArrayList<Cuenta>();
@@ -378,4 +491,19 @@ public class ConectionDB{
         this.privilegio_cuenta = privilegio_cuenta;
     }
 
+    public void setNombre_usuario(String nombre_usuario) {
+        this.nombre_usuario = nombre_usuario;
+    }
+
+    public String getNombre_usuario() {
+        return nombre_usuario;
+    }
+
+    public String getDireccion_familia() {
+        return direccion_familia;
+    }
+
+    public void setDireccion_familia(String direccion_familia) {
+        this.direccion_familia = direccion_familia;
+    }
 }
