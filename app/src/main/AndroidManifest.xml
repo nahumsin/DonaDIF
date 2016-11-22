@@ -58,6 +58,8 @@
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
 
+        <activity android:name=".activity_modificar_cuenta" />
+        <activity android:name=".ModificarFamilia"></activity>
     </application>
 
 </manifest>

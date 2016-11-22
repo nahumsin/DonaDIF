@@ -369,8 +369,12 @@ public class ConectionDB{
         return emailDonador;
     }
 
-    public Familia getFamilia(){
-        return famEncontrada;
+    public Familia getFamilia(String id) {
+        List<Familia> familias = getFamilias();
+        for (Familia fam : familias)
+            if (fam.getId().equals(id))
+                return fam;
+        return null;
     }
 
     public void confirmarFamiliaConCanasta(int pos){
