@@ -21,7 +21,6 @@ public class MainActivity_Admin extends AppCompatActivity implements View.OnClic
         anadir = (Button) findViewById(R.id.button_añadirFam);
         modificar = (Button) findViewById(R.id.button_modificarFam);
         confirmar = (Button) findViewById(R.id.button_confirmarDon);
-        eliminar = (Button) findViewById(R.id.button_eliminarFam);
 
         anadir.setOnClickListener(this);
         modificar.setOnClickListener(this);
@@ -39,8 +38,6 @@ public class MainActivity_Admin extends AppCompatActivity implements View.OnClic
                 break;
             case R.id.button_modificarFam:
                 startActivity(new Intent(MainActivity_Admin.this, ListadoModFamilia.class));
-                break;
-            case R.id.button_eliminarFam:
                 break;
             case R.id.button_confirmarDon:
                 Intent in = new Intent(this, ConfirmarDonativo.class);
