@@ -37,7 +37,7 @@ public class ActivityAnadirFamilia extends AppCompatActivity {
     }
 
     public void AnadirFamilia(){
-        db.insertarFamilia(new Familia(nombre.getText().toString(),direccion.getText().toString(),descripcion.getText().toString(),"image.png"));
+        db.insertarFamilia(new Familia(nombre.getText().toString(),direccion.getText().toString(),descripcion.getText().toString(),"image.png","0"));
         Intent intent = new Intent(ActivityAnadirFamilia.this,MainActivity_Admin.class);
         startActivity(intent);
 

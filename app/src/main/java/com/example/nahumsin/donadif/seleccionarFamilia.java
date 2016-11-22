@@ -58,7 +58,6 @@ public class seleccionarFamilia extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = getIntent();
-                Bundle extras = intent.getExtras();
                 canastas = Integer.parseInt(getIntent().getStringExtra("canastas"));
                 id_usuario = Integer.parseInt(getIntent().getStringExtra("id_usuario"));
 
@@ -71,10 +70,6 @@ public class seleccionarFamilia extends AppCompatActivity {
                                 db.crearDonativo(new Donativo(db.getId_familia(), id_usuario, 0));
                                 Intent intent2 = new Intent(seleccionarFamilia.this, MainActivity.class);
                                 startActivity(intent2);
-                                //Toast.makeText(getBaseContext(), "Donativo Realizado!!", Toast.LENGTH_LONG).show();
-                                //Toast.makeText(getBaseContext(), "ID_FAM: " + db.getId_familia(), Toast.LENGTH_LONG).show();
-
-                               // Toast.makeText(getBaseContext(), "id_usuario: " + id_usuario + " \nid_fam: " + db.getId_familia() + "\n", Toast.LENGTH_LONG).show();
                             }
                         }
                     }

@@ -40,12 +40,13 @@ public class Config {
     public static final String KEY_FAM_DIR = "direccion_familia";
     public static final String KEY_FAM_DES = "desc_familia";
     public static final String KEY_FAM_IMG = "imagen";
+    public static final String KEY_FAM_ENTR = "donativo_recibido";
 
     //Keys that will be used to send the request to php scripts donativo
     public static final String KEY_DON_ID = "id_donativo";
     public static final String KEY_DON_ID_FAM = "id_familia";
     public static final String KEY_DON_ID_CUEN = "id_cuenta";
-    public static final String KEY_DON_ENTR = "entregado";
+
     //JSON Tags
     public static final String TAG_JSON_ARRAY="result";
 
@@ -61,11 +62,11 @@ public class Config {
     public static final String TAG_FAM_DIR = "direccion_familia";
     public static final String TAG_FAM_DES = "desc_familia";
     public static final String TAG_FAM_IMG = "imagen";
+    public static final String TAG_FAM_ENTR = "donativo_recibido";
 
     public static final String TAG_DON_ID = "id_donativo";
     public static final String TAG_DON_ID_FAM = "id_familia";
     public static final String TAG_DON_ID_CUEN = "id_cuenta";
-    public static final String TAG_DON_ENTR = "entregado";
     //id to pass with intent
     public static final String CUEN_ID = "id_cuenta";
     public static final String FAM_ID = "id_familia";

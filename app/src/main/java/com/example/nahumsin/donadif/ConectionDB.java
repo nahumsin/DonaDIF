@@ -3,6 +3,7 @@ package com.example.nahumsin.donadif;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
@@ -116,16 +117,35 @@ public class ConectionDB{
     }
 
     public void crearDonativo(Donativo dona){
-        if (db!=null){
-            ContentValues valores = new ContentValues();
-            valores.put("id_familia",dona.getIdFamila());
-            valores.put("id_cuenta",dona.getIdDonador());
-            valores.put("entregado",dona.getEntregado());
-            //Toast.makeText(nContext," " + dona.getIdFamila() + " " + dona.getIdDonador(),Toast.LENGTH_SHORT).show();
-            db.insert("donativo",null,valores);
-            //Toast.makeText(nContext,"Donativo realizado con Exito!!",Toast.LENGTH_SHORT).show();
-            db.close();
+
+        class InsertarDonativo extends AsyncTask<Void,Void,String>{
+            Donativo don;
+            public InsertarDonativo(Donativo don){
+                this.don = don;
+            }
+
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+            }
+
+            @Override
+            protected void onPostExecute(String s) {
+                super.onPostExecute(s);
+            }
+
+            @Override
+            protected String doInBackground(Void... v) {
+                HashMap<String,String> params = new HashMap<>();
+                params.put(Config.KEY_DON_ID_FAM,don.getIdFamila()+"");
+                params.put(Config.KEY_DON_ID_CUEN,don.getIdDonador()+"");
+                RequestHandler rh = new RequestHandler();
+                String res = rh.sendPostRequest(Config.URL_ADD_DONATIVO, params);
+                return res;
+            }
         }
+        InsertarDonativo ae = new InsertarDonativo(dona);
+        ae.execute();
     }
 
     public List<Familia> getFamilias(){
@@ -156,7 +176,8 @@ public class ConectionDB{
                     for(int i = 0; i<result.length(); i++){
                         JSONObject jo = result.getJSONObject(i);
                         Familia familia = new Familia(jo.getString(Config.TAG_FAM_ID),
-                                jo.getString(Config.TAG_FAM_NAME),jo.getString(Config.TAG_FAM_DIR),jo.getString(Config.TAG_FAM_DES),jo.getString((Config.TAG_FAM_IMG)));
+                                jo.getString(Config.TAG_FAM_NAME),jo.getString(Config.TAG_FAM_DIR),jo.getString(Config.TAG_FAM_DES),
+                                jo.getString(Config.TAG_FAM_IMG),jo.getString(Config.TAG_FAM_ENTR));
                         listaFamilias.add(familia);
                     }
                 } catch (JSONException e) {
@@ -194,13 +215,9 @@ public class ConectionDB{
         String select = "SELECT * FROM familia";
         db = objDb.getReadableDatabase();
         Cursor cursor = db.rawQuery(select,null);
-        //Toast.makeText(nContext,"Al menos estoy aqui :(",Toast.LENGTH_LONG).show();
         if (cursor.moveToFirst()){
             do {
                 String nombre_fam = cursor.getString(1);
-
-
-                //Toast.makeText(nContext, "Contraseña" + getContraseña_usuario() + " xD " + "ID_" + getId_usuario(), Toast.LENGTH_LONG).show();
                 if (nombre.equals(nombre_fam)) {
                     setId_familia(cursor.getInt(0));
                     return true;
@@ -236,20 +253,53 @@ public class ConectionDB{
     }
 
     public List<Donativo> getDonativos(){
-        List<Donativo> donativos = new ArrayList<>();
+        class GetJSON extends AsyncTask<Object,Object,Object>{
+            String JSON_STRING;
+            List<Donativo> listaDonativos= new ArrayList<>();
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+            }
 
-        String select = "SELECT * FROM donativo";
-        db = objDb.getReadableDatabase();
-        Cursor cursor = db.rawQuery(select, null);
+            @Override
+            protected void onPostExecute(Object s) {
+                super.onPostExecute(s);
 
-        if (cursor.moveToFirst()){
-            do {
-                Donativo don = new Donativo(cursor.getInt(0),cursor.getInt(1),cursor.getInt(2));
-                donativos.add(don);
+            }
 
-            }while (cursor.moveToNext());
+            @Override
+            protected Object doInBackground(Object... params) {
+                RequestHandler rh = new RequestHandler();
+                String s = rh.sendGetRequest(Config.URL_GET_ALL_DONATIVOS);
+                JSON_STRING = s;
+                JSONObject jsonObject = null;
+                try {
+                    jsonObject = new JSONObject(JSON_STRING);
+                    JSONArray result = jsonObject.getJSONArray(Config.TAG_JSON_ARRAY);
+
+                    for(int i = 0; i<result.length(); i++){
+                        JSONObject jo = result.getJSONObject(i);
+                        Donativo donativo = new Donativo(Integer.parseInt(jo.getString(Config.TAG_DON_ID)), Integer.parseInt(jo.getString(Config.TAG_DON_ID_FAM)),
+                                Integer.parseInt(jo.getString(Config.TAG_DON_ID_CUEN)));
+                        listaDonativos.add(donativo);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                return listaDonativos;
+            }
+
         }
-        return donativos;
+        GetJSON gj = new GetJSON();
+
+        try {
+            return (List<Donativo>) gj.execute().get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     public int getId_familia() {
@@ -281,7 +331,6 @@ public class ConectionDB{
                 RequestHandler rh = new RequestHandler();
                 String s = rh.sendGetRequest(Config.URL_GET_ALL_CUENTAS);
                 JSON_STRING = s;
-                Log.i("JSON", JSON_STRING);
                 JSONObject jsonObject = null;
                 try {
                     jsonObject = new JSONObject(JSON_STRING);
