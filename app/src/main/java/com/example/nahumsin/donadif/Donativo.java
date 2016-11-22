@@ -9,6 +9,7 @@ public class Donativo {
     public int idDonativo;
     public int idFamila;
     public int idDonador;
+    public int entregado;
 
     public Donativo(int idDonativo, int idFamila, int idDonador, int entregado) {
         this.idDonativo = idDonativo;

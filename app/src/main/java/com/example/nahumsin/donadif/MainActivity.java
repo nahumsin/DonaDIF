@@ -15,20 +15,12 @@ import com.facebook.login.LoginManager;
 public class MainActivity extends AppCompatActivity {
     Button btnHacerDonativo;
     Button btnVerFamilias;
+    int id_usuario;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        /*
-        if (AccessToken.getCurrentAccessToken() == null){
-            Intent intent = new Intent(this,login.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(intent);
-        }*/
-
-       // Intent intent = new Intent(MainActivity.this,)
-
         btnVerFamilias = (Button) findViewById(R.id.btnVerFamilias);
         btnVerFamilias.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -43,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this,CanastasBasicas.class);
-                int id_usuario = Integer.parseInt(getIntent().getStringExtra("id_usuario"));
+                id_usuario = Integer.parseInt(getIntent().getStringExtra("id_usuario"));
                 intent.putExtra("id_usuario",id_usuario+"");
                 startActivity(intent);
             }
@@ -67,7 +59,6 @@ public class MainActivity extends AppCompatActivity {
         //noinspection SimplifiableIfStatement
 
         if (id == R.id.action_sesionClose) {
-            LoginManager.getInstance().logOut();
             Intent intent = new Intent(this,login.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
