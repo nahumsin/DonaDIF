@@ -59,7 +59,6 @@ public class ConfirmarDonativo extends AppCompatActivity {
                         if (db.entregadasTodasLasFamilias()){
                             db.reiniciarRecibidos();
                         }
-
                         startActivity(Intent.createChooser(itSend,"Email ..."));
                     }
                 } else {

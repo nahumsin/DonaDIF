@@ -1,10 +1,7 @@
 package com.example.nahumsin.donadif;
 
 
-import android.content.ContentValues;
 import android.content.Context;
-import android.content.Intent;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.util.Log;
@@ -375,6 +372,7 @@ public class ConectionDB{
     public Familia getFamilia(){
         return famEncontrada;
     }
+
     public void confirmarFamiliaConCanasta(int pos){
         List<Donativo> listaDonativos = getDonativos();
         List<Familia> listaFamilias = getFamilias();
@@ -383,6 +381,7 @@ public class ConectionDB{
         for(Familia fam:listaFamilias)
             if(don.getIdFamila() == Integer.parseInt(fam.getId())){
                 modificarEntregado(fam);
+                eliminarDonativo(don);
             }
     }
 
@@ -411,8 +410,6 @@ public class ConectionDB{
 
                 RequestHandler rh = new RequestHandler();
                 String s = rh.sendPostRequest(Config.URL_UPDATE_ENTREGA_FAMILIA,hashMap);
-
-                Log.i("Entregado",s);
                 return s;
             }
         }
@@ -447,8 +444,6 @@ public class ConectionDB{
 
                 RequestHandler rh = new RequestHandler();
                 String s = rh.sendPostRequest(Config.URL_UPDATE_ENTREGA_FAM_REST,hashMap);
-
-                Log.i("Entregado",s);
                 return s;
             }
         }
@@ -464,6 +459,35 @@ public class ConectionDB{
                 familiasSinDon.add(fam);
         }
         return familiasSinDon;
+    }
+    public void eliminarDonativo(Donativo dona){
+        class EliminarDonativo extends AsyncTask<Void,Void,String> {
+            Donativo don;
+            public EliminarDonativo(Donativo don) {
+                this.don = don;
+            }
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+            }
+
+            @Override
+            protected void onPostExecute(String s) {
+                super.onPostExecute(s);
+            }
+
+            @Override
+            protected String doInBackground(Void... params) {
+                HashMap<String,String> hashMap = new HashMap<>();
+                hashMap.put(Config.KEY_DON_ID,don.getIdDonativo()+"");
+                RequestHandler rh = new RequestHandler();
+                String s = rh.sendPostRequest(Config.URL_DELETE_DONATIVO,hashMap);
+                return s;
+            }
+        }
+
+        EliminarDonativo de = new EliminarDonativo(dona);
+        de.execute();
     }
 
 }
