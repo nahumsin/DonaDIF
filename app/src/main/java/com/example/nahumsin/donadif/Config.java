@@ -18,6 +18,8 @@ public class Config {
     public static final String URL_GET_ALL_FAMILIAS = "http://192.168.0.15/phpDonaDIF/obtenerFamilias.php";
     public static final String URL_GET_FAMILIA = "http://192.168.0.15/phpDonaDIF/obtenerFamilia.php?id=";
     public static final String URL_UPDATE_FAMILIA = "http://192.168.0.15/phpDonaDIF/modificarFamilia.php";
+    public static final String URL_UPDATE_ENTREGA_FAMILIA = "http://192.168.0.15/phpDonaDIF/modificarEntregadoFamilia.php";
+    public static final String URL_UPDATE_ENTREGA_FAM_REST = "http://192.168.0.15/phpDonaDIF/modificarTodosEntregado.php";
     public static final String URL_DELETE_FAMILIA = "http://192.168.0.15/phpDonaDIF/eliminarFamilia.php?id=";
 
     //Address of our scripts of the CRUD donativo

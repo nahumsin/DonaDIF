@@ -26,9 +26,10 @@ import java.util.concurrent.ExecutionException;
 public class ConectionDB{
     private SQLiteDatabase db;
     private Context nContext;
-    private DataBase objDb;
     private int id_familia;
     private Cuenta logedUser;
+    private String emailDonador;
+    private Familia famEncontrada;
 
 
     public ConectionDB(Context context) {
@@ -169,7 +170,6 @@ public class ConectionDB{
                 RequestHandler rh = new RequestHandler();
                 String s = rh.sendGetRequest(Config.URL_GET_ALL_FAMILIAS);
                 JSON_STRING = s;
-                Log.i("JSON",JSON_STRING);
                 JSONObject jsonObject = null;
                 try {
                     jsonObject = new JSONObject(JSON_STRING);
@@ -212,23 +212,18 @@ public class ConectionDB{
         }
         return false;
     }
-    public boolean buscarFamilia(String nombre){
+    public boolean buscarFamilia(String nom){
+        List<Familia> listaFamilias = getFamilias();
 
-        String select = "SELECT * FROM familia";
-        db = objDb.getReadableDatabase();
-        Cursor cursor = db.rawQuery(select,null);
-        if (cursor.moveToFirst()){
-            do {
-                String nombre_fam = cursor.getString(1);
-                if (nombre.equals(nombre_fam)) {
-                    setId_familia(cursor.getInt(0));
-                    return true;
-                }
-            }while (cursor.moveToNext());
-        }else{
-            return false;
+        for(int i = 0;i<listaFamilias.size();i++){
+            String nombre = listaFamilias.get(i).getNombre();
+            if(nom.contains(nombre)) {
+                famEncontrada = listaFamilias.get(i);
+                return true;
+            }
         }
         return false;
+
     }
 
     public boolean emailUsuarioExiste(String email) {
@@ -361,6 +356,113 @@ public class ConectionDB{
             e.printStackTrace();
         }
         return null;
+    }
+
+    public String getNombreDonador(String idDonador){
+        List<Cuenta> listaCuentas = getCuentas();
+        for(Cuenta cuenta:listaCuentas)
+            if(cuenta.getId().equals(idDonador)){
+                emailDonador = cuenta.getCorreo();
+                return cuenta.getNombreUsuario();
+            }
+        return null;
+    }
+
+    public String getNombreFamilia(String idFam){
+        List<Familia> listaFamilias = getFamilias();
+        for(Familia familia:listaFamilias)
+            if(familia.getId().equals(idFam))
+                return familia.getNombre();
+        return null;
+    }
+
+    public String getEmailDonador(){
+        return emailDonador;
+    }
+
+    public Familia getFamilia(){
+        return famEncontrada;
+    }
+    public void confirmarFamiliaConCanasta(int pos){
+        List<Donativo> listaDonativos = getDonativos();
+        List<Familia> listaFamilias = getFamilias();
+
+        Donativo don = listaDonativos.get(pos);
+        for(Familia fam:listaFamilias)
+            if(don.getIdFamila() == Integer.parseInt(fam.getId())){
+                modificarEntregado(fam);
+            }
+    }
+
+    public void modificarEntregado(Familia fami){
+
+        class ActualizarFamilia extends AsyncTask<Void,Void,String>{
+           Familia fam;
+            public ActualizarFamilia(Familia fam){
+               this.fam = fam;
+           }
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+            }
+
+            @Override
+            protected void onPostExecute(String s) {
+                super.onPostExecute(s);
+            }
+
+            @Override
+            protected String doInBackground(Void... params) {
+                HashMap<String,String> hashMap = new HashMap<>();
+                hashMap.put(Config.KEY_FAM_ID,fam.getId());
+                hashMap.put(Config.KEY_FAM_ENTR,"1");
+
+                RequestHandler rh = new RequestHandler();
+                String s = rh.sendPostRequest(Config.URL_UPDATE_ENTREGA_FAMILIA,hashMap);
+
+                Log.i("Entregado",s);
+                return s;
+            }
+        }
+
+        ActualizarFamilia ue = new ActualizarFamilia(fami);
+        ue.execute();
+    }
+    public boolean entregadasTodasLasFamilias(){
+        List<Familia> listaFamillias = getFamilias();
+        for(Familia fam:listaFamillias)
+            if(fam.getEntregado().equals("0"))
+                return false;
+        return true;
+    }
+    public void reiniciarRecibidos(){
+        class ActualizarFamilia extends AsyncTask<Void,Void,String>{
+
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+            }
+
+            @Override
+            protected void onPostExecute(String s) {
+                super.onPostExecute(s);
+            }
+
+            @Override
+            protected String doInBackground(Void... params) {
+                HashMap<String,String> hashMap = new HashMap<>();
+                hashMap.put(Config.KEY_FAM_ENTR,"0");
+
+                RequestHandler rh = new RequestHandler();
+                String s = rh.sendPostRequest(Config.URL_UPDATE_ENTREGA_FAM_REST,hashMap);
+
+                Log.i("Entregado",s);
+                return s;
+            }
+        }
+
+        ActualizarFamilia ue = new ActualizarFamilia();
+        ue.execute();
     }
 
 }

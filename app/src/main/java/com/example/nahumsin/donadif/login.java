@@ -143,10 +143,10 @@ public class login extends AppCompatActivity {
                     if (db.getLogedUser().getContrasena().equals(txtContrasena.getText().toString())){
                        if (db.getLogedUser().getPrivilegio().equals("0")) {
                            id_usuario = Integer.parseInt(db.getLogedUser().getId());
-                           Intent intent1 = new Intent(this, MainActivity.class);
-                           Intent intent2 = new Intent(login.this, seleccionarFamilia.class);
-                           intent2.putExtra("id_usuario", id_usuario);
-                           startActivity(intent1);
+                           Log.i("idusuario",id_usuario+"");
+                           Intent intent = new Intent(this, MainActivity.class);
+                           intent.putExtra("id_usuario", id_usuario+"");
+                           startActivity(intent);
                            finish();
                        }else{
                            Intent intent1 = new Intent(getBaseContext(), MainActivity_Admin.class);
