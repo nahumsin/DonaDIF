@@ -31,6 +31,7 @@ public class Cuenta {
     public void setCorreo(String correo){
         this.correo = correo;
     }
+    public void setIdCuenta(String id){this.idCuenta=id;}
     public String getNombreUsuario() {
         return nombreUsuario;
     }

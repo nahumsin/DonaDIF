@@ -7,6 +7,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
+import android.util.Log;
 import android.widget.Toast;
 
 import org.apache.http.HttpEntity;
@@ -17,11 +18,15 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 /**
  * Created by jxsxs on 6/11/16.
@@ -33,6 +38,8 @@ public class ConectionDB{
     private DataBase objDb;
     private int id_usuario,id_familia,privilegio_cuenta;
     private String contraseña_usuario;
+    String JSON_STRING;
+
 
     public ConectionDB(Context context) {
         nContext = context;
@@ -107,54 +114,40 @@ public class ConectionDB{
     }
 
     public void insertarCuenta(Cuenta cuen){
-        if (db != null){
-            ContentValues valores = new ContentValues();
-            if (!emailUsuarioExiste(cuen.getCorreo())) {
-                valores.put("nombre_usuario", cuen.getNombreUsuario());
-                valores.put("contra_usuario", cuen.getContrasena());
-                valores.put("email", cuen.getCorreo());
-                valores.put("privilegio", cuen.getPrivilegio());
-                db.insert("cuenta", null, valores);
-                Toast.makeText(nContext,"Cuenta Creada!",Toast.LENGTH_LONG).show();
-                db.close();
-            }else{
-                Toast.makeText(nContext,cuen.getCorreo() + " ya esta asociado a otra cuenta!",Toast.LENGTH_LONG).show();
+        if (!emailUsuarioExiste(cuen.getCorreo())) {
+            class InsertarCuenta extends AsyncTask<Void,Void,String>{
+                Cuenta cuen;
+                public InsertarCuenta(Cuenta cuen){
+                        this.cuen = cuen;
+                    }
+
+                @Override
+                protected void onPreExecute() {
+                        super.onPreExecute();
+                    }
+
+                @Override
+                protected void onPostExecute(String s) {
+                        super.onPostExecute(s);
+                    }
+
+                @Override
+                protected String doInBackground(Void... v) {
+                    HashMap<String,String> params = new HashMap<>();
+                    params.put(Config.KEY_CUEN_NAME,cuen.getNombreUsuario());
+                    params.put(Config.KEY_CUEN_PASS,cuen.getContrasena());
+                    params.put(Config.KEY_CUEN_EMAIL,cuen.getCorreo());
+                    params.put(Config.KEY_CUEN_PRIV,cuen.getPrivilegio());
+                    RequestHandler rh = new RequestHandler();
+                    String res = rh.sendPostRequest(Config.URL_ADD_CUENTA, params);
+                    return res;
+                }
             }
+            InsertarCuenta ae = new InsertarCuenta(cuen);
+            ae.execute();
+        }else{
+            Toast.makeText(nContext,cuen.getCorreo() + "Ya esta asociado a otra cuenta!",Toast.LENGTH_LONG).show();
         }
-        class InsertarCuenta extends AsyncTask<Void,Void,String>{
-            Cuenta cuen;
-            public InsertarCuenta(Cuenta cuen){
-                this.cuen = cuen;
-            }
-
-            @Override
-            protected void onPreExecute() {
-                super.onPreExecute();
-            }
-
-            @Override
-            protected void onPostExecute(String s) {
-                super.onPostExecute(s);
-            }
-
-            @Override
-            protected String doInBackground(Void... v) {
-                HashMap<String,String> params = new HashMap<>();
-                params.put(Config.KEY_CUEN_NAME,cuen.getNombreUsuario());
-                params.put(Config.KEY_CUEN_PASS,cuen.getContrasena());
-                params.put(Config.KEY_CUEN_EMAIL,cuen.getCorreo());
-                params.put(Config.KEY_CUEN_PRIV,cuen.getPrivilegio());
-
-                RequestHandler rh = new RequestHandler();
-                String res = rh.sendPostRequest(Config.URL_ADD_CUENTA, params);
-                return res;
-            }
-        }
-
-        InsertarCuenta ae = new InsertarCuenta(cuen);
-        ae.execute();
-
-
     }
 
     public void crearDonativo(Donativo dona){
@@ -233,23 +226,13 @@ public class ConectionDB{
         return false;
     }
 
-    public boolean emailUsuarioExiste(String email){
+    public boolean emailUsuarioExiste(String email) {
+        List<Cuenta> listaCuentas = getCuentas();
 
-        String select = "SELECT * FROM cuenta";
-        db = objDb.getReadableDatabase();
-        Cursor cursor = db.rawQuery(select,null);
-        //Toast.makeText(nContext,"Al menos estoy aqui :(",Toast.LENGTH_LONG).show();
-        if (cursor.moveToFirst()){
-            do {
-                String obtEmail = cursor.getString(3);
-
-                //Toast.makeText(nContext, "Email: " + obtEmail + " xD " , Toast.LENGTH_LONG).show();
-                if (email.equals(obtEmail)) {
-                    return true;
-                }
-            }while (cursor.moveToNext());
-        }else{
-            return false;
+        for(int i = 0;i<listaCuentas.size();i++){
+            String obtEmail = listaCuentas.get(i).getCorreo();
+            if(email.equals(obtEmail))
+                return true;
         }
         return false;
     }
@@ -290,26 +273,6 @@ public class ConectionDB{
         }
         return donativos;
     }
-/*
-    public List<Cuenta> getCuentas() {
-        List<Cuenta> listaCuenta = new ArrayList<Cuenta>();
-// Select All Query
-        String selectQuery = "SELECT * FROM cuenta";
-        Cursor cursor = db.rawQuery(selectQuery, null);
-
-// looping through all rows and adding to list
-        if (cursor.moveToFirst()) {
-            do {
-                Cuenta cuenta = new Cuenta(cursor.getString(0),cursor.getString(1),cursor.getString(2),0);
-// Adding contact to list
-                listaCuenta.add(cuenta);
-            } while (cursor.moveToNext());
-        }
-
-// return contact list
-        return listaCuenta;
-    }
-    */
 
     public int getId_usuario() {
         return id_usuario;
@@ -341,5 +304,55 @@ public class ConectionDB{
 
     public void setPrivilegio_cuenta(int privilegio_cuenta) {
         this.privilegio_cuenta = privilegio_cuenta;
+    }
+
+    private List<Cuenta> getCuentas(){
+
+        class GetJSON extends AsyncTask<Object,Object,Object>{
+            List<Cuenta> listaCuentas= new ArrayList<>();
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+            }
+
+            @Override
+            protected void onPostExecute(Object s) {
+                super.onPostExecute(s);
+
+            }
+
+            @Override
+            protected Object doInBackground(Object... params) {
+                RequestHandler rh = new RequestHandler();
+                String s = rh.sendGetRequest(Config.URL_GET_ALL_CUENTAS);
+                JSON_STRING = s;
+                JSONObject jsonObject = null;
+                try {
+                    jsonObject = new JSONObject(JSON_STRING);
+                    JSONArray result = jsonObject.getJSONArray(Config.TAG_JSON_ARRAY);
+
+                    for(int i = 0; i<result.length(); i++){
+                        JSONObject jo = result.getJSONObject(i);
+                        Cuenta cuenta = new Cuenta(jo.getString(Config.TAG_CUEN_NAME),
+                                jo.getString(Config.TAG_CUEN_PASS),jo.getString(Config.TAG_CUEN_EMAIL),jo.getString(Config.TAG_CUEN_PRIV));
+                        listaCuentas.add(cuenta);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                return listaCuentas;
+            }
+
+        }
+        GetJSON gj = new GetJSON();
+
+        try {
+            return (List<Cuenta>) gj.execute().get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

@@ -11,6 +11,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 public class CrearCuenta extends AppCompatActivity {
 
@@ -73,7 +74,6 @@ public class CrearCuenta extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "Las Contraseñas no coinciden!!", Toast.LENGTH_LONG).show();
             } else {
                 db.insertarCuenta(new Cuenta(usr.getText().toString(), pass.getText().toString(), email.getText().toString(), "0"));
-                db.cerrarConexion();
                 Intent intent = new Intent(CrearCuenta.this, login.class);
                 startActivity(intent);
             }
