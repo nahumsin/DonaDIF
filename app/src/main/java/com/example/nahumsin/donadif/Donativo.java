@@ -9,6 +9,7 @@ public class Donativo {
     public int idDonativo;
     public int idFamila;
     public int idDonador;
+    public int entregado;
 
 
     public Donativo(int idFamila, int idDonador) {
