@@ -64,6 +64,7 @@ public class ConectionDB{
                     params.put(Config.KEY_FAM_DIR, fam.getDireccion());
                     params.put(Config.KEY_FAM_DES, fam.getDescripcion());
                     params.put(Config.KEY_FAM_IMG, fam.getImagen());
+                    params.put(Config.KEY_FAM_ENTR, fam.getEntregado());
                     RequestHandler rh = new RequestHandler();
                     String res = rh.sendPostRequest(Config.URL_ADD_FAMILIA, params);
                     return res;
@@ -168,6 +169,7 @@ public class ConectionDB{
                 RequestHandler rh = new RequestHandler();
                 String s = rh.sendGetRequest(Config.URL_GET_ALL_FAMILIAS);
                 JSON_STRING = s;
+                Log.i("JSON",JSON_STRING);
                 JSONObject jsonObject = null;
                 try {
                     jsonObject = new JSONObject(JSON_STRING);
