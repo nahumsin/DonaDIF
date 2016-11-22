@@ -1,22 +1,33 @@
 package com.example.nahumsin.donadif;
 
 
+import android.app.ActionBar;
 import android.content.Intent;
+import android.database.Cursor;
+import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class seleccionarFamilia extends AppCompatActivity {
     int canastas = 0;
@@ -46,6 +57,7 @@ public class seleccionarFamilia extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Bundle extras = getIntent().getExtras();
+                Intent intent = getIntent();
                 canastas = Integer.parseInt(getIntent().getStringExtra("canastas"));
                 id_usuario = Integer.parseInt(getIntent().getStringExtra("id_usuario"));
                 //Toast.makeText(getBaseContext(), "id_usuario: " + id_usuario + " \nid_familia: " + db.getId_familia(), Toast.LENGTH_LONG).show();
@@ -56,6 +68,8 @@ public class seleccionarFamilia extends AppCompatActivity {
                         if (db.buscarFamilia(nombre[1] + " " + nombre[2])) {
                             if (db.getId_familia() != 0) {
                                 db.crearDonativo(new Donativo(db.getId_familia(), id_usuario, 0));
+                                Intent intent2 = new Intent(seleccionarFamilia.this, MainActivity.class);
+                                startActivity(intent2);
                                 //Intent intent = new Intent(seleccionarFamilia.this, PruebasDataBase.class);
                                 //startActivity(intent);
                                 //Toast.makeText(getBaseContext(), "Donativo Realizado!!", Toast.LENGTH_LONG).show();
@@ -72,10 +86,7 @@ public class seleccionarFamilia extends AppCompatActivity {
         });
 
         db = new ConectionDB(this);
-        db.abrirConexion();
 
-
-        //db.insertarFamilia(new Familia("Gonzales Ortega","Zacatecas #14","Familia con 2 integrantes","gon.png"));
         showFamilias();
     }
 

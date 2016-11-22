@@ -9,15 +9,17 @@ public class Donativo {
     public int idDonativo;
     public int idFamila;
     public int idDonador;
-    public int entregado;
 
 
-    public Donativo(int idFamila, int idDonador, int entregado) {
+    public Donativo(int idFamila, int idDonador) {
         this.idFamila = idFamila;
         this.idDonador = idDonador;
-        this.entregado = entregado;
     }
-
+    public Donativo(int idDonativo, int idFamila, int idDonador) {
+        this.idFamila = idFamila;
+        this.idDonador = idDonador;
+        this.idDonativo = idDonativo;
+    }
     public int getIdDonativo() {
         return idDonativo;
     }
@@ -42,11 +44,4 @@ public class Donativo {
         this.idDonador = idDonador;
     }
 
-    public int getEntregado() {
-        return entregado;
-    }
-
-    public void setEntregado(int entregado) {
-        this.entregado = entregado;
-    }
 }

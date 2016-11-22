@@ -9,6 +9,7 @@ import android.database.sqlite.SQLiteDatabase;
 
 public class Cuenta {
 
+    private String id;
     private String nombreUsuario;
     private String contrasena;
     private String correo;
@@ -22,6 +23,13 @@ public class Cuenta {
         this.admin= admin;
     }
 
+    public Cuenta(String id,String nombreUsuario,String contrasena,String correo,String admin){
+        this.id = id;
+        this.nombreUsuario = nombreUsuario;
+        this.contrasena = contrasena;
+        this.correo = correo;
+        this.admin= admin;
+    }
 
     public void setNombreUsuario(String nombre){
         nombreUsuario = nombre;
@@ -32,6 +40,7 @@ public class Cuenta {
     public void setCorreo(String correo){
         this.correo = correo;
     }
+    public void setIdCuenta(String id){this.idCuenta=id;}
     public String getNombreUsuario() {
         return nombreUsuario;
     }
@@ -47,4 +56,6 @@ public class Cuenta {
     public String getPrivilegio(){
         return admin;
     }
+
+    public String getId(){return id;}
 }

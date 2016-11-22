@@ -11,6 +11,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 public class CrearCuenta extends AppCompatActivity {
 
@@ -27,7 +28,6 @@ public class CrearCuenta extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 
         db= new ConectionDB(this);
-        db.abrirConexion();
 
         email = (EditText)  findViewById(R.id.emailTxt);
         usr = (EditText) findViewById(R.id.usrTxt);
@@ -54,7 +54,6 @@ public class CrearCuenta extends AppCompatActivity {
 
         if (id == R.id.actionDone) {
             crearCuenta();
-            //obtenerCuentas();
             return true;
         }
         if (id == R.id.action_settings) {
@@ -73,21 +72,10 @@ public class CrearCuenta extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "Las Contraseñas no coinciden!!", Toast.LENGTH_LONG).show();
             } else {
                 db.insertarCuenta(new Cuenta(usr.getText().toString(), pass.getText().toString(), email.getText().toString(), "0"));
-                db.cerrarConexion();
                 Intent intent = new Intent(CrearCuenta.this, login.class);
                 startActivity(intent);
             }
         }
     }
-    /*public void obtenerCuentas(){
 
-        Log.d("Reading: ", "Reading all accounts..");
-        List<Cuenta> cuentas = db.getCuentas();
-
-        for (Cuenta cuenta : cuentas) {
-            String log = "Nombre de usuario: " + cuenta.getNombreUsuario() + " ,Correo: " + cuenta.getCorreo() + " ,Contraseña: " + cuenta.getContrasena();
-// Writing shops to log
-            Log.d("Cuenta: : ", log);
-        }
-    }*/
 }
