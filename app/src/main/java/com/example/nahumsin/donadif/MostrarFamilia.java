@@ -1,5 +1,6 @@
 package com.example.nahumsin.donadif;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -44,11 +45,11 @@ public class MostrarFamilia extends AppCompatActivity implements ListView.OnItem
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        /*Intent intent = new Intent(this, VerFamilia.class);
+        Intent intent = new Intent(this, VerFamilia.class);
         HashMap<String,String> map =(HashMap)parent.getItemAtPosition(position);
         String famId = map.get(Config.TAG_FAM_ID).toString();
-        intent.putExtra(Config.FAM_ID,famId);
-        startActivity(intent);*/
+        intent.putExtra(Config.FAM_ID, famId);
+        startActivity(intent);
     }
 
 }

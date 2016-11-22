@@ -12,8 +12,9 @@ import android.widget.EditText;
  * Created by nahumsin on 22/11/16.
  */
 
-public class VerFamilia {
-   /* private EditText editTextId;
+public class VerFamilia extends AppCompatActivity implements View.OnClickListener {
+
+    private EditText editTextId;
     private EditText editTextName;
     private EditText editTextDirec;
     private EditText editTextDesc;
@@ -69,5 +70,5 @@ public class VerFamilia {
     @Override
     public void onClick(View view) {
 
-    }*/
+    }
 }

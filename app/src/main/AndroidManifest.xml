@@ -48,17 +48,12 @@
             android:parentActivityName=".CanastasBasicas" />
         <activity android:name=".ActivityAnadirFamilia" />
         <activity android:name=".ActivityListaFamilia_Donador" />
-        <activity android:name=".Activity_ModificarFamilia" />
-        <activity
-            android:name=".ListadoModFamilia"
-            android:parentActivityName=".MainActivity" />
         <activity android:name=".MainActivity_Admin" />
-
+        <activity android:name=".VerFamilia" />
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
 
-        <activity android:name=".activity_modificar_cuenta" />
         <activity android:name=".MostrarFamilia"></activity>
     </application>
 
