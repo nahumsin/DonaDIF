@@ -69,7 +69,7 @@ public class seleccionarFamilia extends AppCompatActivity {
                         if (db.buscarFamilia(nombre[1] + " " + nombre[2])) {
                             if (db.getId_familia() != 0) {
                                 db.crearDonativo(new Donativo(db.getId_familia(), id_usuario, 0));
-                                Intent intent2 = new Intent(seleccionarFamilia.this, PruebasDataBase.class);
+                                Intent intent2 = new Intent(seleccionarFamilia.this, MainActivity.class);
                                 startActivity(intent2);
                                 //Toast.makeText(getBaseContext(), "Donativo Realizado!!", Toast.LENGTH_LONG).show();
                                 //Toast.makeText(getBaseContext(), "ID_FAM: " + db.getId_familia(), Toast.LENGTH_LONG).show();
@@ -85,10 +85,7 @@ public class seleccionarFamilia extends AppCompatActivity {
         });
 
         db = new ConectionDB(this);
-        db.abrirConexion();
 
-
-        //db.insertarFamilia(new Familia("Gonzales Ortega","Zacatecas #14","Familia con 2 integrantes","gon.png"));
         showFamilias();
     }
 

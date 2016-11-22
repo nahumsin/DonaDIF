@@ -1,7 +1,6 @@
 package com.example.nahumsin.donadif;
 
 
-import android.app.ProgressDialog;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -10,19 +9,10 @@ import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Toast;
 
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -36,81 +26,56 @@ public class ConectionDB{
     private SQLiteDatabase db;
     private Context nContext;
     private DataBase objDb;
-    private int id_usuario,id_familia,privilegio_cuenta;
-    private String contraseña_usuario;
-    String JSON_STRING;
+    private int id_familia;
+    private Cuenta logedUser;
 
 
     public ConectionDB(Context context) {
         nContext = context;
     }
 
-    public void abrirConexion(){
-        objDb = new DataBase(nContext,"DonaDIF",null,1);
-        db = objDb.getWritableDatabase();
-        //Toast.makeText(nContext,"Se abrio con exito la conexion",Toast.LENGTH_LONG).show();
-    }
-
-    public void cerrarConexion(){
-        db.close();
+    public Cuenta getLogedUser(){
+        return logedUser;
     }
 
     public void insertarFamilia(Familia fam){
-
-        ContentValues values = new ContentValues();
         if (!familiaExiste(fam.getDireccion())) {
-            values.put("nombre_familia", fam.getNombre());
-            values.put("direccion_familia", fam.getDireccion());
-            values.put("desc_familia", fam.getDescripcion());
-            values.put("imagen", fam.getImagen());
+            class InsertarFamilia extends AsyncTask<Void,Void,String>{
+                Familia fam;
+                public InsertarFamilia(Familia fam){
+                    this.fam = fam;
+                }
 
-            db.insert("familia", null, values);
-            db.close();
+                @Override
+                protected void onPreExecute() {
+                    super.onPreExecute();
+                }
+
+                @Override
+                protected void onPostExecute(String s) {
+                    super.onPostExecute(s);
+                }
+
+                @Override
+                protected String doInBackground(Void... v) {
+                    HashMap<String,String> params = new HashMap<>();
+                    params.put(Config.KEY_FAM_NAME, fam.getNombre());
+                    params.put(Config.KEY_FAM_DIR, fam.getDireccion());
+                    params.put(Config.KEY_FAM_DES, fam.getDescripcion());
+                    params.put(Config.KEY_FAM_IMG, fam.getImagen());
+                    RequestHandler rh = new RequestHandler();
+                    String res = rh.sendPostRequest(Config.URL_ADD_FAMILIA, params);
+                    return res;
+                }
+            }
+            InsertarFamilia ae = new InsertarFamilia(fam);
+            ae.execute();
+            Toast.makeText(nContext, "Familia creada", Toast.LENGTH_LONG).show();
         }else{
             Toast.makeText(nContext,"Ya existe una familia con la dirección " + fam.getDireccion(),Toast.LENGTH_LONG).show();
         }
 
-        class SendPostReqAsyncTask extends AsyncTask<String, Void, String> {
-            Familia fam;
-            public SendPostReqAsyncTask(Familia fam){
-                this.fam = fam;
-            }
-            protected String doInBackground(String... params) {
 
-                String nombre = fam.getNombre();
-                String direccion = fam.getDireccion();
-                String descripcion = fam.getDescripcion();
-                String imagen = fam.getImagen();
-
-                List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
-                nameValuePairs.add(new BasicNameValuePair("nombre_familia", nombre));
-                nameValuePairs.add(new BasicNameValuePair("direccion_familia", direccion));
-                nameValuePairs.add(new BasicNameValuePair("desc_familia", descripcion));
-                nameValuePairs.add(new BasicNameValuePair("imagen", imagen));
-
-                try {
-                    HttpClient httpClient = new DefaultHttpClient();
-                    HttpPost httpPost = new HttpPost(
-                            "http://192.168.0.15/insertarFamilia.php");
-                    httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
-
-                    HttpResponse response = httpClient.execute(httpPost);
-
-                    HttpEntity entity = response.getEntity();
-
-                } catch (IOException e) {
-
-                }
-                return "success";
-            }
-
-            @Override
-            protected void onPostExecute(String result) {
-                super.onPostExecute(result);
-            }
-        }
-        SendPostReqAsyncTask sendPostReqAsyncTask = new SendPostReqAsyncTask(fam);
-        sendPostReqAsyncTask.execute(fam.getNombre(),fam.getDireccion(),fam.getDescripcion(),fam.getImagen());
     }
 
     public void insertarCuenta(Cuenta cuen){
@@ -164,42 +129,63 @@ public class ConectionDB{
     }
 
     public List<Familia> getFamilias(){
-        List<Familia> familias = new ArrayList<>();
+        class GetJSON extends AsyncTask<Object,Object,Object>{
+            String JSON_STRING;
+            List<Familia> listaFamilias= new ArrayList<>();
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+            }
 
-        String select = "SELECT * FROM familia";
-        db = objDb.getReadableDatabase();
-        Cursor cursor = db.rawQuery(select, null);
+            @Override
+            protected void onPostExecute(Object s) {
+                super.onPostExecute(s);
 
-        if (cursor.moveToFirst()){
-            do {
-                Familia fam = new Familia(cursor.getInt(0),cursor.getString(1),cursor.getString(2),cursor.getString(3),cursor.getString(4));
-                familias.add(fam);
+            }
 
-            }while (cursor.moveToNext());
+            @Override
+            protected Object doInBackground(Object... params) {
+                RequestHandler rh = new RequestHandler();
+                String s = rh.sendGetRequest(Config.URL_GET_ALL_FAMILIAS);
+                JSON_STRING = s;
+                JSONObject jsonObject = null;
+                try {
+                    jsonObject = new JSONObject(JSON_STRING);
+                    JSONArray result = jsonObject.getJSONArray(Config.TAG_JSON_ARRAY);
+
+                    for(int i = 0; i<result.length(); i++){
+                        JSONObject jo = result.getJSONObject(i);
+                        Familia familia = new Familia(jo.getString(Config.TAG_FAM_ID),
+                                jo.getString(Config.TAG_FAM_NAME),jo.getString(Config.TAG_FAM_DIR),jo.getString(Config.TAG_FAM_DES),jo.getString((Config.TAG_FAM_IMG)));
+                        listaFamilias.add(familia);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                return listaFamilias;
+            }
+
         }
-        return familias;
+        GetJSON gj = new GetJSON();
+
+        try {
+            return (List<Familia>) gj.execute().get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     public boolean buscarUsuario(String usuario){
+        List<Cuenta> listaCuentas = getCuentas();
 
-        String select = "SELECT * FROM cuenta";
-        db = objDb.getReadableDatabase();
-        Cursor cursor = db.rawQuery(select,null);
-        //Toast.makeText(nContext,"Al menos estoy aqui :(",Toast.LENGTH_LONG).show();
-        if (cursor.moveToFirst()){
-            do {
-                String nombre = cursor.getString(1);
-                setId_usuario(cursor.getInt(0));
-                setContraseña_usuario(cursor.getString(2));
-                setPrivilegio_cuenta(cursor.getInt(4));
-
-                //Toast.makeText(nContext, "Contraseña" + getContraseña_usuario() + " xD " + "ID_" + getId_usuario(), Toast.LENGTH_LONG).show();
-                if (usuario.equals(nombre)) {
-                    return true;
-                }
-            }while (cursor.moveToNext());
-        }else{
-            return false;
+        for (Cuenta cuenta:listaCuentas) {
+            if(cuenta.getNombreUsuario().equals(usuario)){
+                logedUser = cuenta;
+                return true;
+            }
         }
         return false;
     }
@@ -239,20 +225,12 @@ public class ConectionDB{
 
     public boolean familiaExiste(String direccion){
 
-        String select = "SELECT * FROM familia";
-        db = objDb.getReadableDatabase();
-        Cursor cursor = db.rawQuery(select,null);
-        //Toast.makeText(nContext,"Al menos estoy aqui :(",Toast.LENGTH_LONG).show();
-        if (cursor.moveToFirst()){
-            do {
-                String dir_fam = cursor.getString(2);
+        List<Familia> listaFamilias = getFamilias();
 
-                if (direccion.equals(dir_fam)) {
-                    return true;
-                }
-            }while (cursor.moveToNext());
-        }else{
-            return false;
+        for(int i = 0;i<listaFamilias.size();i++){
+            String obtDireccion = listaFamilias.get(i).getDireccion();
+            if(direccion.equals(obtDireccion))
+                return true;
         }
         return false;
     }
@@ -274,22 +252,6 @@ public class ConectionDB{
         return donativos;
     }
 
-    public int getId_usuario() {
-        return id_usuario;
-    }
-
-    public void setId_usuario(int id_usuario) {
-        this.id_usuario = id_usuario;
-    }
-
-    public String getContraseña_usuario() {
-        return contraseña_usuario;
-    }
-
-    public void setContraseña_usuario(String contraseña_usuario) {
-        this.contraseña_usuario = contraseña_usuario;
-    }
-
     public int getId_familia() {
         return id_familia;
     }
@@ -298,17 +260,10 @@ public class ConectionDB{
         this.id_familia = id_familia;
     }
 
-    public int getPrivilegio_cuenta() {
-        return privilegio_cuenta;
-    }
-
-    public void setPrivilegio_cuenta(int privilegio_cuenta) {
-        this.privilegio_cuenta = privilegio_cuenta;
-    }
-
     private List<Cuenta> getCuentas(){
 
         class GetJSON extends AsyncTask<Object,Object,Object>{
+            String JSON_STRING;
             List<Cuenta> listaCuentas= new ArrayList<>();
             @Override
             protected void onPreExecute() {
@@ -326,6 +281,7 @@ public class ConectionDB{
                 RequestHandler rh = new RequestHandler();
                 String s = rh.sendGetRequest(Config.URL_GET_ALL_CUENTAS);
                 JSON_STRING = s;
+                Log.i("JSON", JSON_STRING);
                 JSONObject jsonObject = null;
                 try {
                     jsonObject = new JSONObject(JSON_STRING);
@@ -333,7 +289,7 @@ public class ConectionDB{
 
                     for(int i = 0; i<result.length(); i++){
                         JSONObject jo = result.getJSONObject(i);
-                        Cuenta cuenta = new Cuenta(jo.getString(Config.TAG_CUEN_NAME),
+                        Cuenta cuenta = new Cuenta(jo.getString(Config.TAG_CUEN_ID),jo.getString(Config.TAG_CUEN_NAME),
                                 jo.getString(Config.TAG_CUEN_PASS),jo.getString(Config.TAG_CUEN_EMAIL),jo.getString(Config.TAG_CUEN_PRIV));
                         listaCuentas.add(cuenta);
                     }

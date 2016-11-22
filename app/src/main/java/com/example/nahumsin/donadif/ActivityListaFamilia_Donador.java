@@ -29,7 +29,6 @@ public class ActivityListaFamilia_Donador extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         listaFamilia =(ListView) findViewById(R.id.listaFam);
         dbFamilia = new ConectionDB(this);
-        dbFamilia.abrirConexion();
         cargar();
     }
 
@@ -48,20 +47,9 @@ public class ActivityListaFamilia_Donador extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 String selectedItem=((TextView)view).getText().toString();
-             /*   if(selectedItems.contains(selectedItem)){
-                    selectedItems.remove((selectedItem));
-                }
-                else {
-                    if (selectedItems.size() > canastas) {
-                        Toast.makeText(getBaseContext(), "No puede seleccionar mas familias!!", Toast.LENGTH_LONG).show();
-                    } else {
-                        selectedItems.add(selectedItem);
-                    }
-                }*/
+
             }
         });
-        /*ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,);
-        ListView lista =(ListView) findViewById(R.id.listaFam);
-        lista.setAdapter(adapter);*/
+
     }
 }

@@ -28,7 +28,6 @@ public class CrearCuenta extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 
         db= new ConectionDB(this);
-        db.abrirConexion();
 
         email = (EditText)  findViewById(R.id.emailTxt);
         usr = (EditText) findViewById(R.id.usrTxt);
@@ -55,7 +54,6 @@ public class CrearCuenta extends AppCompatActivity {
 
         if (id == R.id.actionDone) {
             crearCuenta();
-            //obtenerCuentas();
             return true;
         }
         if (id == R.id.action_settings) {
@@ -79,15 +77,5 @@ public class CrearCuenta extends AppCompatActivity {
             }
         }
     }
-    /*public void obtenerCuentas(){
 
-        Log.d("Reading: ", "Reading all accounts..");
-        List<Cuenta> cuentas = db.getCuentas();
-
-        for (Cuenta cuenta : cuentas) {
-            String log = "Nombre de usuario: " + cuenta.getNombreUsuario() + " ,Correo: " + cuenta.getCorreo() + " ,Contraseña: " + cuenta.getContrasena();
-// Writing shops to log
-            Log.d("Cuenta: : ", log);
-        }
-    }*/
 }
