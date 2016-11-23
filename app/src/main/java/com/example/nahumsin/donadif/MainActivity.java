@@ -23,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                // Toast.makeText(getBaseContext(),"Ver Familias",Toast.LENGTH_LONG);
-                Intent intent = new Intent(MainActivity.this,ActivityListaFamilia_Donador.class);
+                Intent intent = new Intent(MainActivity.this,MostrarFamiliaDonador.class);
                 startActivity(intent);
             }
         });

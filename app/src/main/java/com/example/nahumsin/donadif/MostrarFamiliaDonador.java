@@ -14,7 +14,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ActivityListaFamilia_Donador extends AppCompatActivity {
+public class MostrarFamiliaDonador extends AppCompatActivity {
 
     private Bundle savedInstanceState;
     ConectionDB dbFamilia;
