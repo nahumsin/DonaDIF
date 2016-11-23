@@ -40,7 +40,8 @@
         android:gravity="center"
         android:hapticFeedbackEnabled="false"
         android:hint="Solo datos numericos"
-        android:inputType="textPersonName"
+        android:inputType="number"
         android:layout_below="@+id/textView5"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+         />
 </RelativeLayout>

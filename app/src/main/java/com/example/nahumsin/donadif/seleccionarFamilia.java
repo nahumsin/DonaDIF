@@ -1,10 +1,11 @@
 package com.example.nahumsin.donadif;
 
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -19,20 +20,17 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
-public class seleccionarFamilia extends AppCompatActivity {
+public class SeleccionarFamilia extends AppCompatActivity {
     int canastas = 0;
     List<String> items = new ArrayList<>();
-    List<String> itemsIds = new ArrayList<>();
     List<String> selectedItems = new ArrayList<>();
     List<Familia> listaFamilia;
     List<Donativo> listaDonativos;
-    ListView lista, listaIds;
+    List<String> famEnTablaDonativo;
+    ListView lista;
     ConectionDB db;
     Button btnHacerDonativo;
     int id_usuario = 0;
-    int id_pos;
-    List<Integer> posList = new ArrayList<>();
-    String nombreFamilias[];
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,13 +54,14 @@ public class seleccionarFamilia extends AppCompatActivity {
                     for (String item : selectedItems) {
                         String[] id_fam = item.split(" ");
                         db.crearDonativo(new Donativo(Integer.parseInt(id_fam[0]), id_usuario));
-                        Intent intent2 = new Intent(seleccionarFamilia.this, MainActivity.class);
-                        intent2.putExtra("id_usuario",id_usuario+"");
+                        Intent intent2 = new Intent(SeleccionarFamilia.this, MainActivity.class);
+                        intent2.putExtra("id_usuario", id_usuario + "");
+                        Toast.makeText(getBaseContext(), "Gracias por su donativo :) en breve recibirá un " +
+                                "correo con instrucciones para entregar su donativo", Toast.LENGTH_LONG).show();
                         startActivity(intent2);
                     }
                 } else {
-
-                    Toast.makeText(getBaseContext(), "Tiene que seleccionar " + canastas + " familias", Toast.LENGTH_LONG).show();
+                    donativosNoSeleccionados();
                 }
             }
         });
@@ -74,29 +73,23 @@ public class seleccionarFamilia extends AppCompatActivity {
 
     void showFamilias() {
         listaDonativos = db.getDonativos();
-        listaFamilia = db.getFamilias();//db.getFamiliasSinDonativo();
+        listaFamilia = db.getFamiliasSinDonativo();
+        boolean famEnDon = false;
+        famEnTablaDonativo = new ArrayList<>();
 
-        if (listaFamilia.size() == 0)
-            Toast.makeText(getBaseContext(), "No hay familas necesitadas de donativo", Toast.LENGTH_LONG).show();
-        else
-            for (Familia familia : listaFamilia) {
-                if (listaDonativos.size() == 0) {
-                    if (familia.getEntregado().equals("0")) {
-                        items.add(familia.getId() + " " + familia.getImagen() + " " + familia.getNombre());
-                    }
-                } else {
-                    if (listaDonativos.size() < listaFamilia.size()) {
-                        for (Donativo don : listaDonativos) {
-                            if (!familia.getId().equals(don.getIdFamila() + "") && familia.getEntregado().equals("0"))
-                                items.add(familia.getId() + " " + familia.getImagen() + " " + familia.getNombre());
-                        }
-                    }else{
-                        btnHacerDonativo.setEnabled(false);
-                        Toast.makeText(getBaseContext(), "No hay familas para mostrar", Toast.LENGTH_LONG).show();
-                    }
-                }
+        for(Donativo don: listaDonativos)
+            famEnTablaDonativo.add(don.getIdFamila()+"");
 
+
+        for (Familia familia : listaFamilia) {
+            for(String don:famEnTablaDonativo){
+                if(familia.getId().equals(don))
+                    famEnDon = true;
             }
+            if(famEnDon == false)
+                items.add(familia.getId() + " " + familia.getImagen() + " " + familia.getNombre());
+            famEnDon = false;
+        }
 
         ArrayAdapter adaptador = new ArrayAdapter<String>(this, R.layout.rowlayout, items);
         lista.setAdapter(adaptador);
@@ -136,6 +129,37 @@ public class seleccionarFamilia extends AppCompatActivity {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_crear_cuenta, menu);
         return super.onCreateOptionsMenu(menu);
+    }
+
+    private void donativosNoSeleccionados() {
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        alertDialogBuilder.setMessage("Necesita seleccionar " + canastas + " familias" +
+                ", ¿desea que DonaDIF asigne las canastas?");
+
+        alertDialogBuilder.setPositiveButton("Si",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface arg0, int arg1) {
+                        for (int i = 0; i < canastas; i++) {
+                            String[] id_fam = items.get(i).split(" ");
+                            db.crearDonativo(new Donativo(Integer.parseInt(id_fam[0]), id_usuario));
+                        }
+                        Toast.makeText(getBaseContext(), "Gracias por su donativo :) en breve recibirá un " +
+                                "correo con instrucciones para entregar su donativo", Toast.LENGTH_LONG).show();
+                        startActivity(new Intent(SeleccionarFamilia.this, MainActivity.class));
+                    }
+                });
+
+        alertDialogBuilder.setNegativeButton("No",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface arg0, int arg1) {
+
+                    }
+                });
+
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
     }
 
 }
