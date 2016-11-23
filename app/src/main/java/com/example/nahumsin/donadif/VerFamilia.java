@@ -3,10 +3,12 @@ package com.example.nahumsin.donadif;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.Toast;
 
 /**
  * Created by nahumsin on 22/11/16.
@@ -51,6 +53,7 @@ public class VerFamilia extends AppCompatActivity implements View.OnClickListene
         buttonDelete.setOnClickListener(this);
 
         editTextId.setText(id);
+        editTextId.setEnabled(false);
         mostrarFamilia();
 
     }
@@ -69,6 +72,22 @@ public class VerFamilia extends AppCompatActivity implements View.OnClickListene
 
     @Override
     public void onClick(View view) {
-
+        if(view == buttonUpdate){
+            String entregado;
+            if(checkBoxEntregado.isChecked())
+                entregado = "1";
+            else
+                entregado = "0";
+            Familia fam = new Familia(editTextId.getText().toString(),editTextName.getText().toString(),
+                    editTextDirec.getText().toString(),editTextDesc.getText().toString(),
+                    editTextImagen.getText().toString(),entregado);
+            db.modificarFamilia(fam);
+            Toast.makeText(this,"Familia Modificada Correctamente",Toast.LENGTH_LONG).show();
+        }
+        if(view == buttonDelete){
+            db.eliminarFamilia(id);
+            Toast.makeText(this,"Familia Eliminada",Toast.LENGTH_LONG).show();
+            startActivity(new Intent(VerFamilia.this,MostrarFamilia.class));
+        }
     }
 }

@@ -421,6 +421,42 @@ public class ConectionDB{
         ActualizarFamilia ue = new ActualizarFamilia(fami);
         ue.execute();
     }
+    public void modificarFamilia(Familia fami){
+
+        class ActualizarFamilia extends AsyncTask<Void,Void,String>{
+            Familia fam;
+            public ActualizarFamilia(Familia fam){
+                this.fam = fam;
+            }
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+            }
+
+            @Override
+            protected void onPostExecute(String s) {
+                super.onPostExecute(s);
+            }
+
+            @Override
+            protected String doInBackground(Void... params) {
+                HashMap<String,String> hashMap = new HashMap<>();
+                hashMap.put(Config.KEY_FAM_ID,fam.getId());
+                hashMap.put(Config.KEY_FAM_NAME,fam.getNombre());
+                hashMap.put(Config.KEY_FAM_DIR,fam.getDireccion());
+                hashMap.put(Config.KEY_FAM_DES,fam.getDescripcion());
+                hashMap.put(Config.KEY_FAM_IMG,fam.getImagen());
+                hashMap.put(Config.KEY_FAM_ENTR,fam.getEntregado());
+
+                RequestHandler rh = new RequestHandler();
+                String s = rh.sendPostRequest(Config.URL_UPDATE_FAMILIA,hashMap);
+                return s;
+            }
+        }
+
+        ActualizarFamilia ue = new ActualizarFamilia(fami);
+        ue.execute();
+    }
     public boolean entregadasTodasLasFamilias(){
         List<Familia> listaFamillias = getFamilias();
         for(Familia fam:listaFamillias)
@@ -493,5 +529,34 @@ public class ConectionDB{
         EliminarDonativo de = new EliminarDonativo(dona);
         de.execute();
     }
+    public void eliminarFamilia(String id){
+        class ElimniarFamilia extends AsyncTask<Void,Void,String> {
+            String id;
+            public ElimniarFamilia(String id) {
+                this.id = id;
+            }
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+            }
 
+            @Override
+            protected void onPostExecute(String s) {
+                super.onPostExecute(s);
+            }
+
+            @Override
+            protected String doInBackground(Void... params) {
+                HashMap<String,String> hashMap = new HashMap<>();
+                hashMap.put(Config.KEY_FAM_ID, id);
+                RequestHandler rh = new RequestHandler();
+                String s = rh.sendPostRequest(Config.URL_DELETE_FAMILIA,hashMap);
+                Log.i("S",s);
+                return s;
+            }
+        }
+
+        ElimniarFamilia de = new ElimniarFamilia(id);
+        de.execute();
+    }
 }

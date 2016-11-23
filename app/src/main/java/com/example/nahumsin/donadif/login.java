@@ -36,7 +36,6 @@ public class login extends AppCompatActivity {
     LoginButton btnConectFB;
     ConectionDB db;
     int id_usuario;
-    int privilegio_usuario;
     CallbackManager callbackManager;
     String nombreUsuariFace, emailFace;
     @Override

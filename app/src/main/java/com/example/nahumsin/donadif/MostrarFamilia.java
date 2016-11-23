@@ -31,7 +31,6 @@ public class MostrarFamilia extends AppCompatActivity implements ListView.OnItem
             familias.put(Config.TAG_FAM_ID,familia.getId());
             familias.put(Config.TAG_FAM_NAME,"Familia: "+familia.getNombre()+
                     " Direccion: "+familia.getDireccion());
-            Log.i("Familias",familia.getNombre());
             list.add(familias);
         }
 
