@@ -18,17 +18,13 @@ import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
 
-import com.example.nahumsin.donadif.MainActivity;
-import com.example.nahumsin.donadif.R;
 import com.facebook.appevents.AppEventsLogger;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 
 import org.json.JSONObject;
 
-import java.net.Inet4Address;
-
-public class login extends AppCompatActivity {
+public class Login extends AppCompatActivity {
     EditText txtUsuario;
     EditText txtContrasena;
     Button btnCrearCuenta;
@@ -62,7 +58,7 @@ public class login extends AppCompatActivity {
             @Override
             public void onSuccess(LoginResult loginResult) {
                 getFacebookProfileDetails(loginResult.getAccessToken());
-                Intent intent = new Intent(login.this,MainActivity.class);
+                Intent intent = new Intent(Login.this,MainActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
             }

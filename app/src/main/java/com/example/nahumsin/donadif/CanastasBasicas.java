@@ -29,7 +29,7 @@ public class CanastasBasicas extends AppCompatActivity {
                         Toast.makeText(getBaseContext(), "Ingrese Número Válido", Toast.LENGTH_LONG).show();
                     } else {
                         int canastas = Integer.parseInt(txtCanastas.getText().toString());
-                        Intent intent = new Intent(CanastasBasicas.this, seleccionarFamilia.class);
+                        Intent intent = new Intent(CanastasBasicas.this, SeleccionarFamilia.class);
                         int id_usuario = Integer.parseInt(getIntent().getStringExtra("id_usuario"));
                         intent.putExtra("id_usuario", id_usuario + "");
                         intent.putExtra("canastas", canastas + "");
