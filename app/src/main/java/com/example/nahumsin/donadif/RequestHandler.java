@@ -1,5 +1,7 @@
 package com.example.nahumsin.donadif;
 
+import android.util.Log;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.InputStreamReader;
@@ -39,8 +41,8 @@ public class RequestHandler {
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 
             //Configuring connection properties
-            conn.setReadTimeout(15000);
-            conn.setConnectTimeout(15000);
+            conn.setReadTimeout(40000);
+            conn.setConnectTimeout(40000);
             conn.setRequestMethod("POST");
             conn.setDoInput(true);
             conn.setDoOutput(true);
@@ -121,7 +123,6 @@ public class RequestHandler {
             result.append("=");
             result.append(URLEncoder.encode(entry.getValue(), "UTF-8"));
         }
-
         return result.toString();
     }
 }

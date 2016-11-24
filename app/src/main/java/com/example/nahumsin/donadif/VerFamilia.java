@@ -1,14 +1,30 @@
 package com.example.nahumsin.donadif;
 
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
+import android.media.ExifInterface;
+import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.HashMap;
 
 /**
  * Created by nahumsin on 22/11/16.
@@ -25,14 +41,23 @@ public class VerFamilia extends AppCompatActivity implements View.OnClickListene
 
     private Button buttonUpdate;
     private Button buttonDelete;
+    private Button buttonImage;
+
+    private Uri filePath;
 
     private String id;
     private ConectionDB db = new ConectionDB(this);
 
+    private int PICK_IMAGE_REQUEST = 1;
+
+    private Bitmap bitmap;
+    private Bitmap bitmapRotated;
+    ExifInterface exif;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.ver_familia);
+        setContentView(R.layout.activity_ver_familia);
 
         Intent intent = getIntent();
 
@@ -48,9 +73,11 @@ public class VerFamilia extends AppCompatActivity implements View.OnClickListene
 
         buttonUpdate = (Button) findViewById(R.id.btnModificar);
         buttonDelete = (Button) findViewById(R.id.btnEliminar);
+        buttonImage = (Button) findViewById(R.id.btnSeleccionarImagen);
 
         buttonUpdate.setOnClickListener(this);
         buttonDelete.setOnClickListener(this);
+        buttonImage.setOnClickListener(this);
 
         editTextId.setText(id);
         editTextId.setEnabled(false);
@@ -73,7 +100,8 @@ public class VerFamilia extends AppCompatActivity implements View.OnClickListene
     @Override
     public void onClick(View view) {
         if(view == buttonUpdate){
-            String entregado;
+            uploadImage();
+            /*String entregado;
             if(checkBoxEntregado.isChecked())
                 entregado = "1";
             else
@@ -87,7 +115,87 @@ public class VerFamilia extends AppCompatActivity implements View.OnClickListene
         if(view == buttonDelete){
             db.eliminarFamilia(id);
             Toast.makeText(this,"Familia Eliminada",Toast.LENGTH_LONG).show();
-            startActivity(new Intent(VerFamilia.this,MostrarFamilia.class));
+            startActivity(new Intent(VerFamilia.this,MostrarFamilia.class));*/
         }
+        if(view == buttonImage){
+            showFileChooser();
+        }
+    }
+    private void showFileChooser() {
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(intent, "Seleccione una foto"), PICK_IMAGE_REQUEST);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
+
+            filePath = data.getData();
+
+            try {
+                float degrees = 90;//rotation degree
+                Matrix matrix = new Matrix();
+                matrix.setRotate(degrees);
+                bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
+                //bitmapRotated = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
+                //imageView.setImageBitmap(bitmap);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public String getStringImage(Bitmap bmp){
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bmp.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        byte[] imageBytes = baos.toByteArray();
+        String encodedImage = Base64.encodeToString(imageBytes, Base64.DEFAULT);
+        return encodedImage;
+    }
+
+    private void uploadImage(){
+        class UploadImage extends AsyncTask<Bitmap,Void,String> {
+
+            ProgressDialog loading;
+            RequestHandler rh = new RequestHandler();
+
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+                loading = ProgressDialog.show(VerFamilia.this, "Uploading...", null,true,true);
+            }
+
+            @Override
+            protected void onPostExecute(String s) {
+                super.onPostExecute(s);
+                loading.dismiss();
+                Toast.makeText(getApplicationContext(),s,Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            protected String doInBackground(Bitmap... params) {
+                Bitmap bitmap = params[0];
+                String uploadImage = getStringImage(bitmap);
+
+                HashMap<String,String> data = new HashMap<>();
+
+                data.put(Config.UPLOAD_KEY, uploadImage);
+                data.put(Config.KEY_FAM_ID, id);
+                String result = rh.sendPostRequest(Config.UPLOAD_URL,data);
+                return result;
+            }
+        }
+
+        UploadImage ui = new UploadImage();
+        try{
+            ui.execute(bitmap);
+        }catch (Exception e){
+
+        }
+
     }
 }

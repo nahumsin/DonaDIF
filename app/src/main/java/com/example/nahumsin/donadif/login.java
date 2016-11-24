@@ -47,8 +47,6 @@ public class Login extends AppCompatActivity {
         txtUsuario.requestFocus();
         txtContrasena.setText("");
         txtUsuario.setText("");
-        email = (TextView) findViewById(R.id.email) ;
-
         //========FACEBOOK=============================
 
         callbackManager = CallbackManager.Factory.create();
