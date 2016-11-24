@@ -46,7 +46,7 @@
         <activity
             android:name=".SeleccionarFamilia"
             android:parentActivityName=".CanastasBasicas" />
-        <activity android:name=".ActivityAnadirFamilia" />
+        <activity android:name=".AnadirFamilia" />
         <activity android:name=".MostrarFamiliaDonador" />
         <activity android:name=".MainActivity_Admin" />
         <activity android:name=".VerFamilia" />

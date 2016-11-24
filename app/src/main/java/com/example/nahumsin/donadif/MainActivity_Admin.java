@@ -33,7 +33,7 @@ public class MainActivity_Admin extends AppCompatActivity implements View.OnClic
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.button_añadirFam:
-                Intent intent = new Intent(this, ActivityAnadirFamilia.class);
+                Intent intent = new Intent(this, AnadirFamilia.class);
                 startActivity(intent);
                 break;
             case R.id.button_modificarFam:
