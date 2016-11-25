@@ -12,7 +12,7 @@ import android.widget.Toast;
 import com.facebook.login.LoginManager;
 
 public class MainActivity_Admin extends AppCompatActivity implements View.OnClickListener {
-    Button anadir, modificar,eliminar,confirmar;
+    Button anadir, modificar,confirmar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

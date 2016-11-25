@@ -52,12 +52,16 @@ public class CrearCuenta extends AppCompatActivity {
             crearCuenta();
             return true;
         }
-        if (id == R.id.action_settings) {
 
-            return true;
+        if(id == android.R.id.home){
+            startActivity(new Intent(CrearCuenta.this,Login.class));
         }
 
         return super.onOptionsItemSelected(item);
+    }
+    @Override
+    public void onBackPressed(){
+        startActivity(new Intent(CrearCuenta.this,Login.class));
     }
     public void crearCuenta(){
 

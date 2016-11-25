@@ -116,9 +116,7 @@ public class ConfirmarDonativo extends AppCompatActivity {
         if (id == R.id.actionDone) {
             return true;
         }
-        if (id == R.id.action_settings) {
-            return true;
-        }
+
 
         return super.onOptionsItemSelected(item);
     }

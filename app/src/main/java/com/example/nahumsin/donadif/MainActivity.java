@@ -12,13 +12,14 @@ import android.widget.Toast;
 public class MainActivity extends AppCompatActivity {
     Button btnHacerDonativo;
     Button btnVerFamilias;
-    int id_usuario;
+    String id_usuario;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         btnVerFamilias = (Button) findViewById(R.id.btnVerFamilias);
+        id_usuario= getIntent().getStringExtra("id_usuario");
         btnVerFamilias.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -32,11 +33,11 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this,CanastasBasicas.class);
-                id_usuario = Integer.parseInt(getIntent().getStringExtra("id_usuario"));
-                intent.putExtra("id_usuario",id_usuario+"");
+                intent.putExtra("id_usuario",id_usuario);
                 startActivity(intent);
             }
         });
+
     }
 
     @Override

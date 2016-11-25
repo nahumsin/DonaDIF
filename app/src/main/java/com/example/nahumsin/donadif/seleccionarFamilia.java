@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -30,32 +31,30 @@ public class SeleccionarFamilia extends AppCompatActivity {
     ListView lista;
     ConectionDB db;
     Button btnHacerDonativo;
-    int id_usuario = 0;
+    String user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_seleccionar_familia);
         getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true);
+        canastas = Integer.parseInt(getIntent().getStringExtra("canastas"));
         lista = (ListView) findViewById(R.id.listViewLista);
         lista.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
         btnHacerDonativo = (Button) findViewById(R.id.btnHacerDonativo);
         btnHacerDonativo.setEnabled(true);
-
+        user = getIntent().getStringExtra("id_usuario");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         btnHacerDonativo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                canastas = Integer.parseInt(getIntent().getStringExtra("canastas"));
-                id_usuario = Integer.parseInt(getIntent().getStringExtra("id_usuario"));
-
                 if (selectedItems.size() == canastas) {
                     for (String item : selectedItems) {
                         String[] id_fam = item.split(" ");
-                        db.crearDonativo(new Donativo(Integer.parseInt(id_fam[0]), id_usuario));
+                        db.crearDonativo(new Donativo(Integer.parseInt(id_fam[0]), Integer.parseInt(user)));
                         Intent intent2 = new Intent(SeleccionarFamilia.this, MainActivity.class);
-                        intent2.putExtra("id_usuario", id_usuario + "");
+                        intent2.putExtra("id_usuario",user);
                         Toast.makeText(getBaseContext(), "Gracias por su donativo :) en breve recibirá un " +
                                 "correo con instrucciones para entregar su donativo", Toast.LENGTH_LONG).show();
                         startActivity(intent2);
@@ -120,6 +119,11 @@ public class SeleccionarFamilia extends AppCompatActivity {
         if (id == R.id.btnHacerDonativo) {
             return true;
         }
+        if(id == android.R.id.home){
+            Intent intent = new Intent(SeleccionarFamilia.this,CanastasBasicas.class);
+            intent.putExtra("id_usuario",user);
+            startActivity(intent);
+        }
         return super.onOptionsItemSelected(item);
     }
 
@@ -142,11 +146,13 @@ public class SeleccionarFamilia extends AppCompatActivity {
                     public void onClick(DialogInterface arg0, int arg1) {
                         for (int i = 0; i < canastas; i++) {
                             String[] id_fam = items.get(i).split(" ");
-                            db.crearDonativo(new Donativo(Integer.parseInt(id_fam[0]), id_usuario));
+                            db.crearDonativo(new Donativo(Integer.parseInt(id_fam[0]), Integer.parseInt(user)));
                         }
                         Toast.makeText(getBaseContext(), "Gracias por su donativo :) en breve recibirá un " +
                                 "correo con instrucciones para entregar su donativo", Toast.LENGTH_LONG).show();
-                        startActivity(new Intent(SeleccionarFamilia.this, MainActivity.class));
+                        Intent intent = new Intent(SeleccionarFamilia.this,MainActivity.class);
+                        intent.putExtra("id_usuario",user);
+                        startActivity(intent);
                     }
                 });
 
@@ -157,7 +163,6 @@ public class SeleccionarFamilia extends AppCompatActivity {
 
                     }
                 });
-
         AlertDialog alertDialog = alertDialogBuilder.create();
         alertDialog.show();
     }

@@ -18,11 +18,10 @@ public class Familia {
         this.entregado = entregado;
     }
 
-    public Familia(String nombre, String direccion, String descripcion, String imagen,String entregado) {
+    public Familia(String nombre, String direccion, String descripcion,String entregado) {
         this.nombre = nombre;
         this.direccion = direccion;
         this.descripcion = descripcion;
-        this.imagen = imagen;
         this.entregado = entregado;
     }
 

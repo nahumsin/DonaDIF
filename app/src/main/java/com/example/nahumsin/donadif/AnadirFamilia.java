@@ -7,9 +7,13 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Base64;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.Toast;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -17,12 +21,13 @@ import java.io.IOException;
 import static com.example.nahumsin.donadif.R.id.imageView;
 
 public class AnadirFamilia extends AppCompatActivity {
-    EditText nombre, direccion, descripcion,imagen;
-    Button guardar;
+    EditText nombre, direccion, descripcion;
+    ImageView imagen;
     ConectionDB db;
     private int PICK_IMAGE_REQUEST = 1;
     private Bitmap bitmap;
     private Uri filePath;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,23 +36,24 @@ public class AnadirFamilia extends AppCompatActivity {
         nombre = (EditText) findViewById(R.id.editText_Nombre);
         direccion = (EditText) findViewById(R.id.editText_direccion);
         descripcion = (EditText) findViewById(R.id.editText_descripcion);
-        imagen = (EditText) findViewById(R.id.editText_descripcion);
+        imagen = (ImageView) findViewById(R.id.imgFamilaAdd);
 
-        guardar = (Button) findViewById(R.id.button_guardarFam);
-        guardar.setOnClickListener(new View.OnClickListener() {
+        imagen.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View view) {
-                AnadirFamilia();
+                showFileChooser();
             }
         });
+
         getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true);
         db = new ConectionDB(this);
 
     }
 
-    public void AnadirFamilia(){
-        db.insertarFamilia(new Familia(nombre.getText().toString(),direccion.getText().toString(),descripcion.getText().toString(),"image.png","0"));
-        Intent intent = new Intent(AnadirFamilia.this,MainActivity_Admin.class);
+    public void AnadirFamilia() {
+        db.insertarFamilia(new Familia(nombre.getText().toString(), direccion.getText().toString(), descripcion.getText().toString(), "0"), bitmap);
+        Intent intent = new Intent(AnadirFamilia.this, MainActivity_Admin.class);
         startActivity(intent);
 
     }
@@ -68,18 +74,34 @@ public class AnadirFamilia extends AppCompatActivity {
             filePath = data.getData();
             try {
                 bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
-                //imageView.setImageBitmap(bitmap);
+                imagen.setImageBitmap(bitmap);
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
     }
-    public String getStringImage(Bitmap bmp){
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        bmp.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-        byte[] imageBytes = baos.toByteArray();
-        String encodedImage = Base64.encodeToString(imageBytes, Base64.DEFAULT);
-        return encodedImage;
+
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_login, menu);
+        return true;
     }
 
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.actionDone) {
+            if (nombre.getText().toString().equals(""))
+                Toast.makeText(getApplicationContext(), "El campo de Nombre es Obligatorio", Toast.LENGTH_LONG).show();
+            else if (direccion.getText().toString().equals(""))
+                Toast.makeText(getApplicationContext(), "El campo de Dirección es Obligatorio", Toast.LENGTH_LONG).show();
+            else
+                AnadirFamilia();
+        }
+        return super.onOptionsItemSelected(item);
+    }
 }

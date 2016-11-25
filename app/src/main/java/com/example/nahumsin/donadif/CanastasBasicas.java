@@ -3,7 +3,10 @@ package com.example.nahumsin.donadif;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -16,10 +19,12 @@ public class CanastasBasicas extends AppCompatActivity {
     Button btnSiguiente;
     EditText txtCanastas;
     int numMaxDonativo = 0;
+    int canastas;
     List<Familia> listaFam;
     List<Donativo> listaDon;
     List<String> famEnTablaDonativo;
     ConectionDB db;
+    String user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +33,8 @@ public class CanastasBasicas extends AppCompatActivity {
         db = new ConectionDB(this);
         btnSiguiente = (Button) findViewById(R.id.btnSiguiente);
         txtCanastas = (EditText) findViewById(R.id.txtCanastas);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        user = getIntent().getStringExtra("id_usuario");
         listaDon = db.getDonativos();
         listaFam = db.getFamiliasSinDonativo();
         famEnTablaDonativo = new ArrayList<>();
@@ -44,36 +51,53 @@ public class CanastasBasicas extends AppCompatActivity {
                 numMaxDonativo++;
             flag = 0;
         }
-        Log.i("MaxDonativo",numMaxDonativo+"");
-        btnSiguiente.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_crear_cuenta, menu);
+        return true;
+    }
 
-                if (txtCanastas.getText().toString().equals("")) {
-                    Toast.makeText(getBaseContext(), "Ingrese datos!!", Toast.LENGTH_LONG).show();
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+
+        if (id == R.id.actionDone) {
+
+            if (txtCanastas.getText().toString().equals("")) {
+                Toast.makeText(getBaseContext(), "Ingrese datos!!", Toast.LENGTH_LONG).show();
+            } else {
+                if (Integer.parseInt(txtCanastas.getText().toString()) <= 0) {
+                    Toast.makeText(getBaseContext(), "Ingrese Número Válido", Toast.LENGTH_LONG).show();
                 } else {
-                    if (Integer.parseInt(txtCanastas.getText().toString()) <= 0) {
-                        Toast.makeText(getBaseContext(), "Ingrese Número Válido", Toast.LENGTH_LONG).show();
+                    if (numMaxDonativo == 0) {
+                        Toast.makeText(getBaseContext(), "En este momento no hay familias que necesiten donativo, gracias :)", Toast.LENGTH_LONG).show();
                     } else {
-                        int canastas = Integer.parseInt(txtCanastas.getText().toString());
-                        if (numMaxDonativo == 0) {
-                            Toast.makeText(getBaseContext(), "En este momento no hay familias que necesiten donativo, gracias :)", Toast.LENGTH_LONG).show();
-                        } else {
-                            if (canastas > numMaxDonativo)
-                                Toast.makeText(getBaseContext(), "El número de canastas que desea donar excede el número de familias necesitadas", Toast.LENGTH_LONG).show();
-                            else {
-                                Intent intent = new Intent(CanastasBasicas.this, SeleccionarFamilia.class);
-                                int id_usuario = Integer.parseInt(getIntent().getStringExtra("id_usuario"));
-                                intent.putExtra("id_usuario", id_usuario + "");
-                                intent.putExtra("canastas", canastas + "");
-                                startActivity(intent);
-                            }
+                        canastas = Integer.parseInt(txtCanastas.getText().toString());
+                        if (canastas > numMaxDonativo)
+                            Toast.makeText(getBaseContext(), "El número de canastas que desea donar excede el número de familias necesitadas", Toast.LENGTH_LONG).show();
+                        else {
+                            Intent intent = new Intent(CanastasBasicas.this, SeleccionarFamilia.class);
+                            intent.putExtra("id_usuario", user);
+                            intent.putExtra("canastas", canastas+"");
+                            startActivity(intent);
                         }
-
                     }
                 }
-
             }
-        });
+        }
+
+        if(id == android.R.id.home){
+            Intent intent = new Intent(CanastasBasicas.this,MainActivity.class);
+            intent.putExtra("id_usuario",getIntent().getStringExtra("id_usuario"));
+            startActivity(intent);
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }

@@ -74,5 +74,8 @@ public class Config {
     public static final String DON_ID = "id_donativo";
 
     public static final String UPLOAD_URL = "http://192.168.0.15/phpDonaDIF/upload.php";
+    public static final String UPLOAD_NEW_IMG = "http://192.168.0.15/phpDonaDIF/insertarImagen.php";
     public static final String UPLOAD_KEY = "imagen";
+    public static final String PATH = "path";
+    public static final String URL_PROJECT = "http://192.168.0.15/phpDonaDIF";
 }

@@ -34,6 +34,7 @@ public class Login extends AppCompatActivity {
     int id_usuario;
     CallbackManager callbackManager;
     String nombreUsuariFace, emailFace;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,8 +57,8 @@ public class Login extends AppCompatActivity {
             @Override
             public void onSuccess(LoginResult loginResult) {
                 getFacebookProfileDetails(loginResult.getAccessToken());
-                Intent intent = new Intent(Login.this,MainActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+                Intent intent = new Intent(Login.this, MainActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
             }
 
@@ -79,7 +80,7 @@ public class Login extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getBaseContext(), CrearCuenta.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
             }
         });
@@ -87,18 +88,19 @@ public class Login extends AppCompatActivity {
         db = new ConectionDB(this);
 
     }
+
     //=========================Métodos de FACEBOOK=========================================
     private void getFacebookProfileDetails(final AccessToken accessToken) {
-        GraphRequest request = GraphRequest.newMeRequest(accessToken, new GraphRequest.GraphJSONObjectCallback(){
+        GraphRequest request = GraphRequest.newMeRequest(accessToken, new GraphRequest.GraphJSONObjectCallback() {
             //object retorna lo indicado en paramters.putString("fields", "email") en este caso, solo contiene el email
 
             public void onCompleted(final JSONObject object, GraphResponse response) {
                 try {
                     //Profile clase que contiene las características báscias de la cuenta de facebook (No retorna email)
                     Profile profileDefault = Profile.getCurrentProfile();
-                    nombreUsuariFace = ""+profileDefault.getFirstName();
+                    nombreUsuariFace = "" + profileDefault.getFirstName();
                     emailFace = object.getString("email");
-                    Toast.makeText(getBaseContext(),"User: " + nombreUsuariFace + "\nEmail: " + emailFace,Toast.LENGTH_LONG).show();
+                    Toast.makeText(getBaseContext(), "User: " + nombreUsuariFace + "\nEmail: " + emailFace, Toast.LENGTH_LONG).show();
                 } catch (Exception e) {
                     Log.e("E-MainActivity", "getFaceBook" + e.toString());
                 }
@@ -129,26 +131,26 @@ public class Login extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.actionDone) {
-            if (txtUsuario.getText().toString().equals("") || txtContrasena.getText().toString().equals("")){
-                Toast.makeText(getBaseContext(),"Ingrese los datos",Toast.LENGTH_LONG).show();
-            }else{
-                if (db.buscarUsuario(txtUsuario.getText().toString())){
-                    if (db.getLogedUser().getContrasena().equals(txtContrasena.getText().toString())){
-                       if (db.getLogedUser().getPrivilegio().equals("0")) {
-                           id_usuario = Integer.parseInt(db.getLogedUser().getId());
-                           Intent intent = new Intent(this, MainActivity.class);
-                           intent.putExtra("id_usuario", id_usuario+"");
-                           startActivity(intent);
-                           finish();
-                       }else{
-                           Intent intent1 = new Intent(getBaseContext(), MainActivity_Admin.class);
-                           startActivity(intent1);
-                       }
-                    }else {
-                        Toast.makeText(getBaseContext(),"Contraseña Incorrecta",Toast.LENGTH_LONG).show();
+            if (txtUsuario.getText().toString().equals("") || txtContrasena.getText().toString().equals("")) {
+                Toast.makeText(getBaseContext(), "Ingrese los datos", Toast.LENGTH_LONG).show();
+            } else {
+                if (db.buscarUsuario(txtUsuario.getText().toString())) {
+                    if (db.getLogedUser().getContrasena().equals(txtContrasena.getText().toString())) {
+                        if (db.getLogedUser().getPrivilegio().equals("0")) {
+                            id_usuario = Integer.parseInt(db.getLogedUser().getId());
+                            Intent intent = new Intent(this, MainActivity.class);
+                            intent.putExtra("id_usuario", id_usuario + "");
+                            startActivity(intent);
+                            finish();
+                        } else {
+                            Intent intent1 = new Intent(getBaseContext(), MainActivity_Admin.class);
+                            startActivity(intent1);
+                        }
+                    } else {
+                        Toast.makeText(getBaseContext(), "Contraseña Incorrecta", Toast.LENGTH_LONG).show();
                     }
-                }else{
-                    Toast.makeText(getBaseContext(),"El Usuario NO EXISTE",Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(getBaseContext(), "El Usuario NO EXISTE", Toast.LENGTH_LONG).show();
                 }
             }
             return true;
@@ -162,8 +164,8 @@ public class Login extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    protected void onActivityResult(int requestCode, int resultCode,Intent data){
-        super.onActivityResult(requestCode,resultCode,data);
-        callbackManager.onActivityResult(requestCode,resultCode,data);
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        callbackManager.onActivityResult(requestCode, resultCode, data);
     }
 }

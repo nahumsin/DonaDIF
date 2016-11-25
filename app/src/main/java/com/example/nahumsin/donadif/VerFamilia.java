@@ -100,7 +100,7 @@ public class VerFamilia extends AppCompatActivity implements View.OnClickListene
     @Override
     public void onClick(View view) {
         if(view == buttonUpdate){
-            uploadImage();
+            //uploadImage();
             /*String entregado;
             if(checkBoxEntregado.isChecked())
                 entregado = "1";
@@ -166,7 +166,7 @@ public class VerFamilia extends AppCompatActivity implements View.OnClickListene
             @Override
             protected void onPreExecute() {
                 super.onPreExecute();
-                loading = ProgressDialog.show(VerFamilia.this, "Uploading...", null,true,true);
+                loading = ProgressDialog.show(VerFamilia.this, "Cargando...", null,true,true);
             }
 
             @Override
