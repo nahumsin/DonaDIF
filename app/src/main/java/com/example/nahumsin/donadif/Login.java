@@ -156,11 +156,6 @@ public class Login extends AppCompatActivity {
             return true;
         }
 
-        if (id == R.id.action_salir) {
-            this.finish();
-            return true;
-        }
-
         return super.onOptionsItemSelected(item);
     }
 

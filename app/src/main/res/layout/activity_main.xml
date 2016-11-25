@@ -12,7 +12,7 @@
     tools:context="com.example.nahumsin.donadif.MainActivity">
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/imgViewLogo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="DonaDIF"
@@ -40,7 +40,7 @@
         android:id="@+id/textView4"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Solo padras danar canastas basicas a familias dentro de la app"
+        android:text="Solo padras donar canastas basicas a familias dentro de la app"
         android:textAlignment="center" />
 
     <LinearLayout

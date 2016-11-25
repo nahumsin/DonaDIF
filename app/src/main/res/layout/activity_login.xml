@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_login"
     android:layout_width="match_parent"
@@ -11,94 +12,79 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.nahumsin.donadif.Login">
 
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="match_parent"
+    <Button
+        android:id="@+id/btnCrearCuenta"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="Crear Cuenta"
+        android:layout_marginBottom="37dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignLeft="@+id/btnConectFB"
+        android:layout_alignStart="@+id/btnConectFB"
+        android:layout_alignRight="@+id/btnConectFB"
+        android:layout_alignEnd="@+id/btnConectFB" />
+
+    <ImageView
+        android:id="@+id/imgViewLogo"
+        android:layout_width="150dp"
         android:text="DonaDIF"
-        android:textAlignment="center"
         android:textSize="60sp"
-        android:textStyle="normal|bold" />
-
-    <EditText
-        android:id="@+id/txtContrasena"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/txtUsuario"
-        android:layout_alignStart="@+id/txtUsuario"
-        android:layout_below="@+id/txtUsuario"
-        android:layout_marginTop="39dp"
-        android:ems="10"
-        android:hint="**********"
-        android:inputType="textPassword" />
-
-    <TextView
-        android:id="@+id/textView9"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/txtContrasena"
-        android:layout_alignBottom="@+id/txtContrasena"
-        android:layout_alignLeft="@+id/textView8"
-        android:layout_alignStart="@+id/textView8"
-        android:text="Contraseña" />
+        android:textStyle="normal|bold"
+        app:srcCompat="@mipmap/dona"
+        android:layout_height="120dp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display2"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
 
     <TextView
         android:id="@+id/textView8"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/txtUsuario"
-        android:layout_alignBottom="@+id/txtUsuario"
-        android:layout_alignParentLeft="true"
-        android:layout_marginLeft="22dp"
-        android:layout_marginStart="22dp"
-        android:text="Usuario" />
+        android:text="Usuario"
+        android:layout_marginTop="35dp"
+        android:layout_below="@+id/imgViewLogo"
+        android:layout_toLeftOf="@+id/imgViewLogo"
+        android:layout_toStartOf="@+id/imgViewLogo" />
 
     <TextView
-        android:id="@+id/textView3"
-        android:layout_width="match_parent"
+        android:id="@+id/textView9"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/textView2"
-        android:text="-----------------2016 - 2021------------------"
-        android:textAlignment="center"
-        android:textStyle="italic" />
+        android:text="Contraseña"
+        android:layout_centerVertical="true"
+        android:layout_alignLeft="@+id/textView8"
+        android:layout_alignStart="@+id/textView8" />
+
+    <EditText
+        android:id="@+id/txtContrasena"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="**********"
+        android:inputType="textPassword"
+        android:layout_centerVertical="true"
+        android:layout_alignLeft="@+id/txtUsuario"
+        android:layout_alignStart="@+id/txtUsuario" />
 
     <EditText
         android:id="@+id/txtUsuario"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/textView3"
-        android:layout_marginLeft="15dp"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="14dp"
-        android:layout_toEndOf="@+id/textView9"
-        android:layout_toRightOf="@+id/textView9"
         android:ems="10"
         android:hint="campo obligatorio"
-        android:inputType="textPersonName" />
+        android:inputType="textPersonName"
+        android:layout_alignBaseline="@+id/textView8"
+        android:layout_alignBottom="@+id/textView8"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 
     <com.facebook.login.widget.LoginButton
         android:id="@+id/btnConectFB"
         style="@style/com_facebook_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/txtContrasena"
-        android:layout_alignRight="@+id/txtContrasena"
-        android:layout_below="@+id/txtContrasena"
-        android:layout_marginEnd="14dp"
-        android:layout_marginRight="14dp"
-        android:layout_marginTop="54dp" />
-
-    <Button
-        android:id="@+id/btnCrearCuenta"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/btnConectFB"
-        android:layout_alignStart="@+id/btnConectFB"
-        android:layout_below="@+id/btnConectFB"
-        android:layout_marginLeft="27dp"
-        android:layout_marginStart="27dp"
-        android:layout_marginTop="22dp"
-        android:text="Crear Cuenta" />
+        android:layout_marginBottom="27dp"
+        android:layout_above="@+id/btnCrearCuenta"
+        android:layout_centerHorizontal="true" />
 
 </RelativeLayout>

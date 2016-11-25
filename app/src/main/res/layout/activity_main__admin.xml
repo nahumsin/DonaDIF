@@ -26,7 +26,6 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="22dp"
-        android:background="@android:color/darker_gray"
         android:text="Confirmar Donativo"
         android:textSize="18sp"
         android:textStyle="normal|bold" />
@@ -36,7 +35,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="78dp"
-        android:background="@android:color/darker_gray"
         android:text="Añadir Familia"
         android:textSize="18sp"
         android:textStyle="normal|bold"
@@ -50,7 +48,6 @@
         android:id="@+id/button_modificarFam"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@android:color/darker_gray"
         android:text="Modificar/Eliminar Familia"
         android:textSize="18sp"
         android:textStyle="normal|bold"

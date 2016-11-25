@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CanastasBasicas extends AppCompatActivity {
-    Button btnSiguiente;
+
     EditText txtCanastas;
     int numMaxDonativo = 0;
     int canastas;
@@ -28,7 +28,6 @@ public class CanastasBasicas extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_canastas_basicas);
         db = new ConectionDB(this);
-        btnSiguiente = (Button) findViewById(R.id.btnSiguiente);
         txtCanastas = (EditText) findViewById(R.id.txtCanastas);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         user = getIntent().getStringExtra("id_usuario");
@@ -77,7 +76,7 @@ public class CanastasBasicas extends AppCompatActivity {
                     } else {
                         canastas = Integer.parseInt(txtCanastas.getText().toString());
                         if (canastas > numMaxDonativo)
-                            Toast.makeText(getBaseContext(), "El número de canastas que desea donar excede el número de familias necesitadas", Toast.LENGTH_LONG).show();
+                            Toast.makeText(getBaseContext(), "El número de canastas que desea donar ("+canastas+") excede el número de familias necesitadas ("+numMaxDonativo+")", Toast.LENGTH_LONG).show();
                         else {
                             Intent intent = new Intent(CanastasBasicas.this, SeleccionarFamilia.class);
                             intent.putExtra("id_usuario", user);
