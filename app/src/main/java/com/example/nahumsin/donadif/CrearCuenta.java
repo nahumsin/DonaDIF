@@ -1,7 +1,9 @@
 package com.example.nahumsin.donadif;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -55,7 +57,7 @@ public class CrearCuenta extends AppCompatActivity {
         }
 
         if (id == android.R.id.home) {
-            startActivity(new Intent(CrearCuenta.this, LogueateBato.class));
+            startActivity(new Intent(CrearCuenta.this, Login.class));
         }
 
         return super.onOptionsItemSelected(item);
@@ -63,7 +65,7 @@ public class CrearCuenta extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        startActivity(new Intent(CrearCuenta.this, LogueateBato.class));
+        startActivity(new Intent(CrearCuenta.this, Login.class));
     }
 
     public void crearCuenta() {
@@ -80,9 +82,7 @@ public class CrearCuenta extends AppCompatActivity {
         } else if (!pass.getText().toString().equals(confPass.getText().toString())) {
             Toast.makeText(getApplicationContext(), "Las Contraseñas no coinciden", Toast.LENGTH_LONG).show();
         } else{
-            db.insertarCuenta(new Cuenta(usr.getText().toString(), pass.getText().toString(), email.getText().toString(), "0"));
-            Intent intent = new Intent(CrearCuenta.this, LogueateBato.class);
-            startActivity(intent);
+            confirmarCrearCuenta();
         }
     }
 
@@ -93,5 +93,28 @@ public class CrearCuenta extends AppCompatActivity {
             return android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches();
         }
     }
+    private void confirmarCrearCuenta() {
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(CrearCuenta.this);
+        alertDialogBuilder.setMessage("¿Estás seguro que los datos ingresados son correctos?");
 
+        alertDialogBuilder.setPositiveButton("Continuar",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface arg0, int arg1) {
+                        db.insertarCuenta(new Cuenta(usr.getText().toString(), pass.getText().toString(), email.getText().toString(), "0"));
+                        Intent intent = new Intent(CrearCuenta.this, Login.class);
+                        Toast.makeText(getBaseContext(),"Cuenta creada con éxito",Toast.LENGTH_SHORT).show();
+                        startActivity(intent);
+                    }
+                });
+
+        alertDialogBuilder.setNegativeButton("No",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface arg0, int arg1) {
+                    }
+                });
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
+    }
 }

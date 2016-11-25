@@ -57,13 +57,16 @@ public class MainActivity extends AppCompatActivity {
         //noinspection SimplifiableIfStatement
 
         if (id == R.id.action_sesionClose) {
-            Intent intent = new Intent(this,LogueateBato.class);
+            Intent intent = new Intent(this,Login.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
             return true;
         }
 
         if (id==R.id.action_modificaCuenta){
+            Intent intent = new Intent(this,ModificarCuenta.class);
+            intent.putExtra("id_usuario",id_usuario);
+            startActivity(intent);
             return true;
         }
         return super.onOptionsItemSelected(item);

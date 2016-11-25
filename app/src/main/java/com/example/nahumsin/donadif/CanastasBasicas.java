@@ -79,7 +79,7 @@ public class CanastasBasicas extends AppCompatActivity {
                         if (canastas > numMaxDonativo)
                             Toast.makeText(getBaseContext(), "El número de canastas que desea donar excede el número de familias necesitadas", Toast.LENGTH_LONG).show();
                         else {
-                            Intent intent = new Intent(CanastasBasicas.this, Solidaridad.class);
+                            Intent intent = new Intent(CanastasBasicas.this, SeleccionarFamilia.class);
                             intent.putExtra("id_usuario", user);
                             intent.putExtra("canastas", canastas+"");
                             startActivity(intent);

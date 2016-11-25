@@ -19,7 +19,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Solidaridad extends AppCompatActivity {
+public class SeleccionarFamilia extends AppCompatActivity {
     int canastas = 0;
     List<String> items = new ArrayList<>();
     List<String> selectedItems = new ArrayList<>();
@@ -97,7 +97,7 @@ public class Solidaridad extends AppCompatActivity {
                 for (String items : selectedItems) {
                     String[] id_fam = items.split(" ");
                     db.crearDonativo(new Donativo(Integer.parseInt(id_fam[0]), Integer.parseInt(user)));
-                    Intent intent2 = new Intent(Solidaridad.this, MainActivity.class);
+                    Intent intent2 = new Intent(SeleccionarFamilia.this, MainActivity.class);
                     intent2.putExtra("id_usuario",user);
                     Toast.makeText(getBaseContext(), "Gracias por su donativo :) en breve recibirá un " +
                             "correo con instrucciones para entregar su donativo", Toast.LENGTH_LONG).show();
@@ -108,7 +108,7 @@ public class Solidaridad extends AppCompatActivity {
             }
         }
         if(id == android.R.id.home){
-            Intent intent = new Intent(Solidaridad.this,CanastasBasicas.class);
+            Intent intent = new Intent(SeleccionarFamilia.this,CanastasBasicas.class);
             intent.putExtra("id_usuario",getIntent().getStringExtra("id_usuario"));
             startActivity(intent);
         }
@@ -123,7 +123,7 @@ public class Solidaridad extends AppCompatActivity {
     }
 
     private void donativosNoSeleccionados() {
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(Solidaridad.this);
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(SeleccionarFamilia.this);
         alertDialogBuilder.setMessage("Necesita seleccionar " + canastas + " familias" +
                 ", ¿desea que DonaDIF asigne las canastas?");
 
@@ -137,7 +137,7 @@ public class Solidaridad extends AppCompatActivity {
                         }
                         Toast.makeText(getBaseContext(), "Gracias por su donativo :) en breve recibirá un " +
                                 "correo con instrucciones para entregar su donativo", Toast.LENGTH_LONG).show();
-                        Intent intent = new Intent(Solidaridad.this,MainActivity.class);
+                        Intent intent = new Intent(SeleccionarFamilia.this,MainActivity.class);
                         intent.putExtra("id_usuario",user);
                         startActivity(intent);
                     }

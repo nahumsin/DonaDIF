@@ -4,7 +4,7 @@
     <string name="action_salir">Salir de la app</string>
     <string name="create_interface">Crear Cuenta</string>
     <string name="action_close_sesion">Cerrar Sesion</string>
-    <string name="action_modifica_cuenta">Modificar Cuenta</string>
+    <string name="action_modifica_cuenta">Mi Cuenta</string>
     <string name="title_activity_confirmar_donativo">ConfirmarDonativo</string>
     <string name="facebook_app_id">561763664024329</string>
     <string name="title_activity_login_android">Sign in</string>

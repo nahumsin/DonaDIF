@@ -22,7 +22,11 @@ public class Cuenta {
         this.correo = correo;
         this.admin= admin;
     }
-
+    public Cuenta(String nombreUsuario,String contrasena,String correo){
+        this.nombreUsuario = nombreUsuario;
+        this.contrasena = contrasena;
+        this.correo = correo;
+    }
     public Cuenta(String id,String nombreUsuario,String contrasena,String correo,String admin){
         this.id = id;
         this.nombreUsuario = nombreUsuario;

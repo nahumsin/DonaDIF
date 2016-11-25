@@ -3,11 +3,9 @@ package com.example.nahumsin.donadif;
 
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.util.Base64;
-import android.util.Log;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -18,7 +16,6 @@ import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.concurrent.ConcurrentNavigableMap;
 import java.util.concurrent.ExecutionException;
 
 /**
@@ -262,7 +259,6 @@ public class ConectionDB {
         return false;
     }
 
-
     public boolean emailUsuarioExiste(String email) {
         List<Cuenta> listaCuentas = getCuentas();
 
@@ -273,6 +269,7 @@ public class ConectionDB {
         }
         return false;
     }
+
     public boolean  usuarioExiste(String user){
         List<Cuenta> listaCuentas = getCuentas();
 
@@ -346,7 +343,7 @@ public class ConectionDB {
         return null;
     }
 
-    private List<Cuenta> getCuentas() {
+    public List<Cuenta> getCuentas() {
 
         class GetJSON extends AsyncTask<Object, Object, Object> {
             String JSON_STRING;
@@ -390,6 +387,59 @@ public class ConectionDB {
 
         try {
             return (List<Cuenta>) gj.execute().get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public Cuenta getCuenta(String id){
+        class GetCuenta extends AsyncTask<Void,Void,Cuenta>{
+            ProgressDialog loading;
+            String id;
+            Cuenta cuenta;
+            public GetCuenta(String id){
+                this.id = id;
+            }
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+                loading = ProgressDialog.show(nContext,"Fetching...","Wait...",false,false);
+            }
+
+            @Override
+            protected void onPostExecute(Cuenta s) {
+                super.onPostExecute(s);
+                loading.dismiss();
+
+            }
+
+            @Override
+            protected Cuenta doInBackground(Void... params) {
+                HashMap<String, String> hashMap = new HashMap<>();
+                hashMap.put(Config.KEY_CUEN_ID, id);
+                RequestHandler rh = new RequestHandler();
+                String s = rh.sendPostRequest(Config.URL_GET_CUENTA,hashMap);
+                try {
+                    JSONObject jsonObject = new JSONObject(s);
+                    JSONArray result = jsonObject.getJSONArray(Config.TAG_JSON_ARRAY);
+                    JSONObject c = result.getJSONObject(0);
+                    String nombre = c.getString(Config.TAG_CUEN_NAME);
+                    String email = c.getString(Config.TAG_CUEN_EMAIL);
+                    String contrasena = c.getString(Config.TAG_CUEN_PASS);
+
+                    cuenta = new Cuenta(nombre,contrasena,email);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                return cuenta;
+            }
+        }
+        GetCuenta ge = new GetCuenta(id);
+        try {
+            return ge.execute().get();
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (ExecutionException e) {
@@ -616,12 +666,46 @@ public class ConectionDB {
                 hashMap.put(Config.KEY_FAM_ID, id);
                 RequestHandler rh = new RequestHandler();
                 String s = rh.sendPostRequest(Config.URL_DELETE_FAMILIA, hashMap);
-                Log.i("S", s);
                 return s;
             }
         }
 
         ElimniarFamilia de = new ElimniarFamilia(id);
+        de.execute();
+    }
+
+    public void eliminarCuenta(String id) {
+        class ElimniarCuenta extends AsyncTask<Void, Void, String> {
+            String id;
+            ProgressDialog loading;
+            public ElimniarCuenta(String id) {
+                this.id = id;
+            }
+
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+                loading = ProgressDialog.show(nContext, "Cargando...", null, true, true);
+            }
+
+            @Override
+            protected void onPostExecute(String s) {
+                super.onPostExecute(s);
+                loading.dismiss();
+                Toast.makeText(nContext, s, Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            protected String doInBackground(Void... params) {
+                HashMap<String, String> hashMap = new HashMap<>();
+                hashMap.put(Config.KEY_CUEN_ID, id);
+                RequestHandler rh = new RequestHandler();
+                String s = rh.sendPostRequest(Config.URL_DELETE_CUENTA, hashMap);
+                return s;
+            }
+        }
+
+        ElimniarCuenta de = new ElimniarCuenta(id);
         de.execute();
     }
 }
