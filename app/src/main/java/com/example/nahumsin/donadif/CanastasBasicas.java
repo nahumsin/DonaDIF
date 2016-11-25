@@ -3,11 +3,8 @@ package com.example.nahumsin.donadif;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -82,7 +79,7 @@ public class CanastasBasicas extends AppCompatActivity {
                         if (canastas > numMaxDonativo)
                             Toast.makeText(getBaseContext(), "El número de canastas que desea donar excede el número de familias necesitadas", Toast.LENGTH_LONG).show();
                         else {
-                            Intent intent = new Intent(CanastasBasicas.this, SeleccionarFamilia.class);
+                            Intent intent = new Intent(CanastasBasicas.this, seleccionarFamilia.class);
                             intent.putExtra("id_usuario", user);
                             intent.putExtra("canastas", canastas+"");
                             startActivity(intent);

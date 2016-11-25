@@ -63,7 +63,7 @@ public class MainActivity_Admin extends AppCompatActivity implements View.OnClic
 
         if (id == R.id.action_sesionClose) {
             LoginManager.getInstance().logOut();
-            Intent intent = new Intent(this,Login.class);
+            Intent intent = new Intent(this,login.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
             return true;

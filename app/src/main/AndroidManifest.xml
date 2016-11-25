@@ -20,7 +20,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.DarkActionBar">
         <activity
-            android:name="com.example.nahumsin.donadif.Login">
+            android:name="com.example.nahumsin.donadif.login">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -30,7 +30,7 @@
         <activity
             android:name=".CrearCuenta"
             android:label="@string/create_interface"
-            android:parentActivityName=".Login"
+            android:parentActivityName=".login"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ConfirmarDonativo"
@@ -41,7 +41,7 @@
         <activity
             android:name=".CanastasBasicas" />
         <activity
-            android:name=".SeleccionarFamilia"
+            android:name=".seleccionarFamilia"
             android:parentActivityName=".CanastasBasicas" />
         <activity android:name=".AnadirFamilia" />
         <activity android:name=".MostrarFamiliaDonador" />

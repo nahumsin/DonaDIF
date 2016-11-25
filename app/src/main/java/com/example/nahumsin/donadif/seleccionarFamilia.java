@@ -6,9 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -21,7 +19,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SeleccionarFamilia extends AppCompatActivity {
+public class seleccionarFamilia extends AppCompatActivity {
     int canastas = 0;
     List<String> items = new ArrayList<>();
     List<String> selectedItems = new ArrayList<>();
@@ -37,34 +35,12 @@ public class SeleccionarFamilia extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_seleccionar_familia);
-        getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         canastas = Integer.parseInt(getIntent().getStringExtra("canastas"));
         lista = (ListView) findViewById(R.id.listViewLista);
         lista.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
         btnHacerDonativo = (Button) findViewById(R.id.btnHacerDonativo);
-        btnHacerDonativo.setEnabled(true);
         user = getIntent().getStringExtra("id_usuario");
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        btnHacerDonativo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (selectedItems.size() == canastas) {
-                    for (String item : selectedItems) {
-                        String[] id_fam = item.split(" ");
-                        db.crearDonativo(new Donativo(Integer.parseInt(id_fam[0]), Integer.parseInt(user)));
-                        Intent intent2 = new Intent(SeleccionarFamilia.this, MainActivity.class);
-                        intent2.putExtra("id_usuario",user);
-                        Toast.makeText(getBaseContext(), "Gracias por su donativo :) en breve recibirá un " +
-                                "correo con instrucciones para entregar su donativo", Toast.LENGTH_LONG).show();
-                        startActivity(intent2);
-                    }
-                } else {
-                    donativosNoSeleccionados();
-                }
-            }
-        });
-
         db = new ConectionDB(this);
         showFamilias();
     }
@@ -116,27 +92,38 @@ public class SeleccionarFamilia extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
 
-        if (id == R.id.btnHacerDonativo) {
-            return true;
+        if (id == R.id.actionDone) {
+            if (selectedItems.size() == canastas) {
+                for (String items : selectedItems) {
+                    String[] id_fam = items.split(" ");
+                    db.crearDonativo(new Donativo(Integer.parseInt(id_fam[0]), Integer.parseInt(user)));
+                    Intent intent2 = new Intent(seleccionarFamilia.this, MainActivity.class);
+                    intent2.putExtra("id_usuario",user);
+                    Toast.makeText(getBaseContext(), "Gracias por su donativo :) en breve recibirá un " +
+                            "correo con instrucciones para entregar su donativo", Toast.LENGTH_LONG).show();
+                    startActivity(intent2);
+                }
+            } else {
+                donativosNoSeleccionados();
+            }
         }
         if(id == android.R.id.home){
-            Intent intent = new Intent(SeleccionarFamilia.this,CanastasBasicas.class);
-            intent.putExtra("id_usuario",user);
+            Intent intent = new Intent(seleccionarFamilia.this,CanastasBasicas.class);
+            intent.putExtra("id_usuario",getIntent().getStringExtra("id_usuario"));
             startActivity(intent);
         }
-        return super.onOptionsItemSelected(item);
+        return true;
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu items for use in the action bar
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_crear_cuenta, menu);
-        return super.onCreateOptionsMenu(menu);
+        getMenuInflater().inflate(R.menu.menu_crear_cuenta, menu);
+        return true;
     }
 
     private void donativosNoSeleccionados() {
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(seleccionarFamilia.this);
         alertDialogBuilder.setMessage("Necesita seleccionar " + canastas + " familias" +
                 ", ¿desea que DonaDIF asigne las canastas?");
 
@@ -150,7 +137,7 @@ public class SeleccionarFamilia extends AppCompatActivity {
                         }
                         Toast.makeText(getBaseContext(), "Gracias por su donativo :) en breve recibirá un " +
                                 "correo con instrucciones para entregar su donativo", Toast.LENGTH_LONG).show();
-                        Intent intent = new Intent(SeleccionarFamilia.this,MainActivity.class);
+                        Intent intent = new Intent(seleccionarFamilia.this,MainActivity.class);
                         intent.putExtra("id_usuario",user);
                         startActivity(intent);
                     }
@@ -160,7 +147,6 @@ public class SeleccionarFamilia extends AppCompatActivity {
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface arg0, int arg1) {
-
                     }
                 });
         AlertDialog alertDialog = alertDialogBuilder.create();

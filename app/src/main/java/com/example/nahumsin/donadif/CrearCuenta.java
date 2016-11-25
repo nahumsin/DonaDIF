@@ -54,14 +54,14 @@ public class CrearCuenta extends AppCompatActivity {
         }
 
         if(id == android.R.id.home){
-            startActivity(new Intent(CrearCuenta.this,Login.class));
+            startActivity(new Intent(CrearCuenta.this,login.class));
         }
 
         return super.onOptionsItemSelected(item);
     }
     @Override
     public void onBackPressed(){
-        startActivity(new Intent(CrearCuenta.this,Login.class));
+        startActivity(new Intent(CrearCuenta.this,login.class));
     }
     public void crearCuenta(){
 
@@ -72,7 +72,7 @@ public class CrearCuenta extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "Las Contraseñas no coinciden!!", Toast.LENGTH_LONG).show();
             } else {
                 db.insertarCuenta(new Cuenta(usr.getText().toString(), pass.getText().toString(), email.getText().toString(), "0"));
-                Intent intent = new Intent(CrearCuenta.this, Login.class);
+                Intent intent = new Intent(CrearCuenta.this, login.class);
                 startActivity(intent);
             }
         }
