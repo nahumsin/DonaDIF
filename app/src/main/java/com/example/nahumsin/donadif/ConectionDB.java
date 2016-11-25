@@ -268,7 +268,16 @@ public class ConectionDB {
 
         for (int i = 0; i < listaCuentas.size(); i++) {
             String obtEmail = listaCuentas.get(i).getCorreo();
-            if (email.equals(obtEmail))
+            if (email.equalsIgnoreCase(obtEmail))
+                return true;
+        }
+        return false;
+    }
+    public boolean  usuarioExiste(String user){
+        List<Cuenta> listaCuentas = getCuentas();
+
+        for(Cuenta cuenta:listaCuentas){
+            if(cuenta.getNombreUsuario().equalsIgnoreCase(user))
                 return true;
         }
         return false;

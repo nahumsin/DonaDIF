@@ -23,15 +23,16 @@ public class CrearCuenta extends AppCompatActivity {
         setContentView(R.layout.activity_crear_cuenta);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 
-        db= new ConectionDB(this);
+        db = new ConectionDB(this);
 
-        email = (EditText)  findViewById(R.id.emailTxt);
+        email = (EditText) findViewById(R.id.emailTxt);
         usr = (EditText) findViewById(R.id.usrTxt);
         pass = (EditText) findViewById(R.id.pswdTxt);
-        confPass = (EditText)findViewById(R.id.confPswdTxt);
+        confPass = (EditText) findViewById(R.id.confPswdTxt);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -53,28 +54,43 @@ public class CrearCuenta extends AppCompatActivity {
             return true;
         }
 
-        if(id == android.R.id.home){
-            startActivity(new Intent(CrearCuenta.this,login.class));
+        if (id == android.R.id.home) {
+            startActivity(new Intent(CrearCuenta.this, login.class));
         }
 
         return super.onOptionsItemSelected(item);
     }
-    @Override
-    public void onBackPressed(){
-        startActivity(new Intent(CrearCuenta.this,login.class));
-    }
-    public void crearCuenta(){
 
-       if (!email.getText().toString().contains("@")){
-           Toast.makeText(getApplicationContext(),"Ingrese un correo valido!!",Toast.LENGTH_LONG).show();
-       } else {
-            if (!pass.getText().toString().equals(confPass.getText().toString())) {
-                Toast.makeText(getApplicationContext(), "Las Contraseñas no coinciden!!", Toast.LENGTH_LONG).show();
-            } else {
-                db.insertarCuenta(new Cuenta(usr.getText().toString(), pass.getText().toString(), email.getText().toString(), "0"));
-                Intent intent = new Intent(CrearCuenta.this, login.class);
-                startActivity(intent);
-            }
+    @Override
+    public void onBackPressed() {
+        startActivity(new Intent(CrearCuenta.this, login.class));
+    }
+
+    public void crearCuenta() {
+        if(usr.getText().toString().equals("")||email.getText().toString().equals("")||pass.getText().toString().equals("")||confPass.getText().toString().equals("")){
+            Toast.makeText(getApplicationContext(), "Ingrese datos en todos los campos", Toast.LENGTH_SHORT).show();
+        } else if (db.usuarioExiste(usr.getText().toString())) {
+            Toast.makeText(getApplicationContext(), "Este nombre de usuario ya está registrado", Toast.LENGTH_SHORT).show();
+        } else if (!isValidEmail(email.getText().toString())) {
+            Toast.makeText(getApplicationContext(), "Ingrese un correo válido", Toast.LENGTH_SHORT).show();
+        } else if (db.emailUsuarioExiste(email.getText().toString())) {
+            Toast.makeText(getApplicationContext(), "Este e-mail ya está asociado a una cuenta", Toast.LENGTH_SHORT).show();
+        } else if (pass.getText().toString().length()<5||pass.getText().toString().length()>13) {
+            Toast.makeText(getApplicationContext(), "La contraseña debe tener una longitud mayor a 4 y menor a 14 caracteres", Toast.LENGTH_LONG).show();
+        } else if (!pass.getText().toString().equals(confPass.getText().toString())) {
+            Toast.makeText(getApplicationContext(), "Las Contraseñas no coinciden", Toast.LENGTH_LONG).show();
+        } else{
+            db.insertarCuenta(new Cuenta(usr.getText().toString(), pass.getText().toString(), email.getText().toString(), "0"));
+            Intent intent = new Intent(CrearCuenta.this, login.class);
+            startActivity(intent);
+        }
+    }
+
+    public final static boolean isValidEmail(CharSequence target) {
+        if (target == null) {
+            return false;
+        } else {
+            return android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches();
         }
     }
 
