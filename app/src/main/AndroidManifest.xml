@@ -41,7 +41,7 @@
         <activity
             android:name=".CanastasBasicas" />
         <activity
-            android:name=".seleccionarFamilia"
+            android:name=".Solidaridad"
             android:parentActivityName=".CanastasBasicas" />
         <activity android:name=".AnadirFamilia" />
         <activity android:name=".MostrarFamiliaDonador" />
