@@ -14,7 +14,6 @@ public class Cuenta {
     private String contrasena;
     private String correo;
     private String admin;
-    private String idCuenta;
 
     public Cuenta(String nombreUsuario,String contrasena,String correo,String admin){
         this.nombreUsuario = nombreUsuario;
@@ -44,7 +43,7 @@ public class Cuenta {
     public void setCorreo(String correo){
         this.correo = correo;
     }
-    public void setIdCuenta(String id){this.idCuenta=id;}
+    public void setIdCuenta(String id){this.id=id;}
     public String getNombreUsuario() {
         return nombreUsuario;
     }

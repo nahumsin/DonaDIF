@@ -73,7 +73,7 @@ public class CrearCuenta extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "Ingrese datos en todos los campos", Toast.LENGTH_SHORT).show();
         } else if (db.usuarioExiste(usr.getText().toString())) {
             Toast.makeText(getApplicationContext(), "Este nombre de usuario ya está registrado", Toast.LENGTH_SHORT).show();
-        } else if (!isValidEmail(email.getText().toString())) {
+        } else if (!db.isValidEmail(email.getText().toString())) {
             Toast.makeText(getApplicationContext(), "Ingrese un correo válido", Toast.LENGTH_SHORT).show();
         } else if (db.emailUsuarioExiste(email.getText().toString())) {
             Toast.makeText(getApplicationContext(), "Este e-mail ya está asociado a una cuenta", Toast.LENGTH_SHORT).show();
@@ -86,13 +86,7 @@ public class CrearCuenta extends AppCompatActivity {
         }
     }
 
-    public final static boolean isValidEmail(CharSequence target) {
-        if (target == null) {
-            return false;
-        } else {
-            return android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches();
-        }
-    }
+
     private void confirmarCrearCuenta() {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(CrearCuenta.this);
         alertDialogBuilder.setMessage("¿Estás seguro que los datos ingresados son correctos?");

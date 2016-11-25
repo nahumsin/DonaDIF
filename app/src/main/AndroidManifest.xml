@@ -47,7 +47,9 @@
         <activity android:name=".MostrarFamiliaDonador" />
         <activity android:name=".MainActivity_Admin" />
         <activity android:name=".VerFamilia" />
-        <activity android:name=".ModificarCuenta" />
+
+        <activity android:name=".ModificarCuenta"
+            android:parentActivityName=".MainActivity"/>
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />

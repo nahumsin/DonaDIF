@@ -20,7 +20,8 @@
         android:inputType="textPersonName"
         android:ems="10"
         android:id="@+id/txtUsuario"
-        android:hint="nombre_usuario" />
+        android:hint="nombre_usuario"
+        android:layout_weight="0.11" />
 
     <TextView
         android:text="e-mail"
@@ -35,35 +36,28 @@
         android:inputType="textPersonName"
         android:ems="10"
         android:id="@+id/txtEmail"
-        android:hint="e-mail" />
-
-    <TextView
-        android:text="Contraseña"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/textView10"
-        android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
-
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:id="@+id/txtPass"
-        android:hint="contraseña"
-        android:inputType="textPassword" />
+        android:hint="e-mail"
+        android:layout_weight="0.11" />
 
     <Button
-        android:text="Modificar Cuenta"
+        android:text="Guardar Cambios"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/btnModificar"
-        android:layout_weight="0.30" />
+        android:layout_weight="0.20" />
+
+    <Button
+        android:text="Modificar Contraseña"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/btnModPass"
+        android:layout_weight="0.20" />
 
     <Button
         android:text="Eliminar Cuenta"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/btnEliminar"
-        android:layout_weight="0.30" />
+        android:layout_weight="0.20" />
 
 </LinearLayout>

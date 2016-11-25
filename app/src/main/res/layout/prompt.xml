@@ -4,10 +4,11 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical"
-    android:padding="10dp" >
+    android:padding="10dp"
+    >
 
     <TextView
-        android:id="@+id/textView1"
+        android:id="@+id/textDialog"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Ingrese su contraseña para realizar esta acción: "

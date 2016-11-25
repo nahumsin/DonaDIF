@@ -426,11 +426,12 @@ public class ConectionDB {
                     JSONObject jsonObject = new JSONObject(s);
                     JSONArray result = jsonObject.getJSONArray(Config.TAG_JSON_ARRAY);
                     JSONObject c = result.getJSONObject(0);
+                    String id = c.getString(Config.TAG_CUEN_ID);
                     String nombre = c.getString(Config.TAG_CUEN_NAME);
                     String email = c.getString(Config.TAG_CUEN_EMAIL);
                     String contrasena = c.getString(Config.TAG_CUEN_PASS);
-
-                    cuenta = new Cuenta(nombre,contrasena,email);
+                    String privilegio = c.getString((Config.TAG_CUEN_PRIV));
+                    cuenta = new Cuenta(id,nombre,contrasena,email,privilegio);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -562,6 +563,44 @@ public class ConectionDB {
 
         ActualizarFamilia ue = new ActualizarFamilia(fami);
         ue.execute();
+    }
+
+    public void modificarCuenta(Cuenta cuenta){
+        class ModificarCuenta extends AsyncTask<Void, Void, String> {
+            Cuenta cuenta;
+            ProgressDialog loading;
+            public ModificarCuenta(Cuenta cuenta) {
+                this.cuenta = cuenta;
+            }
+
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+                loading = ProgressDialog.show(nContext, "Cargando...", null, true, true);
+            }
+
+            @Override
+            protected void onPostExecute(String s) {
+                super.onPostExecute(s);
+                loading.dismiss();
+                Toast.makeText(nContext, s, Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            protected String doInBackground(Void... params) {
+                HashMap<String, String> hashMap = new HashMap<>();
+                hashMap.put(Config.KEY_CUEN_ID, cuenta.getId());
+                hashMap.put(Config.KEY_CUEN_NAME, cuenta.getNombreUsuario());
+                hashMap.put(Config.KEY_CUEN_PASS, cuenta.getContrasena());
+                hashMap.put(Config.KEY_CUEN_EMAIL, cuenta.getCorreo());
+
+                RequestHandler rh = new RequestHandler();
+                String s = rh.sendPostRequest(Config.URL_UPDATE_CUENTA, hashMap);
+                return s;
+            }
+        }
+        ModificarCuenta mc = new ModificarCuenta(cuenta);
+        mc.execute();
     }
 
     public boolean entregadasTodasLasFamilias() {
@@ -707,5 +746,12 @@ public class ConectionDB {
 
         ElimniarCuenta de = new ElimniarCuenta(id);
         de.execute();
+    }
+    public final static boolean isValidEmail(CharSequence target) {
+        if (target == null) {
+            return false;
+        } else {
+            return android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches();
+        }
     }
 }
