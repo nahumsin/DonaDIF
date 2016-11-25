@@ -24,7 +24,7 @@ import com.facebook.login.widget.LoginButton;
 
 import org.json.JSONObject;
 
-public class login extends AppCompatActivity {
+public class LogueateBato extends AppCompatActivity {
     EditText txtUsuario;
     EditText txtContrasena;
     Button btnCrearCuenta;
@@ -57,7 +57,7 @@ public class login extends AppCompatActivity {
             @Override
             public void onSuccess(LoginResult loginResult) {
                 getFacebookProfileDetails(loginResult.getAccessToken());
-                Intent intent = new Intent(login.this, MainActivity.class);
+                Intent intent = new Intent(LogueateBato.this, MainActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
             }
