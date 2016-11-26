@@ -21,11 +21,7 @@ public class Cuenta {
         this.correo = correo;
         this.admin= admin;
     }
-    public Cuenta(String nombreUsuario,String contrasena,String correo){
-        this.nombreUsuario = nombreUsuario;
-        this.contrasena = contrasena;
-        this.correo = correo;
-    }
+
     public Cuenta(String id,String nombreUsuario,String contrasena,String correo,String admin){
         this.id = id;
         this.nombreUsuario = nombreUsuario;
@@ -37,13 +33,15 @@ public class Cuenta {
     public void setNombreUsuario(String nombre){
         nombreUsuario = nombre;
     }
+
     public void setContrasena(String contrasena){
         this.contrasena = contrasena;
     }
+
     public void setCorreo(String correo){
         this.correo = correo;
     }
-    public void setIdCuenta(String id){this.id=id;}
+
     public String getNombreUsuario() {
         return nombreUsuario;
     }

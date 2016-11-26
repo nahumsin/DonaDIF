@@ -1,10 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.nahumsin.donadif.VerFamilia">
+    tools:context="com.example.nahumsin.donadif.VerFamilia"
+    android:weightSum="1">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:srcCompat="@android:drawable/ic_menu_gallery"
+        android:id="@+id/imgModFam"
+        android:layout_weight="0.84" />
 
     <EditText
         android:layout_width="match_parent"
@@ -38,14 +47,6 @@
         android:id="@+id/txtDescFam"
         android:hint="desc_familia" />
 
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:ems="10"
-        android:id="@+id/txtImgFam"
-        android:hint="imagen" />
-
     <CheckBox
         android:text="DonativoRecibido"
         android:layout_width="match_parent"
@@ -53,21 +54,17 @@
         android:id="@+id/chbxDonRec" />
 
     <Button
-        android:text="Seleccionar Imagen"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/btnSeleccionarImagen" />
-
-    <Button
         android:text="Modificar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/btnModificar" />
+        android:id="@+id/btnModificar"
+        android:layout_weight="0.07" />
 
     <Button
         android:text="Eliminar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/btnEliminar" />
+        android:id="@+id/btnEliminar"
+        android:layout_weight="0.07"/>
 
 </LinearLayout>

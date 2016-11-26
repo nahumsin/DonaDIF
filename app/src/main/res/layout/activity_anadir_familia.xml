@@ -34,14 +34,6 @@
         android:layout_alignLeft="@+id/imgFamilaAdd"
         android:layout_alignStart="@+id/imgFamilaAdd" />
 
-    <ImageView
-        android:id="@+id/imgFamilaAdd"
-        android:layout_width="326dp"
-        android:layout_height="166dp"
-        app:srcCompat="@android:drawable/ic_menu_gallery"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
-
     <EditText
         android:id="@+id/editText_Nombre"
         android:layout_width="wrap_content"
@@ -94,5 +86,13 @@
         android:layout_below="@+id/textView3"
         android:layout_alignRight="@+id/editText_Nombre"
         android:layout_alignEnd="@+id/editText_Nombre" />
+
+    <ImageView
+        android:id="@+id/imgFamilaAdd"
+        android:layout_width="326dp"
+        android:layout_height="166dp"
+        app:srcCompat="@android:drawable/ic_menu_gallery"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
 
 </RelativeLayout>

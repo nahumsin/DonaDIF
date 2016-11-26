@@ -526,11 +526,11 @@ public class ConectionDB {
         ue.execute();
     }
 
-    public void modificarFamilia(Familia fami) {
+    public void modificarFamilia(final Familia fami, Bitmap bitmap) {
 
         class ActualizarFamilia extends AsyncTask<Void, Void, String> {
             Familia fam;
-
+            ProgressDialog loading;
             public ActualizarFamilia(Familia fam) {
                 this.fam = fam;
             }
@@ -538,11 +538,14 @@ public class ConectionDB {
             @Override
             protected void onPreExecute() {
                 super.onPreExecute();
+                loading = ProgressDialog.show(nContext, "Cargando...", null, true, true);
             }
 
             @Override
             protected void onPostExecute(String s) {
                 super.onPostExecute(s);
+                loading.dismiss();
+                Toast.makeText(nContext, s, Toast.LENGTH_LONG).show();
             }
 
             @Override
@@ -563,6 +566,43 @@ public class ConectionDB {
 
         ActualizarFamilia ue = new ActualizarFamilia(fami);
         ue.execute();
+
+        class UploadImage extends AsyncTask<Bitmap, Void, String> {
+
+            ProgressDialog loading;
+            RequestHandler rh = new RequestHandler();
+
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+                loading = ProgressDialog.show(nContext, "Cargando...", null, true, true);
+            }
+
+            @Override
+            protected void onPostExecute(String s) {
+                super.onPostExecute(s);
+                loading.dismiss();
+                Toast.makeText(nContext, s, Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            protected String doInBackground(Bitmap... params) {
+                Bitmap bitmap = params[0];
+                String uploadImage = getStringImage(bitmap);
+
+                HashMap<String, String> data = new HashMap<>();
+
+                data.put(Config.UPLOAD_KEY, uploadImage);
+                data.put(Config.PATH, Config.URL_PROJECT);
+                data.put(Config.KEY_FAM_ID, fami.getId());
+                String result = rh.sendPostRequest(Config.UPLOAD_URL, data);
+                return result;
+            }
+        }
+        if(bitmap!=null){
+            UploadImage ui = new UploadImage();
+            ui.execute(bitmap);
+        }
     }
 
     public void modificarCuenta(Cuenta cuenta){
@@ -684,7 +724,7 @@ public class ConectionDB {
     public void eliminarFamilia(String id) {
         class ElimniarFamilia extends AsyncTask<Void, Void, String> {
             String id;
-
+            ProgressDialog loading;
             public ElimniarFamilia(String id) {
                 this.id = id;
             }
@@ -692,11 +732,14 @@ public class ConectionDB {
             @Override
             protected void onPreExecute() {
                 super.onPreExecute();
+                loading = ProgressDialog.show(nContext, "Cargando...", null, true, true);
             }
 
             @Override
             protected void onPostExecute(String s) {
                 super.onPostExecute(s);
+                loading.dismiss();
+                Toast.makeText(nContext, s, Toast.LENGTH_LONG).show();
             }
 
             @Override

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListAdapter;
@@ -26,18 +27,19 @@ public class MostrarFamilia extends AppCompatActivity implements ListView.OnItem
         listView = (ListView) findViewById(R.id.listViewFam);
         listView.setOnItemClickListener(this);
         listaFamilias = db.getFamilias();
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         for(Familia familia: listaFamilias){
             HashMap<String,String> familias = new HashMap<>();
             familias.put(Config.TAG_FAM_ID,familia.getId());
-            familias.put(Config.TAG_FAM_NAME,"Familia: "+familia.getNombre()+
-                    " Direccion: "+familia.getDireccion());
+            familias.put(Config.TAG_FAM_NAME,"Familia: "+familia.getNombre());
+            familias.put(Config.TAG_FAM_DIR,"Direccion: "+familia.getDireccion());
             list.add(familias);
         }
 
         ListAdapter adapter = new SimpleAdapter(
                 MostrarFamilia.this,list, R.layout.list_item,
-                new String[]{Config.TAG_FAM_ID,Config.TAG_FAM_NAME},
-                new int[]{R.id.id, R.id.name});
+                new String[]{Config.TAG_FAM_ID,Config.TAG_FAM_NAME,Config.TAG_FAM_DIR},
+                new int[]{R.id.id, R.id.name, R.id.direccion});
 
         listView.setAdapter(adapter);
     }
@@ -49,6 +51,15 @@ public class MostrarFamilia extends AppCompatActivity implements ListView.OnItem
         String famId = map.get(Config.TAG_FAM_ID).toString();
         intent.putExtra(Config.FAM_ID, famId);
         startActivity(intent);
+    }
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == android.R.id.home) {
+            onBackPressed();  return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
 }
