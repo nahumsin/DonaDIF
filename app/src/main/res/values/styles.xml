@@ -10,11 +10,13 @@
         <item name="windowNoTitle">false</item>
         <item name="buttonStyle">@style/MyCustomButton</item>
     </style>
+
     <style name="CKButton" parent="Base.Widget.AppCompat.Button">
         <item name="android:textSize">19sp</item>
         <item name="android:layout_margin">0dip</item>
         <item name="android:background">#ff0000</item>
     </style>
+
     <style name="MyCustomButton" parent="Base.Widget.AppCompat.Button">
         <item name="android:textColor">#ffffff</item>
         <item name="android:textAppearance">?android:attr/textAppearanceMedium</item>
@@ -23,6 +25,7 @@
         <item name="android:textStyle">normal|bold</item>
         android:textStyle="normal|bold"
     </style>
+
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>

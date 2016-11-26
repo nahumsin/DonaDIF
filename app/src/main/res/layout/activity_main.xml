@@ -47,7 +47,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:paddingTop="23dp">
+        android:paddingTop="23dp"
+        android:baselineAligned="false">
 
         <Button
             android:id="@+id/btnHacerDonativo"
@@ -55,11 +56,17 @@
             android:layout_height="wrap_content"
             android:text="Hacer Donativo " />
 
-        <Button
-            android:id="@+id/btnVerFamilias"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Ver Familias" />
     </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView2" />
+
+    <Button
+        android:id="@+id/btnVerFamilias"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Ver Familias" />
 
 </LinearLayout>

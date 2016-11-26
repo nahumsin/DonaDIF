@@ -797,4 +797,5 @@ public class ConectionDB {
             return android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches();
         }
     }
+
 }

@@ -16,6 +16,7 @@ public class Config {
     public static final String URL_ADD_FAMILIA="http://192.168.0.15/phpDonaDIF/insertarFamilia.php";
     public static final String URL_GET_ALL_FAMILIAS = "http://192.168.0.15/phpDonaDIF/obtenerFamilias.php";
     public static final String URL_GET_FAMILIA = "http://192.168.0.15/phpDonaDIF/obtenerFamilia.php?id=";
+    public static final String URL_GET_IMAGENES = "http://192.168.0.15/phpDonaDIF/obtenerImagenes.php";
     public static final String URL_UPDATE_FAMILIA = "http://192.168.0.15/phpDonaDIF/modificarFamilia.php";
     public static final String URL_UPDATE_ENTREGA_FAMILIA = "http://192.168.0.15/phpDonaDIF/modificarEntregadoFamilia.php";
     public static final String URL_UPDATE_ENTREGA_FAM_REST = "http://192.168.0.15/phpDonaDIF/modificarTodosEntregado.php";
@@ -78,4 +79,6 @@ public class Config {
     public static final String UPLOAD_KEY = "imagen";
     public static final String PATH = "path";
     public static final String URL_PROJECT = "http://192.168.0.15/phpDonaDIF/";
+    public static final String BITMAP_ID = "BITMAP_ID";
+    public static final String IMG_URL = "http://192.168.0.15/phpDonaDIF/photos";
 }
