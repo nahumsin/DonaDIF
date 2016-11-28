@@ -21,6 +21,7 @@ public class ObtenerImagenes {
 
     public static String[] imageURLs;
     public static Bitmap[] bitmaps;
+    public static String[] familyId;
 
     public static final String JSON_ARRAY="result";
     public static final String IMAGE_URL = "url";
@@ -55,7 +56,7 @@ public class ObtenerImagenes {
 
     public void getAllImages() throws JSONException {
         bitmaps = new Bitmap[urls.length()];
-
+        familyId = new String[urls.length()];
         imageURLs = new String[urls.length()];
 
         for(int i=0;i<urls.length();i++){

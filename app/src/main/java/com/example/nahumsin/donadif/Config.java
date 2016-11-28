@@ -5,7 +5,7 @@ package com.example.nahumsin.donadif;
  */
 
 public class Config {
-    public static final String IP = "192.168.1.69";
+    public static final String IP = "10.2.55.91";
     //Address of our scripts of the CRUD cuenta
     public static final String URL_ADD_CUENTA="http://"+IP+"/phpDonaDIF/insertarCuenta.php";
     public static final String URL_GET_ALL_CUENTAS = "http://"+IP+"/phpDonaDIF/obtenerCuentas.php";
