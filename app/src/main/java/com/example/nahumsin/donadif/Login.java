@@ -1,6 +1,7 @@
 package com.example.nahumsin.donadif;
 
 import android.content.Intent;
+import android.content.pm.PackageInstaller;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -24,6 +25,8 @@ import com.facebook.login.widget.LoginButton;
 
 import org.json.JSONObject;
 
+import java.util.List;
+
 public class Login extends AppCompatActivity {
     EditText txtUsuario;
     EditText txtContrasena;
@@ -34,6 +37,7 @@ public class Login extends AppCompatActivity {
     int id_usuario;
     CallbackManager callbackManager;
     String nombreUsuariFace, emailFace;
+    List<Cuenta> listaCuentas;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,17 +52,24 @@ public class Login extends AppCompatActivity {
         txtUsuario.requestFocus();
         txtContrasena.setText("");
         txtUsuario.setText("");
+        db = new ConectionDB(this);
+
         //========FACEBOOK=============================
 
         callbackManager = CallbackManager.Factory.create();
         btnConectFB = (LoginButton) findViewById(R.id.btnConectFB);
         btnConectFB.setReadPermissions("email");
+
         btnConectFB.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
                 getFacebookProfileDetails(loginResult.getAccessToken());
+                //id_usuario = Integer.parseInt(db.getLogedUser().getId());
                 Intent intent = new Intent(Login.this, MainActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+               // Toast.makeText(getBaseContext(), "id: " + id_usuario, Toast.LENGTH_LONG).show();
+
+                intent.putExtra("id_usuario", getId_usuario() + "");
                 startActivity(intent);
             }
 
@@ -85,7 +96,7 @@ public class Login extends AppCompatActivity {
             }
         });
 
-        db = new ConectionDB(this);
+
 
     }
 
@@ -100,7 +111,26 @@ public class Login extends AppCompatActivity {
                     Profile profileDefault = Profile.getCurrentProfile();
                     nombreUsuariFace = "" + profileDefault.getFirstName();
                     emailFace = object.getString("email");
-                    Toast.makeText(getBaseContext(), "User: " + nombreUsuariFace + "\nEmail: " + emailFace, Toast.LENGTH_LONG).show();
+                    if (!db.emailUsuarioExiste(emailFace)){
+                        db.insertarCuenta(new Cuenta(nombreUsuariFace," ",emailFace,"0"));
+                        listaCuentas =db.getCuentas();
+                        for (Cuenta cuenta:listaCuentas) {
+                            if (cuenta.getCorreo().equals(emailFace)) {
+                                setId_usuario( Integer.parseInt(cuenta.getId()));
+                                //Toast.makeText(getBaseContext(), "id: " + id_usuario, Toast.LENGTH_LONG).show();
+                            }
+                        }
+                    }else{
+                        listaCuentas =db.getCuentas();
+                        for (Cuenta cuenta:listaCuentas) {
+                            if (cuenta.getCorreo().equals(emailFace)) {
+                                setId_usuario( Integer.parseInt(cuenta.getId()));
+                                //Toast.makeText(getBaseContext(), "id: " + id_usuario, Toast.LENGTH_LONG).show();
+                            }
+                        }
+                    }
+
+                   // Toast.makeText(getBaseContext(), "User: " + nombreUsuariFace + "\nEmail: " + emailFace, Toast.LENGTH_LONG).show();
                 } catch (Exception e) {
                     Log.e("E-MainActivity", "getFaceBook" + e.toString());
                 }
@@ -162,5 +192,13 @@ public class Login extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         callbackManager.onActivityResult(requestCode, resultCode, data);
+    }
+
+    public void setId_usuario(int id_usuario) {
+        this.id_usuario = id_usuario;
+    }
+
+    public int getId_usuario() {
+        return id_usuario;
     }
 }
