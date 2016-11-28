@@ -22,14 +22,13 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class MostrarFamiliaDonador extends AppCompatActivity implements AdapterView.OnItemClickListener {
     ConectionDB dbFamilia;
 
     ListView listaFamilia;
-
-    List<String> items = new ArrayList<>();
 
     private ObtenerImagenes obtImg;
     @Override
@@ -38,29 +37,9 @@ public class MostrarFamiliaDonador extends AppCompatActivity implements AdapterV
         setContentView(R.layout.activity_lista_familia__donador);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         listaFamilia =(ListView) findViewById(R.id.listaFam);
+        listaFamilia.setOnItemClickListener(this);
         dbFamilia = new ConectionDB(this);
         getURLs();
-    }
-
-    public void cargar(){
-        List<Familia> familias = dbFamilia.getFamilias() ;
-        for (Familia familia:familias) {
-            String log = "Nombre: " + familia.getNombre() + " ,Direccion: " + familia.getNombre() + " ,Descripcion: " + familia.getDescripcion();
-        }
-
-        for (Familia familia: familias) {
-            items.add(familia.getImagen() + " " + familia.getNombre());
-        }
-        ArrayAdapter adaptador = new ArrayAdapter<String>(this,R.layout.seleccionarfamilialayoutrow,items);
-        listaFamilia.setAdapter(adaptador);
-        listaFamilia.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                String selectedItem=((TextView)view).getText().toString();
-
-            }
-        });
-
     }
 
     private void getImages(){
@@ -139,11 +118,7 @@ public class MostrarFamiliaDonador extends AppCompatActivity implements AdapterV
         GetURLs gu = new GetURLs();
         gu.execute(Config.URL_GET_IMAGENES);
     }
-    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-        /*Intent intent = new Intent(this, .class);
-        intent.putExtra(Config.BITMAP_ID,i);
-        startActivity(intent);*/
-    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
@@ -154,4 +129,12 @@ public class MostrarFamiliaDonador extends AppCompatActivity implements AdapterV
 
         return super.onOptionsItemSelected(item);
     }
+
+    @Override
+    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+        Intent intent = new Intent(this, VerFamiliaDonador.class);
+        intent.putExtra(Config.BITMAP_ID,i);
+        startActivity(intent);
+    }
+
 }

@@ -5,29 +5,30 @@ package com.example.nahumsin.donadif;
  */
 
 public class Config {
+    public static final String IP = "192.168.1.69";
     //Address of our scripts of the CRUD cuenta
-    public static final String URL_ADD_CUENTA="http://192.168.0.15/phpDonaDIF/insertarCuenta.php";
-    public static final String URL_GET_ALL_CUENTAS = "http://192.168.0.15/phpDonaDIF/obtenerCuentas.php";
-    public static final String URL_GET_CUENTA = "http://192.168.0.15/phpDonaDIF/obtenerCuenta.php?id=";
-    public static final String URL_UPDATE_CUENTA = "http://192.168.0.15/phpDonaDIF/modificarCuenta.php";
-    public static final String URL_DELETE_CUENTA = "http://192.168.0.15/phpDonaDIF/eliminarCuenta.php?id=";
+    public static final String URL_ADD_CUENTA="http://"+IP+"/phpDonaDIF/insertarCuenta.php";
+    public static final String URL_GET_ALL_CUENTAS = "http://"+IP+"/phpDonaDIF/obtenerCuentas.php";
+    public static final String URL_GET_CUENTA = "http://"+IP+"/phpDonaDIF/obtenerCuenta.php?id=";
+    public static final String URL_UPDATE_CUENTA = "http://"+IP+"/phpDonaDIF/modificarCuenta.php";
+    public static final String URL_DELETE_CUENTA = "http://"+IP+"/phpDonaDIF/eliminarCuenta.php?id=";
 
     //Address of our scripts of the CRUD familia
-    public static final String URL_ADD_FAMILIA="http://192.168.0.15/phpDonaDIF/insertarFamilia.php";
-    public static final String URL_GET_ALL_FAMILIAS = "http://192.168.0.15/phpDonaDIF/obtenerFamilias.php";
-    public static final String URL_GET_FAMILIA = "http://192.168.0.15/phpDonaDIF/obtenerFamilia.php?id=";
-    public static final String URL_GET_IMAGENES = "http://192.168.0.15/phpDonaDIF/obtenerImagenes.php";
-    public static final String URL_UPDATE_FAMILIA = "http://192.168.0.15/phpDonaDIF/modificarFamilia.php";
-    public static final String URL_UPDATE_ENTREGA_FAMILIA = "http://192.168.0.15/phpDonaDIF/modificarEntregadoFamilia.php";
-    public static final String URL_UPDATE_ENTREGA_FAM_REST = "http://192.168.0.15/phpDonaDIF/modificarTodosEntregado.php";
-    public static final String URL_DELETE_FAMILIA = "http://192.168.0.15/phpDonaDIF/eliminarFamilia.php?id=";
+    public static final String URL_ADD_FAMILIA="http://"+IP+"/phpDonaDIF/insertarFamilia.php";
+    public static final String URL_GET_ALL_FAMILIAS = "http://"+IP+"/phpDonaDIF/obtenerFamilias.php";
+    public static final String URL_GET_FAMILIA = "http://"+IP+"/phpDonaDIF/obtenerFamilia.php?id=";
+    public static final String URL_GET_IMAGENES = "http://"+IP+"/phpDonaDIF/obtenerImagenes.php";
+    public static final String URL_UPDATE_FAMILIA = "http://"+IP+"/phpDonaDIF/modificarFamilia.php";
+    public static final String URL_UPDATE_ENTREGA_FAMILIA = "http://"+IP+"/phpDonaDIF/modificarEntregadoFamilia.php";
+    public static final String URL_UPDATE_ENTREGA_FAM_REST = "http://"+IP+"/phpDonaDIF/modificarTodosEntregado.php";
+    public static final String URL_DELETE_FAMILIA = "http://"+IP+"/phpDonaDIF/eliminarFamilia.php?id=";
 
     //Address of our scripts of the CRUD donativo
-    public static final String URL_ADD_DONATIVO="http://192.168.0.15/phpDonaDIF/insertarDonativo.php";
-    public static final String URL_GET_ALL_DONATIVOS = "http://192.168.0.15/phpDonaDIF/obtenerDonativos.php";
-    public static final String URL_GET_DONATIVO = "http://192.168.0.15/phpDonaDIF/obtenerDonativo.php?id=";
-    public static final String URL_UPDATE_DONATIVO = "http://192.168.0.15/phpDonaDIF/modificarDonativo.php";
-    public static final String URL_DELETE_DONATIVO = "http://192.168.0.15/phpDonaDIF/eliminarDonativo.php?id=";
+    public static final String URL_ADD_DONATIVO="http://"+IP+"/phpDonaDIF/insertarDonativo.php";
+    public static final String URL_GET_ALL_DONATIVOS = "http://"+IP+"/phpDonaDIF/obtenerDonativos.php";
+    public static final String URL_GET_DONATIVO = "http://"+IP+"/phpDonaDIF/obtenerDonativo.php?id=";
+    public static final String URL_UPDATE_DONATIVO = "http://"+IP+"/phpDonaDIF/modificarDonativo.php";
+    public static final String URL_DELETE_DONATIVO = "http://"+IP+"/phpDonaDIF/eliminarDonativo.php?id=";
 
     //Keys that will be used to send the request to php scripts cuenta
     public static final String KEY_CUEN_ID = "id_cuenta";
@@ -74,11 +75,11 @@ public class Config {
     public static final String FAM_ID = "id_familia";
     public static final String DON_ID = "id_donativo";
 
-    public static final String UPLOAD_URL = "http://192.168.0.15/phpDonaDIF/modificarImagen.php";
-    public static final String UPLOAD_NEW_IMG = "http://192.168.0.15/phpDonaDIF/insertarImagen.php";
+    public static final String UPLOAD_URL = "http://"+IP+"/phpDonaDIF/modificarImagen.php";
+    public static final String UPLOAD_NEW_IMG = "http://"+IP+"/phpDonaDIF/insertarImagen.php";
     public static final String UPLOAD_KEY = "imagen";
     public static final String PATH = "path";
-    public static final String URL_PROJECT = "http://192.168.0.15/phpDonaDIF/";
+    public static final String URL_PROJECT = "http://"+IP+"/phpDonaDIF/";
     public static final String BITMAP_ID = "BITMAP_ID";
-    public static final String IMG_URL = "http://192.168.0.15/phpDonaDIF/photos";
+    public static final String IMG_URL = "http://"+IP+"/phpDonaDIF/photos";
 }
