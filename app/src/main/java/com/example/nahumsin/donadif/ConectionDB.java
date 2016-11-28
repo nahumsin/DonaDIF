@@ -65,6 +65,7 @@ public class ConectionDB {
                     maps.put(Config.KEY_FAM_NAME, fam.getNombre());
                     maps.put(Config.KEY_FAM_DIR, fam.getDireccion());
                     maps.put(Config.KEY_FAM_DES, fam.getDescripcion());
+                    maps.put(Config.KEY_FAM_IMG,"http://"+Config.IP+"/phpDonaDIF/photos/default.JPEG");
                     maps.put(Config.KEY_FAM_ENTR, fam.getEntregado());
                     RequestHandler rh = new RequestHandler();
                     String res = rh.sendPostRequest(Config.URL_ADD_FAMILIA, maps);

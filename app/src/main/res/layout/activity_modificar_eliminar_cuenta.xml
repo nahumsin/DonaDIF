@@ -46,12 +46,22 @@
         android:id="@+id/btnModificar"
         android:layout_weight="0.20" />
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView6" />
+
     <Button
         android:text="Modificar Contraseña"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/btnModPass"
         android:layout_weight="0.20" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView7" />
 
     <Button
         android:text="Eliminar Cuenta"

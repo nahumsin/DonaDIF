@@ -41,7 +41,6 @@ public class ModificarCuenta extends AppCompatActivity implements View.OnClickLi
         id = intent.getStringExtra("id_usuario");
         db = new ConectionDB(this);
         cuenta = db.getCuenta(id);
-        Toast.makeText(this, cuenta.getId(), Toast.LENGTH_SHORT).show();
         textName = (EditText) findViewById(R.id.txtUsuario);
         email = (EditText) findViewById(R.id.txtEmail);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

@@ -16,56 +16,30 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
-public class ConfirmarDonativo extends AppCompatActivity {
-    List<String> items = new ArrayList<>();
-    List<String> selectedItems = new ArrayList<>();
+public class ConfirmarDonativo extends AppCompatActivity implements ListView.OnItemClickListener{
     List<Donativo> listaDonativo;
     ListView lista;
     ConectionDB db;
-    Button btnConfirmarDonativo;
-    int id_don;
+    ArrayList<HashMap<String,String>> list = new ArrayList<HashMap<String, String>>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_confirmar_donativo);
-        // getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        btnConfirmarDonativo = (Button) findViewById(R.id.btnConfirmarDonativo);
+        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         lista = (ListView) findViewById(R.id.listaFamilias);
-        lista.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+        lista.setOnItemClickListener(this);
         db = new ConectionDB(this);
-        btnConfirmarDonativo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (selectedItems.size() == 1) {
-                    for (String item : selectedItems) {
-                        String emailDonador = db.getEmailDonador();
-
-                        db.confirmarFamiliaConCanasta(id_don);
-                        Intent itSend = new Intent(Intent.ACTION_SEND);
-
-                        itSend.setType("plain/text");
-                        itSend.putExtra(Intent.EXTRA_EMAIL,new String[]{emailDonador});
-                        itSend.putExtra(Intent.EXTRA_SUBJECT,"Donativo");
-                        itSend.putExtra(Intent.EXTRA_TEXT,"Muchas gracias por su donativo");
-
-                        if (db.entregadasTodasLasFamilias()){
-                            db.reiniciarRecibidos();
-                        }
-                        startActivity(Intent.createChooser(itSend,"Email ..."));
-                    }
-                } else {
-                    Toast.makeText(getBaseContext(), "Seleccione solo 1", Toast.LENGTH_LONG).show();
-                }
-            }
-        });
 
         showFamilias();
     }
@@ -74,28 +48,20 @@ public class ConfirmarDonativo extends AppCompatActivity {
         listaDonativo = db.getDonativos();
 
         for (Donativo donativo : listaDonativo) {
-            if (listaDonativo.size() != 0) {
-                items.add("Donador: " + db.getNombreDonador(donativo.getIdDonador()+"") + " Familia: " + db.getNombreFamilia(donativo.getIdFamila()+""));
-            }else{
-                items.add("No hay donativos!!");
-            }
+            HashMap<String,String> donativos = new HashMap<>();
+            donativos.put(Config.TAG_DON_ID,donativo.getIdDonativo()+"");
+            donativos.put(Config.TAG_DON_ID_CUEN,"Donador: "+db.getNombreDonador(donativo.getIdDonador()+""));
+            donativos.put(Config.TAG_DON_ID_FAM,"Familia: "+db.getNombreFamilia(donativo.getIdFamila()+""));
+            list.add(donativos);
+
         }
-        final ArrayAdapter adaptador = new ArrayAdapter<String>(this, R.layout.rowlayout, items);
-        lista.setAdapter(adaptador);
+        ListAdapter adapter = new SimpleAdapter(
+                ConfirmarDonativo.this,list, R.layout.list_item,
+                new String[]{Config.TAG_DON_ID,Config.TAG_DON_ID_CUEN,Config.TAG_DON_ID_FAM},
+                new int[]{R.id.id, R.id.name, R.id.direccion});
 
-        lista.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                String selectedItem = ((TextView) view).getText().toString();
-                id_don = (int )adapterView.getItemIdAtPosition(i);
+        lista.setAdapter(adapter);
 
-                if (selectedItems.contains(selectedItem)) {
-                    selectedItems.remove((selectedItem));
-                } else {
-                    selectedItems.add(selectedItem);
-                }
-            }
-        });
 
     }
     @Override
@@ -121,4 +87,15 @@ public class ConfirmarDonativo extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        Intent intent = new Intent(this, MainActivity_Admin.class);
+        HashMap<String,String> map =(HashMap)parent.getItemAtPosition(position);
+        db.confirmarFamiliaConCanasta(position);
+        if (db.entregadasTodasLasFamilias()){
+            db.reiniciarRecibidos();
+        }
+        startActivity(intent);
+        Toast.makeText(this,"Donativo confirmado con éxito",Toast.LENGTH_SHORT).show();
+    }
 }

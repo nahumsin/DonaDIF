@@ -11,9 +11,12 @@ import android.widget.Toast;
 
 import com.facebook.login.LoginManager;
 
+import java.util.List;
+
 public class MainActivity_Admin extends AppCompatActivity implements View.OnClickListener {
     Button anadir, modificar,confirmar;
-
+    ConectionDB db = new ConectionDB(this);
+    List<Donativo> donativos;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,7 +28,7 @@ public class MainActivity_Admin extends AppCompatActivity implements View.OnClic
         anadir.setOnClickListener(this);
         modificar.setOnClickListener(this);
         confirmar.setOnClickListener(this);
-
+        donativos = db.getDonativos();
 
     }
 
@@ -40,8 +43,14 @@ public class MainActivity_Admin extends AppCompatActivity implements View.OnClic
                 startActivity(new Intent(MainActivity_Admin.this, MostrarFamilia.class));
                 break;
             case R.id.button_confirmarDon:
-                Intent in = new Intent(this, ConfirmarDonativo.class);
-                startActivity(in);
+                if(donativos.isEmpty()){
+                    Toast.makeText(this,"Por el momento no hay donativos por confirmar",Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    Intent in = new Intent(this, ConfirmarDonativo.class);
+                    startActivity(in);
+                }
+
                 break;
         }
     }

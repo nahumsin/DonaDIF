@@ -62,7 +62,7 @@ public class SeleccionarFamilia extends AppCompatActivity {
                     famEnDon = true;
             }
             if(famEnDon == false)
-                items.add(familia.getId() + " " + familia.getImagen() + " " + familia.getNombre());
+                items.add(familia.getId() + " Familia: " + familia.getNombre());
             famEnDon = false;
         }
 
