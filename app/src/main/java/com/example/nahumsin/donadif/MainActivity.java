@@ -9,6 +9,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.facebook.login.LoginManager;
+
 public class MainActivity extends AppCompatActivity {
     Button btnHacerDonativo;
     Button btnVerFamilias;
@@ -58,6 +60,7 @@ public class MainActivity extends AppCompatActivity {
 
         if (id == R.id.action_sesionClose) {
             Intent intent = new Intent(this,Login.class);
+            LoginManager.getInstance().logOut();
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
             return true;
