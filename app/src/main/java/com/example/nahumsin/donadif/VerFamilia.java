@@ -53,6 +53,7 @@ public class VerFamilia extends AppCompatActivity implements View.OnClickListene
     private int PICK_IMAGE_REQUEST = 1;
 
     private Bitmap bitmap;
+    private int position;
     private Bitmap bitmapRotated;
     ExifInterface exif;
 
@@ -66,7 +67,7 @@ public class VerFamilia extends AppCompatActivity implements View.OnClickListene
         Intent intent = getIntent();
 
         id = intent.getStringExtra(Config.FAM_ID);
-
+        position = intent.getIntExtra("Position",0);
         editTextId = (EditText) findViewById(R.id.txtIdFam);
         editTextName = (EditText) findViewById(R.id.txtNombreFam);
         editTextDirec = (EditText) findViewById(R.id.txtDireccionFam);
@@ -85,6 +86,7 @@ public class VerFamilia extends AppCompatActivity implements View.OnClickListene
 
         editTextId.setText(id);
         editTextId.setEnabled(false);
+        imagen.setImageBitmap(ObtenerImagenes.bitmaps[position]);
         mostrarFamilia();
 
     }
